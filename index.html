@@ -1,0 +1,2691 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Dapur Kita | Direktori Makanan Home-based Taiping, Kamunting & Batu Kurau</title>
+
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#f3f3f1" id="metaThemeColor">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="DapurKita">
+  <meta name="application-name" content="DapurKita">
+  <meta name="description" content="Direktori Makanan Home-based & Papan Komuniti Warga Taiping, Kamunting & Batu Kurau">
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Theme init (before paint, no flash) -->
+  <script>
+    (function () {
+      var pref = 'system';
+      try { pref = localStorage.getItem('dapur_kita_theme') || 'system'; } catch (e) {}
+      var dark = pref === 'dark' || (pref === 'system' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.classList.toggle('dark', dark);
+      document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+    })();
+  </script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+          },
+          colors: {
+            ink: { DEFAULT: 'rgb(var(--c-ink) / <alpha-value>)', 2: 'rgb(var(--c-ink-2) / <alpha-value>)', soft: 'rgb(var(--c-ink-soft) / <alpha-value>)', mute: 'rgb(var(--c-ink-mute) / <alpha-value>)' },
+            onink: 'rgb(var(--c-onink) / <alpha-value>)',
+            night: 'rgb(var(--c-night) / <alpha-value>)',
+            card: 'rgb(var(--c-card) / <alpha-value>)',
+            paper: { DEFAULT: 'rgb(var(--c-paper) / <alpha-value>)', 2: 'rgb(var(--c-paper-2) / <alpha-value>)', card: 'rgb(var(--c-card) / <alpha-value>)' },
+            lime: { DEFAULT: '#d6f36a', deep: '#b9dc3c' },
+            leaf: { 500: '#22c55e', 600: '#16a34a', 700: '#15803d' }
+          },
+          boxShadow: {
+            card: '0 1px 2px rgba(17,17,17,.04), 0 8px 24px -12px rgba(17,17,17,.14)',
+            float: '0 18px 40px -12px rgba(17,17,17,.35)'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      /* RGB channels for Tailwind tokens */
+      --c-ink: 17 17 17; --c-ink-2: 43 43 43; --c-ink-soft: 107 107 107; --c-ink-mute: 154 154 151;
+      --c-onink: 255 255 255; --c-night: 17 17 17;
+      --c-paper: 243 243 241; --c-paper-2: 235 235 232; --c-card: 255 255 255;
+      --bg: rgb(var(--c-paper));
+      --card: rgb(var(--c-card));
+      --ink: rgb(var(--c-ink));
+      --onink: rgb(var(--c-onink));
+      --muted: #8d8d8a;
+      --line: #e7e7e3;
+      --chip: #e9e9e6;
+      --field: #f4f4f2;
+      --handle: #dcdcd8;
+      --glass: rgba(255,255,255,.85);
+      --lime: #d6f36a;
+      --spring: cubic-bezier(0.16, 1, 0.3, 1);
+      --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html.dark {
+      --c-ink: 242 242 239; --c-ink-2: 214 214 210; --c-ink-soft: 160 160 156; --c-ink-mute: 118 118 114;
+      --c-onink: 17 17 17; --c-night: 30 30 30;
+      --c-paper: 12 12 12; --c-paper-2: 38 38 38; --c-card: 26 26 26;
+      --muted: #7c7c78;
+      --line: #2a2a2a;
+      --chip: #262626;
+      --field: #222222;
+      --handle: #3a3a3a;
+      --glass: rgba(24,24,24,.72);
+    }
+    html.dark .shadow-card { box-shadow: 0 1px 0 rgba(255,255,255,.04) inset, 0 8px 24px -12px rgba(0,0,0,.7); }
+    html.dark .bg-rose-50 { background-color: rgba(244,63,94,.14); }
+    html.dark .text-rose-700, html.dark .text-rose-600 { color: #fb7185; }
+    html.dark .border-rose-100 { border-color: rgba(244,63,94,.25); }
+    html.dark ::selection { background: #f2f2ef; color: #111; }
+    body, .bg-card, .bg-paper, .field, .chip, .icon-circle { transition: background-color .3s var(--smooth, ease), color .3s ease; }
+    html { -webkit-tap-highlight-color: transparent; }
+    body {
+      background: var(--bg);
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: calc(7.5rem + env(safe-area-inset-bottom));
+    }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .font-serif { letter-spacing: -0.01em; }
+
+    /* ---------- Tactile ---------- */
+    .btn-tactile {
+      transition: transform .2s var(--bounce), background-color .18s ease, color .18s ease, box-shadow .2s var(--smooth), opacity .18s ease;
+      touch-action: manipulation;
+    }
+    .btn-tactile:active { transform: scale(0.93) !important; }
+
+    .soft-card { transition: transform .35s var(--spring), box-shadow .35s var(--spring); }
+    @media (hover: hover) {
+      .soft-card:hover { transform: translateY(-3px); box-shadow: 0 22px 40px -18px rgba(17,17,17,.28); }
+    }
+    .soft-card:active { transform: scale(0.985); }
+
+    /* ---------- Icon circles ---------- */
+    .icon-circle {
+      width: 42px; height: 42px; border-radius: 9999px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--card); color: var(--ink);
+      box-shadow: 0 1px 2px rgba(17,17,17,.05), 0 4px 14px -6px rgba(17,17,17,.12);
+      flex-shrink: 0;
+    }
+    @media (max-width: 380px) { header .icon-circle { width: 38px; height: 38px; } }
+    .icon-circle.dark { background: var(--ink); color: var(--onink); }
+    .icon-circle.glass {
+      background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .icon-circle.sm { width: 34px; height: 34px; font-size: 12px; }
+
+    /* ---------- Chips / Pills ---------- */
+    .chip {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .62rem 1.05rem; border-radius: 9999px;
+      background: var(--chip); color: rgb(var(--c-ink-2));
+      font-size: 12.5px; font-weight: 600; white-space: nowrap;
+      transition: transform .2s var(--bounce), background-color .2s ease, color .2s ease;
+      touch-action: manipulation;
+    }
+    .chip:active { transform: scale(0.94); }
+    .chip.active { background: var(--ink); color: var(--onink); }
+    .chip-sm { padding: .45rem .85rem; font-size: 11.5px; }
+    .chip .dot { width: 7px; height: 7px; border-radius: 9999px; }
+
+    .glass-chip {
+      display: inline-flex; align-items: center; gap: .35rem;
+      background: rgba(255,255,255,.2);
+      backdrop-filter: blur(14px) saturate(160%); -webkit-backdrop-filter: blur(14px) saturate(160%);
+      border: 1px solid rgba(255,255,255,.28);
+      color: #fff; border-radius: 9999px;
+      font-size: 10.5px; font-weight: 700; padding: .3rem .65rem;
+    }
+    .glass-bar {
+      background: rgba(30,30,30,.38);
+      backdrop-filter: blur(18px) saturate(170%); -webkit-backdrop-filter: blur(18px) saturate(170%);
+      border: 1px solid rgba(255,255,255,.18);
+    }
+
+    /* ---------- Segmented ---------- */
+    .seg-track { background: var(--chip); border-radius: 9999px; padding: 4px; display: flex; gap: 2px; }
+    .seg-btn {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: .45rem;
+      padding: .7rem .75rem; border-radius: 9999px;
+      font-size: 12.5px; font-weight: 700; color: rgb(var(--c-ink-soft));
+      transition: background-color .3s var(--spring), color .2s ease, box-shadow .3s var(--spring);
+    }
+    .seg-btn.active { background: var(--ink); color: var(--onink); box-shadow: 0 6px 16px -8px rgba(17,17,17,.6); }
+    .seg-mini { background: var(--chip); border-radius: 9999px; padding: 3px; display: flex; }
+    .seg-mini button {
+      width: 34px; height: 30px; border-radius: 9999px; color: rgb(var(--c-ink-soft)); font-size: 12px;
+      display: inline-flex; align-items: center; justify-content: center; transition: all .25s var(--spring);
+    }
+    .seg-mini button.active { background: var(--card); color: var(--ink); box-shadow: 0 2px 8px -3px rgba(17,17,17,.25); }
+
+    /* ---------- Fields ---------- */
+    .field {
+      width: 100%; padding: .85rem 1rem; border-radius: 16px;
+      background: var(--field); border: 1.5px solid transparent;
+      font-size: 13px; font-weight: 500; color: var(--ink); outline: none;
+      transition: border-color .2s ease, background-color .2s ease;
+    }
+    .field::placeholder { color: #a3a3a0; }
+    .field:focus { border-color: var(--ink); background: var(--card); }
+    select.field { appearance: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
+    html.dark select.field { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23f2f2ef' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); }
+    html.dark select.field option, html.dark select.field optgroup { background: #1a1a1a; color: #f2f2ef; }
+    .field-label { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 .4rem .25rem; }
+    .prefix-wrap { display: flex; align-items: stretch; background: var(--field); border-radius: 16px; border: 1.5px solid transparent; transition: border-color .2s; }
+    .prefix-wrap:focus-within { border-color: var(--ink); background: var(--card); }
+    .prefix-wrap span { display: flex; align-items: center; padding: 0 .4rem 0 1rem; font-weight: 700; font-size: 13px; color: var(--ink); }
+    .prefix-wrap input { flex: 1; background: transparent; border: 0; outline: none; color: var(--ink); padding: .85rem 1rem .85rem .35rem; font-size: 13px; font-weight: 500; min-width: 0; }
+
+    /* ---------- Animations ---------- */
+    @keyframes cardIn {
+      0% { opacity: 0; transform: translate3d(0, 16px, 0) scale(0.985); }
+      100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+    }
+    .animate-grid-item { opacity: 0; animation: cardIn .5s var(--spring) forwards; backface-visibility: hidden; }
+
+    /* ---------- Modals / Sheets ---------- */
+    .modal-backdrop {
+      opacity: 0; pointer-events: none; transition: opacity .28s var(--smooth);
+      background: rgba(17,17,17,.42);
+      backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    }
+    .modal-backdrop.active { opacity: 1; pointer-events: auto; }
+    .modal-sheet {
+      transform: translateY(48px); opacity: 0;
+      transition: transform .42s var(--spring), opacity .25s var(--smooth);
+    }
+    .modal-backdrop.active .modal-sheet { transform: translateY(0); opacity: 1; }
+    .sheet-handle { width: 40px; height: 5px; border-radius: 9999px; background: var(--handle); margin: 10px auto 0; }
+    .modal-scroll-area {
+      overflow-y: auto; -webkit-overflow-scrolling: touch;
+      padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+    }
+
+    /* ---------- Bottom nav (floating pill) ---------- */
+    .nav-dock {
+      position: fixed; left: 50%; transform: translateX(-50%);
+      bottom: calc(14px + env(safe-area-inset-bottom));
+      z-index: 40; background: #151515; border-radius: 9999px; padding: 6px;
+      display: flex; align-items: center; gap: 4px;
+      box-shadow: 0 20px 40px -14px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.06);
+    }
+    html.dark .nav-dock { background: #1c1c1c; border: 1px solid rgba(255,255,255,.08); }
+    .nav-btn {
+      position: relative; height: 46px; min-width: 46px; padding: 0 14px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 9999px; color: #a8a8a4; white-space: nowrap; overflow: hidden;
+      transition: background-color .35s var(--spring), color .25s ease, padding .35s var(--spring);
+      touch-action: manipulation;
+    }
+    .nav-btn i { font-size: 16px; transition: transform .3s var(--spring); }
+    .nav-btn .nav-text {
+      max-width: 0; opacity: 0; margin-left: 0; font-size: 12px; font-weight: 700;
+      transition: max-width .35s var(--spring), opacity .25s ease, margin-left .35s var(--spring);
+      overflow: hidden; display: inline-block;
+    }
+    .nav-btn.active { background: #fff; color: #111; padding: 0 18px; }
+    .nav-btn.active .nav-text { max-width: 90px; opacity: 1; margin-left: 8px; }
+    .nav-btn.active i { animation: tabPop .4s var(--bounce); }
+    .nav-btn:active { transform: scale(.93); }
+    @keyframes tabPop { 0% { transform: scale(.7); } 60% { transform: scale(1.18); } 100% { transform: scale(1); } }
+    .nav-add {
+      width: 46px; height: 46px; border-radius: 9999px; background: var(--lime); color: #111;
+      display: flex; align-items: center; justify-content: center; font-size: 17px;
+      box-shadow: 0 6px 18px -6px rgba(214,243,106,.6);
+    }
+
+    @keyframes pulseSoft { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+    .pulse-badge { animation: pulseSoft 2s infinite ease-in-out; }
+
+    /* ---------- Splash ---------- */
+    #splashScreen { transition: opacity .4s var(--smooth), transform .4s var(--spring), visibility .4s ease; }
+    #splashScreen.fade-out { opacity: 0; transform: scale(1.03); visibility: hidden; pointer-events: none; }
+    @keyframes floaty { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-6px) rotate(-4deg); } }
+    .splash-mark { animation: floaty 2.2s ease-in-out infinite; }
+
+    /* ---------- List card ---------- */
+    .compact-card { display: flex; gap: 12px; align-items: center; padding: 10px; }
+    .compact-card img { width: 78px; height: 78px; border-radius: 18px; object-fit: cover; }
+    .compact-info { flex: 1; display: flex; flex-direction: column; }
+
+    /* ---------- Tour ---------- */
+    #pointTourOverlay { position: fixed; inset: 0; z-index: 120; opacity: 0; pointer-events: none; transition: opacity .3s var(--smooth); overflow: hidden; }
+    #pointTourOverlay.active { opacity: 1; pointer-events: auto; }
+    #tourSpotlightBox {
+      position: fixed; border-radius: 1.5rem; border: 2px solid #fff; background: transparent;
+      box-shadow: 0 0 0 9999px rgba(12,12,12,.78), 0 0 0 6px rgba(214,243,106,.35);
+      transition: top .3s var(--spring), left .3s var(--spring), width .3s var(--spring), height .3s var(--spring);
+      pointer-events: none; z-index: 125; display: none;
+    }
+    .tour-target-active { position: relative !important; z-index: 126 !important; }
+    .tour-ping-ring { position: absolute; inset: -6px; border-radius: inherit; border: 2px solid var(--lime); animation: tourPing 1.8s cubic-bezier(0,0,.2,1) infinite; pointer-events: none; }
+    @keyframes tourPing { 0% { transform: scale(.97); opacity: .95; } 70%,100% { transform: scale(1.06); opacity: 0; } }
+    #tourFloatingCard {
+      position: fixed; z-index: 135; max-width: 22.5rem; width: calc(100vw - 2rem);
+      transition: top .3s var(--spring), left .3s var(--spring), opacity .2s var(--smooth), transform .3s var(--spring);
+      opacity: 0; transform: translateY(8px) scale(.96); pointer-events: none;
+    }
+    #pointTourOverlay.active #tourFloatingCard { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+    .tour-content-fade { animation: tourText .28s var(--spring) forwards; }
+    @keyframes tourText { 0% { opacity: 0; transform: translateY(6px); } 100% { opacity: 1; transform: translateY(0); } }
+    #tourCardArrow { position: absolute; width: 14px; height: 14px; background: var(--card); transform: rotate(45deg); transition: left .3s var(--spring); z-index: 1; }
+    #tourCardArrow.arrow-top { top: -6px; }
+    #tourCardArrow.arrow-bottom { bottom: -6px; }
+
+    /* ---------- Region option ---------- */
+    .region-opt { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .8rem; border-radius: 22px; background: var(--field); border: 1.5px solid transparent; text-align: left; }
+    .region-opt .r-icon { width: 44px; height: 44px; border-radius: 16px; background: var(--chip); color: rgb(var(--c-ink-soft)); display: flex; align-items: center; justify-content: center; }
+    .region-opt.active { background: var(--card); border-color: var(--ink); }
+    .region-opt.active .r-icon { background: var(--ink); color: var(--onink); }
+  </style>
+</head>
+<body class="text-ink font-sans antialiased selection:bg-ink selection:text-onink min-h-screen">
+
+  <!-- ================= SPLASH ================= -->
+  <div id="splashScreen" class="fixed inset-0 z-[100] bg-paper flex flex-col items-center justify-center p-6 select-none">
+    <div class="flex flex-col items-center max-w-xs w-full text-center">
+      <div class="splash-mark w-20 h-20 rounded-[28px] bg-ink flex items-center justify-center text-onink shadow-float mb-6">
+        <i class="fa-solid fa-utensils text-3xl"></i>
+      </div>
+      <h1 class="font-serif text-5xl text-ink leading-none">Dapur <span class="italic">Kita</span></h1>
+      <p class="text-[13px] text-ink-soft font-medium mt-2 mb-10">Masakan rumah Taiping, Kamunting & Batu Kurau</p>
+      <div class="w-full bg-paper-2 rounded-full h-1.5 overflow-hidden mb-3">
+        <div id="splashProgressBar" class="h-full bg-ink rounded-full transition-all duration-150 ease-out" style="width:0%"></div>
+      </div>
+      <div class="w-full flex items-center justify-between text-[11px] text-ink-mute font-semibold">
+        <span id="splashStatusText" class="truncate">Memulakan dapur tempatan...</span>
+        <span id="splashPercentText" class="text-ink">0%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= FIREBASE STATUS BANNER ================= -->
+  <div id="firebaseStatusBanner" class="hidden px-4 pt-3">
+    <div class="max-w-4xl mx-auto flex items-start gap-3 text-xs bg-card rounded-3xl p-3.5 shadow-card border border-rose-100">
+      <div class="icon-circle sm !bg-rose-50 !text-rose-600 !shadow-none"><i class="fa-solid fa-triangle-exclamation"></i></div>
+      <div class="flex-1 min-w-0">
+        <p id="firebaseStatusText" class="font-bold text-ink">Sambungan Firebase bermasalah.</p>
+        <p id="firebaseStatusHint" class="text-[11px] text-ink-soft mt-0.5">Buka Console (F12) untuk maklumat lanjut.</p>
+      </div>
+      <button onclick="document.getElementById('firebaseStatusBanner').classList.add('hidden')" class="text-ink-mute hover:text-ink p-1"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+  </div>
+
+  <!-- ================= PWA INSTALL BANNER ================= -->
+  <div id="pwaInstallBanner" class="hidden px-4 pt-3">
+    <div class="max-w-4xl mx-auto flex items-center justify-between gap-3 bg-night text-white rounded-[26px] pl-3 pr-2 py-2 shadow-float">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-10 h-10 rounded-2xl bg-lime text-[#111] flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-utensils"></i></div>
+        <div class="min-w-0">
+          <p class="font-bold text-[13px] truncate">Pasang Dapur Kita</p>
+          <p class="text-[11px] text-white/60 truncate">Akses pantas dari skrin utama</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-1 flex-shrink-0">
+        <button onclick="installPWA()" class="btn-tactile bg-white text-[#111] font-bold px-4 py-2 rounded-full text-xs">Pasang</button>
+        <button onclick="dismissInstallBanner()" class="btn-tactile w-8 h-8 rounded-full text-white/60 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= HEADER ================= -->
+  <header class="max-w-4xl mx-auto px-5 pt-4 safe-pt">
+    <div class="flex items-center justify-between gap-3">
+      <button onclick="switchMainTab('catalog'); resetFilters();" class="flex items-center gap-2 min-w-0 btn-tactile">
+        <div class="w-9 h-9 rounded-[14px] bg-ink text-onink flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-utensils text-sm"></i></div>
+        <span class="font-serif text-[22px] leading-none truncate">Dapur <span class="italic">Kita</span></span>
+      </button>
+
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <button id="headerPwaInstallBtn" onclick="installPWA()" class="btn-tactile icon-circle" title="Pasang Aplikasi (PWA)">
+          <i class="fa-solid fa-download text-[13px]"></i>
+        </button>
+        <button onclick="startInteractiveTour(0)" class="btn-tactile icon-circle" title="Panduan Aplikasi">
+          <i class="fa-solid fa-wand-magic-sparkles text-[13px]"></i>
+        </button>
+        <button onclick="requestNotificationPermissionPrompt()" id="topNotifyBtn" class="btn-tactile icon-circle relative" title="Aktifkan Notifikasi Komuniti">
+          <i class="fa-regular fa-bell text-[14px]" id="topBellIcon"></i>
+          <span id="unreadTopBadge" class="hidden absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-ink text-[9px] font-bold text-onink rounded-full flex items-center justify-center pulse-badge ring-2 ring-paper">0</span>
+        </button>
+        <button id="themeToggleBtn" onclick="toggleTheme()" class="btn-tactile icon-circle" title="Tukar mod gelap / cerah">
+          <i id="themeToggleIcon" class="fa-regular fa-moon text-[14px]"></i>
+        </button>
+        <button onclick="openRegisterModal()" class="btn-tactile hidden sm:inline-flex items-center gap-2 bg-ink text-onink text-xs font-bold pl-4 pr-5 h-[42px] rounded-full">
+          <i class="fa-solid fa-plus"></i><span>Daftar Dapur</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Greeting -->
+    <div class="mt-6">
+      <p id="greetingSmall" class="text-[13px] font-semibold text-ink-soft">Selamat datang 👋</p>
+      <h2 class="font-serif text-[44px] sm:text-[54px] leading-[0.95] mt-1.5">Lapar? <span class="italic text-ink-soft">Kita ada.</span></h2>
+      <button onclick="openRegionModal()" id="headerRegionBtn" class="btn-tactile mt-3.5 inline-flex items-center gap-2 bg-card pl-2 pr-3.5 py-1.5 rounded-full shadow-card text-[12px] font-bold">
+        <span class="w-6 h-6 rounded-full bg-ink text-onink flex items-center justify-center"><i class="fa-solid fa-location-dot text-[10px]"></i></span>
+        <span id="currentHeaderRegionText" class="truncate max-w-[180px] sm:max-w-none">Taiping & Kamunting</span>
+        <i class="fa-solid fa-chevron-down text-[9px] text-ink-mute"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= TAB SWITCHER ================= -->
+  <section class="max-w-4xl mx-auto px-5 pt-5" id="tourMainTabContainer">
+    <div class="seg-track">
+      <button id="tabBtnCatalog" onclick="switchMainTab('catalog')" class="seg-btn btn-tactile active">
+        <i class="fa-solid fa-bowl-food"></i><span>Katalog Dapur</span>
+      </button>
+      <button id="tabBtnCommunity" onclick="switchMainTab('community')" class="seg-btn btn-tactile relative">
+        <i class="fa-regular fa-comments"></i><span>Komuniti</span>
+        <span id="communityTabBadge" class="hidden bg-lime text-[#111] text-[10px] px-1.5 rounded-full font-bold ml-0.5">0</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= CATALOG VIEW ================= -->
+  <div id="catalogView" class="transition-opacity duration-300">
+    <section class="max-w-4xl mx-auto px-5 pt-4" id="tourCatalogFilters">
+      <!-- Search -->
+      <div class="flex items-center gap-2">
+        <div class="relative flex-1">
+          <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-ink text-sm"></i>
+          <input type="text" id="searchInput" oninput="handleSearchDebounced(event)" placeholder="Cari menu, kuih atau dapur..." class="w-full pl-12 pr-10 h-[54px] rounded-full bg-card shadow-card outline-none text-[13px] font-medium placeholder:text-ink-mute focus:ring-2 focus:ring-ink transition">
+          <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-4 top-1/2 -translate-y-1/2 text-ink-mute hover:text-ink p-1"><i class="fa-solid fa-circle-xmark"></i></button>
+        </div>
+        <button id="zoneToggleBtn" onclick="toggleZonePanel()" class="btn-tactile w-[54px] h-[54px] rounded-full bg-ink text-onink flex items-center justify-center relative flex-shrink-0" title="Tapis Zon Kawasan">
+          <i class="fa-solid fa-sliders"></i>
+          <span id="zoneActiveDot" class="hidden absolute top-3 right-3 w-2 h-2 rounded-full bg-lime"></span>
+        </button>
+      </div>
+
+      <!-- Zone panel -->
+      <div id="zonePanel" class="hidden mt-3 bg-card rounded-[28px] p-4 shadow-card">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-[11px] font-bold uppercase tracking-[0.08em] text-ink-mute">Zon Kawasan & Kampung</span>
+          <button onclick="setZoneFilter('all', null)" class="text-[12px] font-bold text-ink underline underline-offset-2">Tunjuk semua</button>
+        </div>
+
+        <div id="filterBatuKurauGroup" class="hidden">
+          <p class="text-[12px] font-bold mb-2 flex items-center gap-1.5"><i class="fa-solid fa-mountain-sun text-ink-mute text-[11px]"></i> Batu Kurau & Kampung</p>
+          <div class="flex gap-1.5 overflow-x-auto hide-scrollbar pb-1">
+            <button onclick="setZoneFilter('Pekan Batu Kurau', this)" class="zone-btn chip chip-sm">Pekan Batu Kurau</button>
+            <button onclick="setZoneFilter('Kampung Perak', this)" class="zone-btn chip chip-sm">Kg Perak</button>
+            <button onclick="setZoneFilter('Pantai Besar', this)" class="zone-btn chip chip-sm">Pantai Besar</button>
+            <button onclick="setZoneFilter('Kampung Anak Kurau', this)" class="zone-btn chip chip-sm">Kg Anak Kurau</button>
+            <button onclick="setZoneFilter('Kampung Repoh / Ulu Repoh', this)" class="zone-btn chip chip-sm">Kg Repoh / Ulu Repoh</button>
+            <button onclick="setZoneFilter('Kampung Jelai', this)" class="zone-btn chip chip-sm">Kg Jelai</button>
+            <button onclick="setZoneFilter('Kampung Pondok Tanjung', this)" class="zone-btn chip chip-sm">Kg Pondok Tanjung</button>
+            <button onclick="setZoneFilter('Kampung Changkat Perah', this)" class="zone-btn chip chip-sm">Kg Changkat Perah</button>
+            <button onclick="setZoneFilter('Kampung Air Hitam', this)" class="zone-btn chip chip-sm">Kg Air Hitam</button>
+            <button onclick="setZoneFilter('Taman Kurau Harmoni / Kurau Mewah', this)" class="zone-btn chip chip-sm">Tmn Kurau Harmoni/Mewah</button>
+            <button onclick="setZoneFilter('Taman Kurau Indah / Kurau Aman', this)" class="zone-btn chip chip-sm">Tmn Kurau Indah/Aman</button>
+          </div>
+        </div>
+
+        <div id="filterKamuntingGroup" class="mb-3">
+          <p class="text-[12px] font-bold mb-2">Kamunting</p>
+          <div class="flex gap-1.5 overflow-x-auto hide-scrollbar pb-1">
+            <button onclick="setZoneFilter('Taman Jana / Bukit Jana', this)" class="zone-btn chip chip-sm">Bukit / Taman Jana</button>
+            <button onclick="setZoneFilter('Taman Impian', this)" class="zone-btn chip chip-sm">Taman Impian</button>
+            <button onclick="setZoneFilter('Taman Kamunting Mutiara', this)" class="zone-btn chip chip-sm">Kamunting Mutiara</button>
+            <button onclick="setZoneFilter('Taman Saujana', this)" class="zone-btn chip chip-sm">Taman Saujana</button>
+            <button onclick="setZoneFilter('Taman Mewah', this)" class="zone-btn chip chip-sm">Taman Mewah</button>
+            <button onclick="setZoneFilter('Medan Kamunting / Kota Jaya', this)" class="zone-btn chip chip-sm">Medan Kamunting</button>
+            <button onclick="setZoneFilter('Kamunting Raya', this)" class="zone-btn chip chip-sm">Kamunting Raya</button>
+          </div>
+        </div>
+
+        <div id="filterTaipingGroup">
+          <p class="text-[12px] font-bold mb-2">Taiping & Sekitar</p>
+          <div class="flex gap-1.5 overflow-x-auto hide-scrollbar pb-1">
+            <button onclick="setZoneFilter('Taman Kaya', this)" class="zone-btn chip chip-sm">Taman Kaya</button>
+            <button onclick="setZoneFilter('Taman Lake View', this)" class="zone-btn chip chip-sm">Taman Lake View</button>
+            <button onclick="setZoneFilter('Taman Aulong / Aulong Lama & Baru', this)" class="zone-btn chip chip-sm">Aulong</button>
+            <button onclick="setZoneFilter('Taman Simpang Makmur / Simpang Jaya', this)" class="zone-btn chip chip-sm">Simpang</button>
+            <button onclick="setZoneFilter('Taman Pokok Assam', this)" class="zone-btn chip chip-sm">Pokok Assam</button>
+            <button onclick="setZoneFilter('Kampung Boyan / Taman Indah', this)" class="zone-btn chip chip-sm">Kg Boyan</button>
+            <button onclick="setZoneFilter('Pusat Bandar Taiping / Lake Gardens', this)" class="zone-btn chip chip-sm">Bandar Taiping</button>
+            <button onclick="setZoneFilter('Changkat Jering', this)" class="zone-btn chip chip-sm">Changkat Jering</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category chips -->
+      <h3 class="text-[17px] font-bold mt-6 mb-3">Pilih selera anda</h3>
+      <div class="flex items-center gap-2 overflow-x-auto hide-scrollbar -mx-5 px-5 pb-1">
+        <button onclick="setCategoryFilter('all', this)" class="cat-btn chip active">Semua</button>
+        <button onclick="setCategoryFilter('Ready Stock', this)" class="cat-btn chip"><span class="dot bg-leaf-500"></span>Ready Stock</button>
+        <button onclick="setCategoryFilter('Pre-Order', this)" class="cat-btn chip"><span class="dot bg-amber-400"></span>Pre-Order H-1</button>
+        <button onclick="setCategoryFilter('Seminggu Awal', this)" class="cat-btn chip"><span class="dot bg-amber-700"></span>Seminggu Awal</button>
+        <button onclick="setCategoryFilter('Lauk-Pauk', this)" class="cat-btn chip">🍛 Lauk & Nasi</button>
+        <button onclick="setCategoryFilter('Kuih & Dessert', this)" class="cat-btn chip">🍰 Kuih & Dessert</button>
+        <button onclick="setCategoryFilter('Sambal/Pes', this)" class="cat-btn chip">🌶️ Sambal & Pes</button>
+        <button onclick="setCategoryFilter('Minuman', this)" class="cat-btn chip">☕ Minuman</button>
+      </div>
+    </section>
+
+    <!-- Featured rail -->
+    <section id="featuredSection" class="hidden max-w-4xl mx-auto pt-6">
+      <div class="px-5 flex items-end justify-between mb-3">
+        <div>
+          <p class="text-[11px] font-bold uppercase tracking-[0.08em] text-ink-mute">Sedia hari ini</p>
+          <h3 class="font-serif text-[30px] leading-none mt-1">Ready stock <span class="italic">berdekatan</span></h3>
+        </div>
+        <button onclick="setCategoryFilter('Ready Stock', document.querySelectorAll('.cat-btn')[1])" class="text-[12px] font-bold flex items-center gap-1 pb-1">Lihat semua <i class="fa-solid fa-chevron-right text-[9px]"></i></button>
+      </div>
+      <div id="featuredRail" class="flex gap-3 overflow-x-auto hide-scrollbar px-5 pb-2 snap-x snap-mandatory"></div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-5 pt-6">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-baseline gap-2">
+          <h3 class="text-[17px] font-bold" id="gridHeading">Semua dapur</h3>
+          <span id="vendorCountBadge" class="text-[12px] font-semibold text-ink-mute">0 dapur</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="resetFilters()" class="text-[12px] font-bold text-ink-soft hover:text-ink btn-tactile">Set semula</button>
+          <div class="seg-mini">
+            <button type="button" id="viewToggleWide" onclick="setMenuLayout('wide')" title="Kad Besar"><i class="fa-regular fa-square"></i></button>
+            <button type="button" id="viewToggleGrid" onclick="setMenuLayout('compact')" title="Grid 2x"><i class="fa-solid fa-table-cells-large"></i></button>
+            <button type="button" id="viewToggleList" onclick="setMenuLayout('list')" title="Senarai"><i class="fa-solid fa-list"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div id="vendorGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+
+      <div id="emptyState" class="hidden text-center py-14 px-6 bg-card rounded-[32px] shadow-card animate-grid-item">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-paper flex items-center justify-center text-2xl"><i class="fa-solid fa-bowl-food"></i></div>
+        <h3 class="font-serif text-[28px] leading-none">Tiada menu <span class="italic">dijumpai</span></h3>
+        <p id="emptyStateMessage" class="text-[13px] text-ink-soft max-w-xs mx-auto mt-2">Cuba pilih zon lain atau cari 'nasi', 'brownies', atau 'sambal'.</p>
+        <p id="emptyStateErrorDetail" class="hidden text-[11px] text-rose-700 bg-rose-50 rounded-2xl px-3 py-2 mt-3 max-w-xs mx-auto"></p>
+        <button onclick="resetFilters()" class="btn-tactile mt-5 px-6 h-12 bg-ink text-onink rounded-full text-[13px] font-bold">Tunjuk semua menu</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= COMMUNITY VIEW ================= -->
+  <div id="communityView" class="hidden transition-opacity duration-300">
+    <section class="max-w-4xl mx-auto px-5 pt-4" id="tourCommunitySection">
+      <div id="notificationBanner" class="bg-card rounded-[28px] p-3 pl-4 mb-3 shadow-card flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="icon-circle !bg-paper !shadow-none"><i class="fa-regular fa-bell"></i></div>
+          <div class="min-w-0">
+            <div class="font-bold text-[13px]">Aktifkan notifikasi</div>
+            <div class="text-[11px] text-ink-soft leading-snug">Alert bila jiran buka open order atau balas anda.</div>
+          </div>
+        </div>
+        <button onclick="requestNotificationPermissionPrompt()" id="enableNotifyBtn" class="btn-tactile bg-ink text-onink px-4 h-10 rounded-full font-bold text-xs flex-shrink-0">Aktifkan</button>
+      </div>
+
+      <div class="relative overflow-hidden bg-night text-white rounded-[32px] p-6 mb-5">
+        <div class="absolute -right-10 -top-10 w-44 h-44 rounded-full bg-lime/20 blur-2xl pointer-events-none"></div>
+        <span class="glass-chip !bg-white/10">Papan warga · Taiping, Kamunting & Batu Kurau</span>
+        <h2 class="font-serif text-[40px] leading-[0.95] mt-4">Tanya port <span class="italic text-lime">makan.</span></h2>
+        <p class="text-[13px] text-white/65 mt-2 max-w-md leading-relaxed">Open order kuih hari ini, review jujur, cari runner, atau minta cadangan menu sekitar taman & kampung anda.</p>
+        <button onclick="openPostModal()" class="btn-tactile mt-5 inline-flex items-center gap-3 bg-white text-[#111] font-bold text-[13px] pl-5 pr-1.5 h-12 rounded-full">
+          <span>Tulis hantaran</span>
+          <span class="w-9 h-9 rounded-full bg-[#111] text-white flex items-center justify-center"><i class="fa-solid fa-pen text-[11px]"></i></span>
+        </button>
+      </div>
+
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-[17px] font-bold">Topik perbincangan</h3>
+        <span id="postCountBadge" class="text-[12px] font-semibold text-ink-mute">0 perkongsian</span>
+      </div>
+
+      <div class="flex gap-2 overflow-x-auto hide-scrollbar -mx-5 px-5 pb-4" id="communityTopicFilters">
+        <button onclick="setCommunityFilter('all', this)" class="post-filter-btn chip active">Semua</button>
+        <button onclick="setCommunityFilter('Mencari Makanan', this)" class="post-filter-btn chip">🔎 Mencari Makanan</button>
+        <button onclick="setCommunityFilter('Open Order Hari Ini', this)" class="post-filter-btn chip">📢 Open Order</button>
+        <button onclick="setCommunityFilter('Port Makan & Review', this)" class="post-filter-btn chip">⭐ Port & Review</button>
+        <button onclick="setCommunityFilter('Servis Runner & Delivery', this)" class="post-filter-btn chip">🛵 Runner</button>
+        <button onclick="setCommunityFilter('Resipi & Tips Dapur', this)" class="post-filter-btn chip">🍳 Resipi & Tips</button>
+      </div>
+
+      <div id="communityFeed" class="space-y-3"></div>
+
+      <div id="communityEmptyState" class="hidden text-center py-14 px-6 bg-card rounded-[32px] shadow-card animate-grid-item">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-paper flex items-center justify-center text-2xl"><i class="fa-regular fa-comment-dots"></i></div>
+        <h3 class="font-serif text-[28px] leading-none">Belum ada <span class="italic">topik</span></h3>
+        <p class="text-[13px] text-ink-soft max-w-xs mx-auto mt-2">Jadilah yang pertama berkongsi atau bertanya tentang makanan di sekitar anda!</p>
+        <button onclick="openPostModal()" class="btn-tactile mt-5 px-6 h-12 bg-ink text-onink rounded-full text-[13px] font-bold">Mula topik baharu</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= FLOATING BOTTOM NAV ================= -->
+  <nav class="nav-dock">
+    <button onclick="switchMainTab('catalog'); resetFilters(); window.scrollTo({top: 0, behavior: 'smooth'});" id="navCatalogBtn" class="nav-btn active">
+      <i class="fa-solid fa-house"></i><span class="nav-text">Katalog</span>
+    </button>
+    <button onclick="switchMainTab('community'); window.scrollTo({top: 0, behavior: 'smooth'});" id="navCommunityBtn" class="nav-btn">
+      <i class="fa-regular fa-comments"></i><span class="nav-text">Komuniti</span>
+      <span id="unreadBottomDot" class="hidden absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-lime pulse-badge"></span>
+    </button>
+    <button onclick="openActionChooser()" id="tourAddBtn" class="btn-tactile nav-add mx-0.5" title="Tambah Menu / Hantaran">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <button onclick="switchMainTab('catalog'); toggleBookmarkView();" id="bookmarkNavBtn" class="nav-btn">
+      <i class="fa-regular fa-heart" id="bookmarkNavIcon"></i><span class="nav-text">Disimpan</span>
+    </button>
+    <button onclick="openInfoModal()" id="navHelpBtn" class="nav-btn">
+      <i class="fa-regular fa-circle-question"></i><span class="nav-text">Bantuan</span>
+    </button>
+  </nav>
+
+  <!-- ================= REGION MODAL ================= -->
+  <div id="regionModal" class="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
+    <div class="modal-sheet bg-card w-full sm:max-w-sm rounded-t-[32px] sm:rounded-[32px] shadow-2xl">
+      <div class="sheet-handle sm:hidden"></div>
+      <div class="p-5 modal-scroll-area">
+        <div class="flex items-start justify-between mb-5">
+          <div>
+            <p class="text-[11px] font-bold uppercase tracking-[0.08em] text-ink-mute">Kawasan liputan</p>
+            <h3 class="font-serif text-[32px] leading-none mt-1">Anda di <span class="italic">mana?</span></h3>
+          </div>
+          <button onclick="closeRegionModal()" class="btn-tactile icon-circle sm !bg-paper !shadow-none"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="space-y-2">
+          <button id="regionBtnTaiping" onclick="selectRegion('Taiping & Kamunting')" class="region-opt btn-tactile active">
+            <div class="flex items-center gap-3">
+              <div class="r-icon"><i class="fa-solid fa-house-chimney"></i></div>
+              <div>
+                <div class="text-[14px] font-bold">Taiping & Kamunting</div>
+                <div class="text-[11px] text-ink-soft">Katalog & komuniti aktif</div>
+              </div>
+            </div>
+            <span id="regionBadgeTaiping" class="w-6 h-6 rounded-full bg-ink text-onink flex items-center justify-center text-[10px]"><i class="fa-solid fa-check"></i></span>
+          </button>
+          <button id="regionBtnBatuKurau" onclick="selectRegion('Batu Kurau')" class="region-opt btn-tactile">
+            <div class="flex items-center gap-3">
+              <div class="r-icon"><i class="fa-solid fa-mountain-sun"></i></div>
+              <div>
+                <div class="text-[14px] font-bold">Batu Kurau</div>
+                <div class="text-[11px] text-ink-soft">Lembah durian & dapur kampung</div>
+              </div>
+            </div>
+            <span id="regionBadgeBatuKurau" class="hidden w-6 h-6 rounded-full bg-ink text-onink flex items-center justify-center text-[10px]"><i class="fa-solid fa-check"></i></span>
+          </button>
+          <button onclick="selectComingSoonRegion('Selama')" class="region-opt btn-tactile opacity-70">
+            <div class="flex items-center gap-3">
+              <div class="r-icon"><i class="fa-solid fa-tree"></i></div>
+              <div>
+                <div class="text-[14px] font-bold">Selama</div>
+                <div class="text-[11px] text-ink-soft">Daerah Selama & sekitar</div>
+              </div>
+            </div>
+            <span class="text-[10px] font-bold bg-lime text-[#111] px-2.5 py-1 rounded-full">Akan datang</span>
+          </button>
+        </div>
+        <p class="text-[11px] text-ink-mute mt-4 text-center">Liputan zon lain akan ditambah berperingkat.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= TOUR OVERLAY ================= -->
+  <div id="pointTourOverlay">
+    <div id="tourSpotlightBox"><div class="tour-ping-ring"></div></div>
+    <div id="tourFloatingCard">
+      <div id="tourCardArrow"></div>
+      <div class="bg-card text-ink rounded-[28px] p-5 shadow-2xl relative">
+        <div class="flex items-center justify-between mb-3">
+          <span id="pointTourBadge" class="text-[10px] font-bold uppercase tracking-wider bg-paper px-3 py-1 rounded-full">Point 1 / 6</span>
+          <button onclick="dismissInteractiveTour(true)" class="btn-tactile text-ink-mute hover:text-ink text-xs font-bold px-2 py-0.5">Langkau <i class="fa-solid fa-xmark ml-0.5"></i></button>
+        </div>
+        <div class="flex items-start gap-3.5 mb-4" id="pointTourContentWrap">
+          <div id="pointTourIconWrap" class="w-11 h-11 rounded-full bg-ink text-onink flex items-center justify-center flex-shrink-0">
+            <i class="fa-solid fa-location-dot" id="pointTourIcon"></i>
+          </div>
+          <div class="min-w-0">
+            <h4 id="pointTourTitle" class="text-[15px] font-bold leading-snug">Kawasan Liputan</h4>
+            <p id="pointTourDesc" class="text-[12.5px] text-ink-soft mt-1 leading-relaxed"></p>
+          </div>
+        </div>
+        <div id="pointTourActionArea" class="hidden mb-4">
+          <button onclick="installPWA()" class="btn-tactile w-full h-11 rounded-full bg-lime text-[#111] font-bold text-xs flex items-center justify-center gap-2">
+            <i class="fa-solid fa-download"></i><span>Pasang Dapur Kita Sekarang</span>
+          </button>
+        </div>
+        <div class="flex items-center justify-between pt-3 border-t border-paper-2">
+          <div class="flex items-center gap-1.5" id="pointTourDots"></div>
+          <div class="flex items-center gap-2">
+            <button id="pointTourPrevBtn" onclick="prevTourStep()" class="btn-tactile hidden px-4 h-10 rounded-full bg-paper text-ink text-xs font-bold">Kembali</button>
+            <button id="pointTourNextBtn" onclick="nextTourStep()" class="btn-tactile px-5 h-10 rounded-full bg-ink text-onink font-bold text-xs">Seterusnya <i class="fa-solid fa-arrow-right ml-1"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ACTION CHOOSER ================= -->
+  <div id="actionModal" class="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
+    <div class="modal-sheet bg-card w-full sm:max-w-sm rounded-t-[32px] sm:rounded-[32px] shadow-2xl">
+      <div class="sheet-handle sm:hidden"></div>
+      <div class="p-5 modal-scroll-area">
+        <div class="flex items-start justify-between mb-5">
+          <h3 class="font-serif text-[32px] leading-none">Apa nak <span class="italic">buat?</span></h3>
+          <button onclick="closeActionChooser()" class="btn-tactile icon-circle sm !bg-paper !shadow-none"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="space-y-2.5">
+          <button onclick="closeActionChooser(); openRegisterModal()" class="btn-tactile w-full p-4 rounded-[26px] bg-night text-white text-left flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-lime text-[#111] flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-store"></i></div>
+            <div class="flex-1 min-w-0">
+              <div class="text-[14px] font-bold">Iklan menu dapur rumah</div>
+              <div class="text-[11px] text-white/60">Terima pesanan terus ke WhatsApp, percuma</div>
+            </div>
+            <i class="fa-solid fa-arrow-right text-white/50"></i>
+          </button>
+          <button onclick="closeActionChooser(); openPostModal()" class="btn-tactile w-full p-4 rounded-[26px] bg-paper text-ink text-left flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-card flex items-center justify-center text-lg flex-shrink-0"><i class="fa-regular fa-comments"></i></div>
+            <div class="flex-1 min-w-0">
+              <div class="text-[14px] font-bold">Buka diskusi warga</div>
+              <div class="text-[11px] text-ink-soft">Cari makanan, open order, runner, review</div>
+            </div>
+            <i class="fa-solid fa-arrow-right text-ink-mute"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= POST MODAL ================= -->
+  <div id="postModal" class="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
+    <div class="modal-sheet bg-card w-full sm:max-w-md rounded-t-[32px] sm:rounded-[32px] shadow-2xl max-h-[92vh] flex flex-col">
+      <div class="sheet-handle sm:hidden"></div>
+      <div class="px-5 pt-4 pb-3 flex items-start justify-between flex-shrink-0">
+        <div>
+          <p class="text-[11px] font-bold uppercase tracking-[0.08em] text-ink-mute">Komuniti</p>
+          <h3 class="font-serif text-[32px] leading-none mt-1">Topik <span class="italic">baharu</span></h3>
+        </div>
+        <button onclick="closePostModal()" class="btn-tactile icon-circle sm !bg-paper !shadow-none"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="communityForm" onsubmit="handlePostSubmit(event)" class="px-5 pt-2 space-y-4 modal-scroll-area">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="field-label">Nama *</label>
+            <input type="text" id="postAuthor" required placeholder="Cikgu Amir" class="field">
+          </div>
+          <div>
+            <label class="field-label">Kategori *</label>
+            <select id="postCategory" required class="field">
+              <option value="Mencari Makanan">🔎 Mencari Makanan</option>
+              <option value="Open Order Hari Ini">📢 Open Order Hari Ini</option>
+              <option value="Port Makan & Review">⭐ Port Makan & Review</option>
+              <option value="Servis Runner & Delivery">🛵 Runner & Delivery</option>
+              <option value="Resipi & Tips Dapur">🍳 Resipi & Tips Dapur</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="field-label">Zon kawasan *</label>
+          <select id="postZone" required class="field">
+            <optgroup id="postOptBatuKurau" label="Zon Batu Kurau (Taman & Kampung)" class="hidden">
+              <option value="Pekan Batu Kurau">Pekan Batu Kurau</option>
+              <option value="Kampung Perak">Kampung Perak</option>
+              <option value="Pantai Besar">Pantai Besar</option>
+              <option value="Kampung Anak Kurau">Kampung Anak Kurau</option>
+              <option value="Kampung Repoh / Ulu Repoh">Kampung Repoh / Ulu Repoh</option>
+              <option value="Kampung Jelai">Kampung Jelai</option>
+              <option value="Kampung Pondok Tanjung">Kampung Pondok Tanjung</option>
+              <option value="Kampung Changkat Perah">Kampung Changkat Perah</option>
+              <option value="Kampung Air Hitam">Kampung Air Hitam</option>
+              <option value="Taman Kurau Harmoni / Kurau Mewah">Taman Kurau Harmoni / Kurau Mewah</option>
+              <option value="Taman Kurau Indah / Kurau Aman">Taman Kurau Indah / Kurau Aman</option>
+            </optgroup>
+            <optgroup id="postOptKamunting" label="Zon Taman Kamunting">
+              <option value="Taman Jana / Bukit Jana">Taman Jana / Bukit Jana</option>
+              <option value="Taman Impian">Taman Impian</option>
+              <option value="Taman Kamunting Mutiara">Taman Kamunting Mutiara</option>
+              <option value="Taman Saujana">Taman Saujana</option>
+              <option value="Taman Mewah">Taman Mewah</option>
+              <option value="Medan Kamunting / Kota Jaya">Medan Kamunting / Kota Jaya</option>
+              <option value="Kamunting Raya">Kamunting Raya</option>
+            </optgroup>
+            <optgroup id="postOptTaiping" label="Zon Taman Taiping & Sekitar">
+              <option value="Taman Kaya">Taman Kaya</option>
+              <option value="Taman Lake View">Taman Lake View</option>
+              <option value="Taman Aulong / Aulong Lama & Baru">Taman Aulong / Aulong Lama & Baru</option>
+              <option value="Taman Simpang Makmur / Simpang Jaya">Taman Simpang Makmur / Simpang Jaya</option>
+              <option value="Taman Pokok Assam">Taman Pokok Assam</option>
+              <option value="Kampung Boyan / Taman Indah">Kampung Boyan / Taman Indah</option>
+              <option value="Pusat Bandar Taiping / Lake Gardens">Pusat Bandar Taiping / Lake Gardens</option>
+              <option value="Changkat Jering">Changkat Jering</option>
+            </optgroup>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Tajuk *</label>
+          <input type="text" id="postTitle" required placeholder="Ada open order pulut kuning esok?" class="field">
+        </div>
+        <div>
+          <label class="field-label">Mesej & butiran *</label>
+          <textarea id="postContent" rows="3" required placeholder="Soalan, cadangan, lokasi COD..." class="field"></textarea>
+        </div>
+        <div>
+          <label class="field-label">No. WhatsApp (pilihan)</label>
+          <div class="prefix-wrap"><span>+60</span><input type="tel" id="postWhatsApp" placeholder="123456789"></div>
+        </div>
+        <button type="submit" class="btn-tactile w-full h-14 bg-ink text-onink font-bold rounded-full text-[14px]">Hantar & maklumkan komuniti</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= DETAIL MODAL ================= -->
+  <div id="detailModal" class="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
+    <div class="modal-sheet bg-card w-full sm:max-w-md rounded-t-[32px] sm:rounded-[32px] overflow-hidden shadow-2xl max-h-[94vh] flex flex-col">
+      <div class="relative h-72 w-full bg-paper-2 flex-shrink-0">
+        <img id="modalImg" src="" alt="Menu" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80'">
+        <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/30 to-transparent pointer-events-none"></div>
+        <button onclick="closeDetailModal()" class="btn-tactile icon-circle glass absolute top-4 left-4"><i class="fa-solid fa-chevron-down"></i></button>
+        <div class="absolute top-4 right-4 flex items-center gap-2">
+          <button id="modalShareBtn" onclick="shareVendorDirect(window.__currentDetailId)" class="btn-tactile icon-circle glass" title="Kongsi"><i class="fa-solid fa-arrow-up-from-bracket text-[13px]"></i></button>
+          <button id="modalBookmarkBtn" onclick="toggleBookmark(window.__currentDetailId)" class="btn-tactile icon-circle glass" title="Simpan"><i id="modalBookmarkIcon" class="fa-regular fa-heart"></i></button>
+        </div>
+      </div>
+      <div class="relative -mt-8 bg-card rounded-t-[30px] px-5 pt-5 modal-scroll-area">
+        <div class="w-10 h-1 rounded-full bg-paper-2 mx-auto -mt-1 mb-4"></div>
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <h3 id="modalTitle" class="font-serif text-[34px] leading-[0.98]"></h3>
+            <p class="text-[13px] font-semibold text-ink-soft mt-2 flex items-center gap-2">
+              <span class="w-5 h-5 rounded-full bg-ink text-onink inline-flex items-center justify-center text-[9px]"><i class="fa-solid fa-utensils"></i></span>
+              <span id="modalKitchen"></span>
+            </p>
+          </div>
+          <span id="modalStatusBadge" class="flex-shrink-0"></span>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 mt-5">
+          <div class="bg-paper rounded-[18px] p-3 text-center">
+            <div class="text-[9.5px] font-bold uppercase tracking-wider text-ink-mute">Harga</div>
+            <div id="modalPrice" class="text-[14px] font-bold mt-1"></div>
+          </div>
+          <div class="bg-paper rounded-[18px] p-3 text-center min-w-0">
+            <div class="text-[9.5px] font-bold uppercase tracking-wider text-ink-mute">Zon</div>
+            <div id="modalZone" class="text-[12px] font-bold mt-1 truncate"></div>
+          </div>
+          <div class="bg-paper rounded-[18px] p-3 text-center min-w-0">
+            <div class="text-[9.5px] font-bold uppercase tracking-wider text-ink-mute">Hantar</div>
+            <div id="modalDelivery" class="text-[12px] font-bold mt-1 truncate"></div>
+          </div>
+        </div>
+
+        <p id="modalDesc" class="text-[13px] text-ink-soft leading-relaxed mt-5"></p>
+
+        <div class="mt-4 flex items-center gap-3 bg-paper rounded-[20px] p-3">
+          <div class="w-9 h-9 rounded-full bg-card flex items-center justify-center flex-shrink-0"><i class="fa-brands fa-whatsapp text-leaf-600 text-lg"></i></div>
+          <p class="text-[11.5px] text-ink-soft leading-snug">Pesanan terus ke WhatsApp pemilik dapur, <b class="text-ink">tanpa komisen</b> orang tengah.</p>
+        </div>
+
+        <button id="modalOrderBtn" onclick="openOrderModal(window.__currentDetailId)" class="btn-tactile mt-5 w-full h-14 rounded-full bg-ink text-onink font-bold text-[14px] flex items-center justify-between pl-6 pr-1.5">
+          <span>Tempah melalui WhatsApp</span>
+          <span class="w-11 h-11 rounded-full bg-lime text-[#111] flex items-center justify-center"><i class="fa-brands fa-whatsapp text-lg"></i></span>
+        </button>
+
+        <div id="ownerActions" class="hidden mt-2 grid grid-cols-2 gap-2">
+          <button id="editVendorBtn" class="btn-tactile h-12 rounded-full bg-paper text-ink font-bold text-xs flex items-center justify-center gap-1.5"><i class="fa-solid fa-pen"></i><span>Edit menu</span></button>
+          <button id="deleteVendorBtn" class="btn-tactile h-12 rounded-full bg-rose-50 text-rose-700 font-bold text-xs flex items-center justify-center gap-1.5"><i class="fa-solid fa-trash"></i><span>Padam</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ORDER MODAL ================= -->
+  <div id="orderModal" class="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
+    <div class="modal-sheet bg-card w-full sm:max-w-md rounded-t-[32px] sm:rounded-[32px] shadow-2xl max-h-[94vh] flex flex-col">
+      <div class="sheet-handle sm:hidden"></div>
+      <div class="px-5 pt-4 pb-3 flex items-start justify-between flex-shrink-0">
+        <div>
+          <p class="text-[11px] font-bold uppercase tracking-[0.08em] text-ink-mute" id="orderModalSubtitle">Borang tempahan</p>
+          <h3 class="font-serif text-[32px] leading-none mt-1">Tempah <span class="italic">sekarang</span></h3>
+        </div>
+        <button onclick="closeOrderModal()" class="btn-tactile icon-circle sm !bg-paper !shadow-none"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="orderForm" onsubmit="handleSendWhatsAppOrder(event)" class="px-5 pt-2 space-y-4 modal-scroll-area">
+        <div class="bg-paper p-2.5 rounded-[24px] flex items-center gap-3">
+          <img id="orderMenuImg" src="" alt="Menu" class="w-16 h-16 rounded-[18px] object-cover flex-shrink-0" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80'">
+          <div class="min-w-0 flex-1">
+            <span class="text-[11px] font-semibold text-ink-soft truncate block" id="orderKitchenName"></span>
+            <h4 class="font-bold text-[14px] leading-snug truncate" id="orderMenuTitle"></h4>
+            <div class="flex items-center justify-between mt-1 gap-2">
+              <span class="text-[13px] font-bold" id="orderMenuPrice"></span>
+              <span class="text-[10px] font-bold bg-card px-2 py-0.5 rounded-full truncate" id="orderMenuStatus"></span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="field-label">Nama anda *</label>
+          <input type="text" id="orderCustomerName" required placeholder="Puan Hidayah" class="field">
+        </div>
+        <div>
+          <label class="field-label">No. telefon *</label>
+          <div class="prefix-wrap"><span>+60</span><input type="tel" id="orderCustomerPhone" required placeholder="123456789"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="field-label">Kuantiti *</label>
+            <div class="flex items-center bg-paper rounded-full p-1">
+              <button type="button" onclick="adjustOrderQty(-1)" class="btn-tactile w-9 h-9 rounded-full bg-card font-bold shadow-sm">−</button>
+              <input type="number" id="orderQty" min="1" max="100" value="1" onchange="calculateOrderTotal()" class="w-full text-center font-bold text-[14px] bg-transparent outline-none">
+              <button type="button" onclick="adjustOrderQty(1)" class="btn-tactile w-9 h-9 rounded-full bg-ink text-onink font-bold">+</button>
+            </div>
+          </div>
+          <div>
+            <label class="field-label">Kaedah *</label>
+            <select id="orderDeliveryType" class="field">
+              <option value="Self-Pickup">Self-Pickup</option>
+              <option value="Penghantaran COD / Runner">COD / Runner</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="field-label">Tarikh & slot masa *</label>
+          <input type="text" id="orderDateSlot" required placeholder="Hari ini 4:30 petang" class="field">
+        </div>
+        <div>
+          <label class="field-label">Alamat (jika COD)</label>
+          <textarea id="orderAddress" rows="2" placeholder="No 12, Lorong 3, Taman Jana Utama" class="field"></textarea>
+        </div>
+        <div>
+          <label class="field-label">Nota tambahan</label>
+          <input type="text" id="orderNotes" placeholder="Kurangkan pedas" class="field">
+        </div>
+
+        <div class="flex items-center justify-between px-1 pt-1">
+          <div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-ink-mute block">Anggaran jumlah</span>
+            <span class="text-[10.5px] text-ink-mute">Tidak termasuk caj runner</span>
+          </div>
+          <span class="font-serif text-[32px] leading-none" id="orderTotalText">RM 0.00</span>
+        </div>
+
+        <button type="submit" class="btn-tactile w-full h-14 rounded-full bg-ink text-onink font-bold text-[14px] flex items-center justify-between pl-6 pr-1.5">
+          <span>Hantar ke WhatsApp penjual</span>
+          <span class="w-11 h-11 rounded-full bg-lime text-[#111] flex items-center justify-center"><i class="fa-brands fa-whatsapp text-lg"></i></span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= REGISTER MODAL ================= -->
+  <div id="registerModal" class="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
+    <div class="modal-sheet bg-card w-full sm:max-w-md rounded-t-[32px] sm:rounded-[32px] shadow-2xl max-h-[94vh] flex flex-col">
+      <div class="sheet-handle sm:hidden"></div>
+      <div class="px-5 pt-4 pb-3 flex items-start justify-between flex-shrink-0">
+        <div>
+          <p class="text-[11px] font-bold uppercase tracking-[0.08em] text-ink-mute">Iklan percuma</p>
+          <h3 id="registerModalTitle" class="font-serif text-[32px] leading-none mt-1">Daftar Dapur Anda</h3>
+        </div>
+        <button onclick="closeRegisterModal()" class="btn-tactile icon-circle sm !bg-paper !shadow-none"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="vendorForm" onsubmit="handleVendorSubmit(event)" class="px-5 pt-2 space-y-4 modal-scroll-area">
+        <div>
+          <label class="field-label">Gambar menu</label>
+          <input type="file" id="regImageInput" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
+          <div id="imageDropzone" onclick="document.getElementById('regImageInput').click()" class="relative bg-paper hover:bg-paper-2 rounded-[26px] cursor-pointer transition flex flex-col items-center justify-center min-h-[160px] overflow-hidden">
+            <div id="uploadPrompt" class="flex flex-col items-center gap-2 py-4 text-center">
+              <div class="w-12 h-12 rounded-full bg-ink text-onink flex items-center justify-center"><i class="fa-solid fa-camera"></i></div>
+              <div class="font-bold text-[13px]">Pilih gambar dari galeri</div>
+              <p class="text-[11px] text-ink-mute">JPG, PNG atau WebP · dimampatkan automatik</p>
+            </div>
+            <div id="imagePreviewContainer" class="hidden w-full relative">
+              <img id="imagePreview" src="" alt="Pratonton" class="w-full h-44 object-cover">
+              <span class="glass-chip absolute bottom-3 left-3"><i class="fa-solid fa-check"></i> Sedia digunakan</span>
+              <button type="button" onclick="event.stopPropagation(); removeUploadedImage()" class="btn-tactile icon-circle sm glass absolute top-3 right-3 !text-rose-600" title="Padam Gambar"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label class="field-label">Nama dapur / jenama *</label>
+          <input type="text" id="regKitchenName" required placeholder="Dapur Kak Siti Homemade" class="field">
+        </div>
+        <div>
+          <label class="field-label">Nama menu utama *</label>
+          <input type="text" id="regMenuTitle" required placeholder="Nasi Lemak Sambal Sotong" class="field">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="field-label">Harga (RM) *</label>
+            <input type="number" step="0.50" id="regPrice" required placeholder="8.50" class="field">
+          </div>
+          <div>
+            <label class="field-label">WhatsApp *</label>
+            <div class="prefix-wrap"><span>+60</span><input type="tel" id="regPhone" required placeholder="123456789"></div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="field-label">Zon kawasan *</label>
+            <select id="regZone" required class="field">
+              <optgroup id="regOptBatuKurau" label="Zon Batu Kurau (Taman & Kampung)" class="hidden">
+                <option value="Pekan Batu Kurau">Pekan Batu Kurau</option>
+                <option value="Kampung Perak">Kampung Perak</option>
+                <option value="Pantai Besar">Pantai Besar</option>
+                <option value="Kampung Anak Kurau">Kampung Anak Kurau</option>
+                <option value="Kampung Repoh / Ulu Repoh">Kampung Repoh / Ulu Repoh</option>
+                <option value="Kampung Jelai">Kampung Jelai</option>
+                <option value="Kampung Pondok Tanjung">Kampung Pondok Tanjung</option>
+                <option value="Kampung Changkat Perah">Kampung Changkat Perah</option>
+                <option value="Kampung Air Hitam">Kampung Air Hitam</option>
+                <option value="Taman Kurau Harmoni / Kurau Mewah">Taman Kurau Harmoni / Kurau Mewah</option>
+                <option value="Taman Kurau Indah / Kurau Aman">Taman Kurau Indah / Kurau Aman</option>
+              </optgroup>
+              <optgroup id="regOptKamunting" label="Zon Taman Kamunting">
+                <option value="Taman Jana / Bukit Jana">Taman Jana / Bukit Jana</option>
+                <option value="Taman Impian">Taman Impian</option>
+                <option value="Taman Kamunting Mutiara">Taman Kamunting Mutiara</option>
+                <option value="Taman Saujana">Taman Saujana</option>
+                <option value="Taman Mewah">Taman Mewah</option>
+                <option value="Medan Kamunting / Kota Jaya">Medan Kamunting / Kota Jaya</option>
+                <option value="Kamunting Raya">Kamunting Raya</option>
+              </optgroup>
+              <optgroup id="regOptTaiping" label="Zon Taman Taiping & Sekitar">
+                <option value="Taman Kaya">Taman Kaya</option>
+                <option value="Taman Lake View">Taman Lake View</option>
+                <option value="Taman Aulong / Aulong Lama & Baru">Taman Aulong / Aulong Lama & Baru</option>
+                <option value="Taman Simpang Makmur / Simpang Jaya">Taman Simpang Makmur / Simpang Jaya</option>
+                <option value="Taman Pokok Assam">Taman Pokok Assam</option>
+                <option value="Kampung Boyan / Taman Indah">Kampung Boyan / Taman Indah</option>
+                <option value="Pusat Bandar Taiping / Lake Gardens">Pusat Bandar Taiping / Lake Gardens</option>
+                <option value="Simpang taiping">Simpang</option>
+                <option value="Changkat Jering">Changkat Jering</option>
+              </optgroup>
+            </select>
+          </div>
+          <div>
+            <label class="field-label">Kategori *</label>
+            <select id="regCategory" required class="field">
+              <option value="Lauk-Pauk">Lauk-Pauk & Nasi</option>
+              <option value="Kuih & Dessert">Kuih, Kek & Manisan</option>
+              <option value="Sambal/Pes">Sambal & Pes</option>
+              <option value="Minuman">Kopi & Minuman</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="field-label">Status *</label>
+            <select id="regStatus" required class="field">
+              <option value="Ready Stock">Ready Stock Hari Ini</option>
+              <option value="Pre-Order">Pre-Order (H-1)</option>
+              <option value="Seminggu Awal">Seminggu Awal (H-7)</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label">Hantar / ambil *</label>
+            <input type="text" id="regDelivery" required placeholder="Self-Pickup / COD RM3" class="field">
+          </div>
+        </div>
+        <div>
+          <label class="field-label">Keterangan ringkas</label>
+          <textarea id="regDesc" rows="2" placeholder="Bahan segar, resepi turun-temurun, dimasak setiap pagi." class="field"></textarea>
+        </div>
+        <button type="submit" id="registerSubmitBtn" class="btn-tactile w-full h-14 bg-ink text-onink font-bold rounded-full text-[14px]">Terbitkan Menu Ke Direktori</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= INFO MODAL ================= -->
+  <div id="infoModal" class="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
+    <div class="modal-sheet bg-card w-full sm:max-w-sm rounded-t-[32px] sm:rounded-[32px] shadow-2xl max-h-[92vh] flex flex-col">
+      <div class="sheet-handle sm:hidden"></div>
+      <div class="p-5 modal-scroll-area">
+        <div class="flex items-start justify-between mb-4">
+          <div>
+            <p class="text-[11px] font-bold uppercase tracking-[0.08em] text-ink-mute">Tentang</p>
+            <h3 class="font-serif text-[32px] leading-none mt-1">Dapur <span class="italic">Kita</span></h3>
+          </div>
+          <button onclick="closeInfoModal()" class="btn-tactile icon-circle sm !bg-paper !shadow-none"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <p class="text-[13px] text-ink-soft leading-relaxed">Inisiatif komuniti bebas (PWA) yang menghubungkan pembeli dan dapur rumah sekitar Taiping, Kamunting & Batu Kurau secara terus.</p>
+
+        <div class="bg-night text-white rounded-[26px] p-4 mt-4">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full bg-lime text-[#111] flex items-center justify-center"><i class="fa-solid fa-mobile-screen"></i></div>
+            <div>
+              <p class="font-bold text-[14px]">Pasang aplikasi</p>
+              <p class="text-[11px] text-white/60">Tanpa Play Store atau App Store</p>
+            </div>
+          </div>
+          <button onclick="closeInfoModal(); installPWA();" class="btn-tactile mt-4 w-full h-11 rounded-full bg-white text-[#111] font-bold text-xs flex items-center justify-center gap-2"><i class="fa-solid fa-download"></i> Pasang sekarang</button>
+        </div>
+
+        <div class="mt-3 space-y-2">
+          <div class="flex items-center gap-3 bg-paper rounded-[20px] p-3"><i class="fa-solid fa-bolt w-5 text-center"></i><span class="text-[12px] font-medium">Pasang ke skrin utama dalam 2 saat</span></div>
+          <div class="flex items-center gap-3 bg-paper rounded-[20px] p-3"><i class="fa-regular fa-bell w-5 text-center"></i><span class="text-[12px] font-medium">Notifikasi bila ada open order baru</span></div>
+          <div class="flex items-center gap-3 bg-paper rounded-[20px] p-3"><i class="fa-brands fa-whatsapp w-5 text-center"></i><span class="text-[12px] font-medium">Pesanan 100% terus, tiada komisen</span></div>
+        </div>
+
+        <div class="mt-4">
+          <p class="field-label">Tema paparan</p>
+          <div class="seg-track" id="themeSegment">
+            <button type="button" data-theme-opt="light" onclick="setTheme('light')" class="seg-btn btn-tactile !py-2.5"><i class="fa-regular fa-sun"></i><span>Cerah</span></button>
+            <button type="button" data-theme-opt="dark" onclick="setTheme('dark')" class="seg-btn btn-tactile !py-2.5"><i class="fa-regular fa-moon"></i><span>Gelap</span></button>
+            <button type="button" data-theme-opt="system" onclick="setTheme('system')" class="seg-btn btn-tactile !py-2.5"><i class="fa-solid fa-circle-half-stroke"></i><span>Auto</span></button>
+          </div>
+        </div>
+
+        <button onclick="closeInfoModal(); startInteractiveTour(0);" class="btn-tactile mt-4 w-full h-12 rounded-full bg-paper text-ink font-bold text-xs flex items-center justify-center gap-2">
+          <i class="fa-solid fa-wand-magic-sparkles"></i><span>Mula semula panduan interaktif</span>
+        </button>
+        <p class="text-[10.5px] text-ink-mute mt-3 text-center">Debug: buka Console (F12), taip <code class="bg-paper px-1 rounded">debugFirebase()</code></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= TOAST ================= -->
+  <div id="toast" class="fixed left-1/2 -translate-x-1/2 z-[140] bg-ink text-onink text-[12.5px] font-semibold pl-3 pr-5 py-2.5 rounded-full shadow-float transition-all duration-300 opacity-0 pointer-events-none -translate-y-4 flex items-center gap-2.5 max-w-[calc(100vw-2rem)]" style="top: calc(14px + env(safe-area-inset-top));">
+    <span class="w-6 h-6 rounded-full bg-lime text-[#111] flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-check text-[10px]" id="toastIcon"></i></span>
+    <span id="toastMessage" class="truncate">Tindakan berjaya</span>
+  </div>
+
+  <!-- ================= FIREBASE SCRIPT ================= -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+    import { getDatabase, ref, push, update, onValue, remove } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCE5EzPWa7m-M7thhXwl9V5E59BvVGA7v8",
+      authDomain: "dapurkita-6190b.firebaseapp.com",
+      databaseURL: "https://dapurkita-6190b-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "dapurkita-6190b",
+      storageBucket: "dapurkita-6190b.firebasestorage.app",
+      messagingSenderId: "687897962006",
+      appId: "1:687897962006:web:21e4fa5535f5742acef737",
+      measurementId: "G-WN50C6JKS5"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    try { getAnalytics(app); } catch (err) { /* optional */ }
+    const db = getDatabase(app);
+
+    // ==========================================
+    // 0. HELPERS
+    // ==========================================
+    function escapeHTML(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    const DEFAULT_IMG = 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80';
+
+    function statusMeta(status) {
+      if (status === 'Ready Stock') return { label: 'Ready Stock', short: 'Ready', dot: '#22c55e', icon: 'fa-solid fa-bolt' };
+      if (status === 'Seminggu Awal') return { label: 'Seminggu Awal', short: 'H-7', dot: '#b45309', icon: 'fa-regular fa-calendar-check' };
+      return { label: 'Pre-Order H-1', short: 'Pre-Order', dot: '#f59e0b', icon: 'fa-regular fa-clock' };
+    }
+
+    // ==========================================
+    // 1. AUTH
+    // ==========================================
+    const auth = getAuth(app);
+    let currentUid = null;
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUid = user.uid;
+        notifySplashResourceLoaded('auth');
+        try { renderVendors(); } catch (e) {}
+        try { renderCommunityPosts(); } catch (e) {}
+      } else {
+        signInAnonymously(auth).catch((err) => {
+          console.error('Anonymous sign-in gagal:', err);
+          showToast('⚠️ Auth gagal — sesetengah ciri mungkin terhad.');
+          notifySplashResourceLoaded('auth');
+        });
+      }
+    });
+
+    // ==========================================
+    // 2. STATE
+    // ==========================================
+    let currentVendors = [];
+    let communityPosts = [];
+    let currentMainTab = 'catalog';
+    let currentRegion = localStorage.getItem('dapur_kita_region') || 'Taiping & Kamunting';
+    let selectedCommunityCategory = 'all';
+    let selectedZone = 'all';
+    let selectedCategory = 'all';
+    let searchQuery = '';
+    let bookmarks = [];
+    let showBookmarksOnly = false;
+    let uploadedImageBase64 = '';
+    let unreadCommunityCount = 0;
+    let deferredInstallPrompt = null;
+    let swRegistration = null;
+    let menuLayout = localStorage.getItem('dapur_kita_layout') || 'wide';
+    let isInitialDataLoaded = false;
+    let editingVendorId = null;
+    let currentOrderingVendor = null;
+    let searchDebounceTimeout = null;
+
+    let firebaseStatus = {
+      vendors: { ok: false, count: 0, error: null, lastUpdate: null },
+      posts: { ok: false, count: 0, error: null, lastUpdate: null }
+    };
+
+    // ==========================================
+    // 3. DIAGNOSTIC + STATUS BANNER
+    // ==========================================
+    function debugFirebase() {
+      console.group('🔧 [DAPUR KITA] Firebase Diagnostics');
+      console.log('Firebase App Initialized:', !!app);
+      console.log('Current Auth UID:', currentUid);
+      console.log('Vendors Status:', firebaseStatus.vendors);
+      console.log('Community Posts Status:', firebaseStatus.posts);
+      console.log('Loaded Vendors Count:', currentVendors.length);
+      console.log('Loaded Posts Count:', communityPosts.length);
+      console.groupEnd();
+      return { currentUid, firebaseStatus, currentVendors, communityPosts };
+    }
+    window.debugFirebase = debugFirebase;
+
+    function updateFirebaseStatusBanner() {
+      const banner = document.getElementById('firebaseStatusBanner');
+      const textEl = document.getElementById('firebaseStatusText');
+      const hintEl = document.getElementById('firebaseStatusHint');
+      if (!banner) return;
+      const vendorsFailed = firebaseStatus.vendors.error && !firebaseStatus.vendors.ok;
+      const postsFailed = firebaseStatus.posts.error && !firebaseStatus.posts.ok;
+
+      if (vendorsFailed || postsFailed) {
+        banner.classList.remove('hidden');
+        let msg = 'Sambungan Firebase bermasalah.';
+        let hint = 'Buka Console (F12) untuk maklumat lanjut.';
+        const errMsg = (firebaseStatus.vendors.error?.message || firebaseStatus.posts.error?.message || '').toLowerCase();
+        if (errMsg.includes('permission') || errMsg.includes('denied')) {
+          msg = '🔒 Firebase Rules menyekat bacaan data.';
+          hint = 'Firebase Console → Realtime Database → Rules → pastikan ".read": true.';
+        } else if (errMsg.includes('invalid') || errMsg.includes('url')) {
+          msg = '🌐 databaseURL tidak sah / salah region.';
+          hint = 'Semak Firebase Console → Project Settings.';
+        } else if (errMsg.includes('network') || errMsg.includes('offline')) {
+          msg = '📡 Tiada sambungan internet.';
+          hint = 'Semak sambungan WiFi atau data internet anda.';
+        }
+        textEl.innerText = msg;
+        hintEl.innerHTML = `${escapeHTML(hint)} Taip <code class="bg-paper px-1 rounded">debugFirebase()</code> di Console.`;
+      } else {
+        banner.classList.add('hidden');
+      }
+    }
+
+    // ==========================================
+    // 4. NORMALIZE
+    // ==========================================
+    function normalizeVendors(data) {
+      if (!data) return { items: [], structureIssue: null };
+      const keys = Object.keys(data);
+      const knownVendorFields = ['kitchenName','menuTitle','price','zone','status','delivery','phone','category','image','desc','createdAt','neighborhood','ownerUid'];
+      const flatKeys = keys.filter(k => knownVendorFields.includes(k));
+      if (flatKeys.length > 0 && flatKeys.length === keys.length) {
+        return { items: [], structureIssue: 'STRUKTUR SALAH: Field dijumpai TERUS di bawah "vendors". Pastikan setiap menu mempunyai child key unik.' };
+      }
+      const items = [];
+      keys.forEach(key => {
+        const item = data[key];
+        if (!item || typeof item !== 'object') return;
+        items.push({ id: key, ...item });
+      });
+      return { items: items.reverse(), structureIssue: null };
+    }
+
+    // ==========================================
+    // 5. REALTIME SYNC
+    // ==========================================
+    function initRealtimeSync() {
+      onValue(ref(db, 'vendors'), (snapshot) => {
+        const { items, structureIssue } = normalizeVendors(snapshot.val());
+        currentVendors = items;
+        firebaseStatus.vendors = { ok: true, count: items.length, error: structureIssue ? new Error(structureIssue) : null, lastUpdate: new Date().toISOString() };
+        window.__vendorsStructureIssue = structureIssue;
+        updateFirebaseStatusBanner();
+        renderVendors();
+        notifySplashResourceLoaded('vendors');
+        checkDirectMenuUrl();
+      }, (error) => {
+        firebaseStatus.vendors = { ok: false, count: 0, error, lastUpdate: new Date().toISOString() };
+        currentVendors = [];
+        window.__vendorsStructureIssue = null;
+        updateFirebaseStatusBanner();
+        renderVendors();
+        notifySplashResourceLoaded('vendors');
+      });
+
+      onValue(ref(db, 'community_posts'), (snapshot) => {
+        const data = snapshot.val();
+        let loadedPosts = [];
+        if (data) {
+          loadedPosts = Object.keys(data).map(key => {
+            const raw = data[key];
+            if (!raw || typeof raw !== 'object') return null;
+            const commentsArray = raw.comments
+              ? (Array.isArray(raw.comments) ? raw.comments : Object.keys(raw.comments).map(cKey => ({ id: cKey, ...raw.comments[cKey] })))
+              : [];
+            return { id: key, ...raw, comments: commentsArray };
+          }).filter(Boolean).reverse();
+
+          if (isInitialDataLoaded && loadedPosts.length > communityPosts.length) {
+            const newest = loadedPosts[0];
+            showSystemNotification(`Topik Komuniti Baharu: ${newest.category || ''}`, `${newest.author || 'Jiran'} (${newest.authorZone || ''}): "${newest.title || ''}"`);
+            if (currentMainTab !== 'community') { unreadCommunityCount++; updateUnreadBadges(); }
+          }
+        }
+        communityPosts = loadedPosts;
+        isInitialDataLoaded = true;
+        firebaseStatus.posts = { ok: true, count: loadedPosts.length, error: null, lastUpdate: new Date().toISOString() };
+        updateFirebaseStatusBanner();
+        renderCommunityPosts();
+        notifySplashResourceLoaded('posts');
+      }, (error) => {
+        firebaseStatus.posts = { ok: false, count: 0, error, lastUpdate: new Date().toISOString() };
+        communityPosts = [];
+        isInitialDataLoaded = true;
+        updateFirebaseStatusBanner();
+        renderCommunityPosts();
+        notifySplashResourceLoaded('posts');
+      });
+    }
+
+    // ==========================================
+    // 6. PWA
+    // ==========================================
+    function setupPWAEnvironment() {
+      const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="120" fill="#111111"/><path d="M165 110v110c0 28 22 50 50 50h0V395c0 14 11 25 25 25s25-11 25-25V270c28 0 50-22 50-50V110" stroke="#ffffff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M205 110v75M275 110v75M240 110v75" stroke="#ffffff" stroke-width="24" stroke-linecap="round"/><path d="M345 110c-26 0-45 28-45 65 0 35 18 55 35 60v160c0 14 11 25 25 25s25-11 25-25V115c0-3-1-5-15-5z" fill="#d6f36a"/></svg>`;
+      const iconUrl = 'data:image/svg+xml;base64,' + btoa(iconSvg);
+
+      let fav = document.querySelector("link[rel='icon']");
+      if (!fav) { fav = document.createElement('link'); fav.rel = 'icon'; document.head.appendChild(fav); }
+      fav.href = iconUrl;
+      let appleIcon = document.querySelector("link[rel='apple-touch-icon']");
+      if (!appleIcon) { appleIcon = document.createElement('link'); appleIcon.rel = 'apple-touch-icon'; document.head.appendChild(appleIcon); }
+      appleIcon.href = iconUrl;
+
+      const manifest = {
+        name: "Dapur Kita Taiping, Kamunting & Batu Kurau",
+        short_name: "DapurKita",
+        description: "Direktori Makanan Home-based & Papan Komuniti Warga Taiping, Kamunting & Batu Kurau",
+        start_url: window.location.href,
+        display: "standalone",
+        background_color: "#f3f3f1",
+        theme_color: "#f3f3f1",
+        orientation: "portrait-primary",
+        icons: [{ src: iconUrl, sizes: "192x192 512x512", type: "image/svg+xml", purpose: "any maskable" }]
+      };
+      const manifestUrl = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: 'application/json' }));
+      let manifestLink = document.querySelector("link[rel='manifest']");
+      if (!manifestLink) { manifestLink = document.createElement('link'); manifestLink.rel = 'manifest'; document.head.appendChild(manifestLink); }
+      manifestLink.href = manifestUrl;
+
+      if ('serviceWorker' in navigator) {
+        const swScript = `self.addEventListener('install',(e)=>self.skipWaiting());self.addEventListener('activate',(e)=>e.waitUntil(self.clients.claim()));self.addEventListener('notificationclick',(event)=>{event.notification.close();event.waitUntil(clients.matchAll({type:'window',includeUncontrolled:true}).then((l)=>{for(const c of l){if(c.url&&'focus' in c)return c.focus();}if(clients.openWindow)return clients.openWindow('/');}));});`;
+        const swUrl = URL.createObjectURL(new Blob([swScript], { type: 'application/javascript' }));
+        navigator.serviceWorker.register(swUrl).then(r => swRegistration = r).catch(e => console.log('SW fallback:', e));
+      }
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredInstallPrompt = e;
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+        if (!isStandalone) document.getElementById('pwaInstallBanner')?.classList.remove('hidden');
+      });
+      window.addEventListener('appinstalled', () => {
+        deferredInstallPrompt = null;
+        dismissInstallBanner();
+        showToast('🎉 Dapur Kita telah dipasang ke peranti anda!');
+      });
+    }
+
+    function installPWA() {
+      triggerHaptic();
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        deferredInstallPrompt.userChoice.then((choice) => {
+          if (choice.outcome === 'accepted') showToast('✅ Memasang Dapur Kita...');
+          deferredInstallPrompt = null;
+          dismissInstallBanner();
+        });
+      } else if (isIOS) {
+        showToast('📲 Di Safari: tekan "Share" & pilih "Add to Home Screen".');
+      } else {
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+        showToast(isStandalone ? '✅ Aplikasi Dapur Kita telah siap dipasang.' : '💡 Buka menu browser & pilih "Install App".');
+      }
+    }
+    function dismissInstallBanner() { document.getElementById('pwaInstallBanner')?.classList.add('hidden'); }
+
+    // ==========================================
+    // 7. NOTIFICATIONS
+    // ==========================================
+    function checkNotificationStatus() {
+      const banner = document.getElementById('notificationBanner');
+      const topBtn = document.getElementById('topNotifyBtn');
+      const topBell = document.getElementById('topBellIcon');
+      if (!('Notification' in window)) { banner?.classList.add('hidden'); return; }
+      if (Notification.permission === 'granted') {
+        banner?.classList.add('hidden');
+        if (topBell) topBell.className = 'fa-solid fa-bell text-[14px]';
+        topBtn?.classList.add('dark');
+      } else if (Notification.permission === 'denied') {
+        banner?.classList.add('hidden');
+        if (topBell) topBell.className = 'fa-solid fa-bell-slash text-[14px] text-ink-mute';
+      }
+    }
+
+    function requestNotificationPermissionPrompt() {
+      if (!('Notification' in window)) { showToast('Pelayar tidak menyokong Web Notification.'); return; }
+      Notification.requestPermission().then((p) => {
+        if (p === 'granted') {
+          triggerHaptic();
+          showSystemNotification('Notifikasi Dapur Kita Aktif! 🔔', 'Anda akan menerima alert terkini dari warga Taiping, Kamunting & Batu Kurau.');
+          showToast('Notifikasi komuniti diaktifkan!');
+        } else if (p === 'denied') {
+          showToast('Akses notifikasi ditolak.');
+        }
+        checkNotificationStatus();
+      });
+    }
+
+    function triggerHaptic() {
+      if ('vibrate' in navigator) { try { navigator.vibrate(30); } catch (e) {} }
+    }
+
+    function showSystemNotification(title, body, tag = 'dapur-kita') {
+      triggerHaptic();
+      if ('Notification' in window && Notification.permission === 'granted') {
+        const iconHref = document.querySelector("link[rel='icon']")?.href || '';
+        if (swRegistration && swRegistration.showNotification) {
+          swRegistration.showNotification(title, { body, icon: iconHref, badge: iconHref, tag, vibrate: [100,50,100], data: { url: '/' } });
+          return;
+        }
+        try { new Notification(title, { body, icon: iconHref, tag }); return; } catch (e) {}
+      }
+      showToast(`📢 ${title}: ${body}`);
+    }
+
+    function updateUnreadBadges() {
+      const topBadge = document.getElementById('unreadTopBadge');
+      const bottomDot = document.getElementById('unreadBottomDot');
+      const tabBadge = document.getElementById('communityTabBadge');
+      const has = unreadCommunityCount > 0;
+      if (topBadge) { topBadge.innerText = unreadCommunityCount > 9 ? '9+' : unreadCommunityCount; topBadge.classList.toggle('hidden', !has); }
+      if (bottomDot) bottomDot.classList.toggle('hidden', !has);
+      if (tabBadge) { tabBadge.innerText = unreadCommunityCount; tabBadge.classList.toggle('hidden', !has); }
+    }
+
+    // ==========================================
+    // 8. SPLASH
+    // ==========================================
+    let splashTargetProgress = 20;
+    let splashCurrentProgress = 0;
+    let splashResources = { vendors: false, posts: false, auth: false };
+    let splashCompleted = false;
+
+    function finishSplashInstantly() {
+      if (splashCompleted) return;
+      splashCompleted = true;
+      const splash = document.getElementById('splashScreen');
+      const bar = document.getElementById('splashProgressBar');
+      const percentEl = document.getElementById('splashPercentText');
+      if (bar) bar.style.width = '100%';
+      if (percentEl) percentEl.innerText = '100%';
+      if (splash) {
+        splash.classList.add('fade-out');
+        setTimeout(() => { splash.remove(); checkFirstVisitTour(); }, 380);
+      }
+    }
+
+    function notifySplashResourceLoaded(resource) {
+      if (splashResources[resource] !== undefined) splashResources[resource] = true;
+      const loaded = Object.values(splashResources).filter(Boolean).length;
+      if (loaded === 1) setSplashTarget(65, 'Menyambung ke menu tempatan...');
+      else if (loaded >= 2) setSplashTarget(100, 'Dapur sedia dihidang!');
+    }
+
+    function setSplashTarget(percent, statusMsg) {
+      splashTargetProgress = Math.max(splashTargetProgress, percent);
+      const statusEl = document.getElementById('splashStatusText');
+      if (statusEl && statusMsg) statusEl.innerText = statusMsg;
+    }
+
+    function initSplashScreen() {
+      const bar = document.getElementById('splashProgressBar');
+      const percentEl = document.getElementById('splashPercentText');
+      if (!bar) return;
+      const progressInterval = setInterval(() => {
+        if (splashCurrentProgress < splashTargetProgress) {
+          const step = Math.max(2, Math.ceil((splashTargetProgress - splashCurrentProgress) * 0.25));
+          splashCurrentProgress = Math.min(splashTargetProgress, splashCurrentProgress + step);
+          bar.style.width = `${splashCurrentProgress}%`;
+          if (percentEl) percentEl.innerText = `${splashCurrentProgress}%`;
+        }
+        if (splashCurrentProgress >= 100) { clearInterval(progressInterval); finishSplashInstantly(); }
+      }, 25);
+      setTimeout(() => setSplashTarget(100, 'Membuka Dapur Kita...'), 800);
+      setTimeout(() => { clearInterval(progressInterval); finishSplashInstantly(); }, 1400);
+    }
+
+    // ==========================================
+    // 8a. INTERACTIVE TOUR
+    // ==========================================
+    let currentTourIndex = 0;
+    let tourPositionRaf = null;
+    let previousTargetElement = null;
+
+    const tourPoints = [
+      { targetId: 'headerRegionBtn', title: 'Pilihan zon liputan', desc: 'Sentuh di sini untuk menukar kawasan: Taiping & Kamunting, Batu Kurau, atau Selama.', icon: 'fa-solid fa-location-dot', preferredPos: 'bottom', action: () => switchMainTab('catalog') },
+      { targetId: 'tourMainTabContainer', title: 'Katalog & komuniti', desc: 'Beralih antara direktori masakan dapur rumah dan papan diskusi warga tempatan.', icon: 'fa-solid fa-arrows-left-right', preferredPos: 'bottom', action: () => switchMainTab('catalog') },
+      { targetId: 'tourCatalogFilters', title: 'Carian & penapis pantas', desc: 'Cari makanan, tapis ikut ketersediaan (Ready Stock / Pre-Order), dan tekan butang hitam untuk pilih zon kejiranan.', icon: 'fa-solid fa-magnifying-glass', preferredPos: 'bottom', action: () => switchMainTab('catalog') },
+      { targetId: 'tourAddBtn', title: 'Letak menu anda', desc: 'Iklankan masakan dapur anda secara percuma (pesanan terus ke WhatsApp) atau buka soalan warga.', icon: 'fa-solid fa-plus', preferredPos: 'top', action: () => {} },
+      { targetId: 'navCommunityBtn', title: 'Ruang sembang warga', desc: 'Tanya open order hari ini, cari runner, kongsi review, atau bincang resipi bersama komuniti.', icon: 'fa-regular fa-comments', preferredPos: 'top', action: () => switchMainTab('community') },
+      { targetId: 'headerPwaInstallBtn', title: 'Pasang aplikasi', desc: 'Pasang Dapur Kita ke skrin utama telefon untuk akses pantas tanpa Play Store atau App Store.', icon: 'fa-solid fa-download', preferredPos: 'bottom', showInstallAction: true, action: () => switchMainTab('catalog') }
+    ];
+
+    function checkFirstVisitTour() {
+      if (!localStorage.getItem('dapur_kita_tour_seen_v4')) setTimeout(() => startInteractiveTour(0), 350);
+    }
+
+    function startInteractiveTour(step = 0) {
+      triggerHaptic();
+      currentTourIndex = step;
+      const overlay = document.getElementById('pointTourOverlay');
+      if (!overlay) return;
+      overlay.classList.add('active');
+      renderTourPoint();
+      window.addEventListener('resize', handleTourUpdateThrottled);
+      window.addEventListener('scroll', handleTourUpdateThrottled, { passive: true });
+    }
+
+    function handleTourUpdateThrottled() {
+      if (tourPositionRaf) cancelAnimationFrame(tourPositionRaf);
+      tourPositionRaf = requestAnimationFrame(repositionTourSpotlight);
+    }
+
+    function renderTourPoint() {
+      const point = tourPoints[currentTourIndex];
+      if (!point) return;
+      if (previousTargetElement) { previousTargetElement.classList.remove('tour-target-active'); previousTargetElement = null; }
+      if (point.action) point.action();
+
+      const contentWrap = document.getElementById('pointTourContentWrap');
+      if (contentWrap) { contentWrap.classList.remove('tour-content-fade'); void contentWrap.offsetWidth; contentWrap.classList.add('tour-content-fade'); }
+
+      document.getElementById('pointTourBadge').innerText = `Point ${currentTourIndex + 1} / ${tourPoints.length}`;
+      document.getElementById('pointTourTitle').innerText = point.title;
+      document.getElementById('pointTourDesc').innerText = point.desc;
+      document.getElementById('pointTourIcon').className = point.icon;
+      document.getElementById('pointTourActionArea').classList.toggle('hidden', !point.showInstallAction);
+      document.getElementById('pointTourPrevBtn').classList.toggle('hidden', currentTourIndex === 0);
+      document.getElementById('pointTourNextBtn').innerHTML = currentTourIndex === tourPoints.length - 1
+        ? `Selesai <i class="fa-solid fa-check ml-1"></i>`
+        : `Seterusnya <i class="fa-solid fa-arrow-right ml-1"></i>`;
+      document.getElementById('pointTourDots').innerHTML = tourPoints.map((_, i) =>
+        `<span class="h-1.5 rounded-full transition-all duration-300 ${i === currentTourIndex ? 'w-5 bg-ink' : 'w-1.5 bg-paper-2'}"></span>`
+      ).join('');
+
+      const target = document.getElementById(point.targetId);
+      if (target) {
+        target.classList.add('tour-target-active');
+        previousTargetElement = target;
+        const rect = target.getBoundingClientRect();
+        if (rect.top < 80 || rect.bottom > window.innerHeight - 80) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      setTimeout(repositionTourSpotlight, 70);
+      setTimeout(repositionTourSpotlight, 400);
+    }
+
+    function repositionTourSpotlight() {
+      const point = tourPoints[currentTourIndex];
+      if (!point) return;
+      const target = document.getElementById(point.targetId);
+      const spotlight = document.getElementById('tourSpotlightBox');
+      const card = document.getElementById('tourFloatingCard');
+      const arrow = document.getElementById('tourCardArrow');
+      if (!target || !spotlight || !card) return;
+
+      const rect = target.getBoundingClientRect();
+      const padding = 6;
+      spotlight.style.display = 'block';
+      spotlight.style.top = `${Math.round(rect.top - padding)}px`;
+      spotlight.style.left = `${Math.round(rect.left - padding)}px`;
+      spotlight.style.width = `${Math.round(rect.width + padding * 2)}px`;
+      spotlight.style.height = `${Math.round(rect.height + padding * 2)}px`;
+
+      const cardWidth = Math.min(window.innerWidth - 32, 355);
+      let cardX = Math.round(rect.left + rect.width / 2 - cardWidth / 2);
+      cardX = Math.max(16, Math.min(cardX, window.innerWidth - cardWidth - 16));
+
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      let pos = point.preferredPos || 'bottom';
+      if (pos === 'bottom' && spaceBelow < 235 && spaceAbove > spaceBelow) pos = 'top';
+      else if (pos === 'top' && spaceAbove < 235 && spaceBelow > spaceAbove) pos = 'bottom';
+
+      const cardH = card.offsetHeight || 220;
+      let cardY;
+      if (pos === 'top') {
+        cardY = Math.max(14, Math.round(rect.top - cardH - 16));
+        if (arrow) arrow.className = 'arrow-bottom';
+      } else {
+        cardY = Math.round(rect.bottom + 16);
+        if (cardY + cardH > window.innerHeight) cardY = window.innerHeight - cardH - 10;
+        if (arrow) arrow.className = 'arrow-top';
+      }
+      card.style.top = `${cardY}px`;
+      card.style.left = `${cardX}px`;
+      card.style.width = `${cardWidth}px`;
+      if (arrow) {
+        const arrowX = Math.round(rect.left + rect.width / 2 - cardX - 7);
+        arrow.style.left = `${Math.max(22, Math.min(arrowX, cardWidth - 36))}px`;
+      }
+    }
+
+    function nextTourStep() {
+      triggerHaptic();
+      if (currentTourIndex < tourPoints.length - 1) { currentTourIndex++; renderTourPoint(); }
+      else dismissInteractiveTour(true);
+    }
+    function prevTourStep() {
+      triggerHaptic();
+      if (currentTourIndex > 0) { currentTourIndex--; renderTourPoint(); }
+    }
+
+    function dismissInteractiveTour(markAsSeen = true) {
+      triggerHaptic();
+      document.getElementById('pointTourOverlay')?.classList.remove('active');
+      const spotlight = document.getElementById('tourSpotlightBox');
+      if (spotlight) spotlight.style.display = 'none';
+      if (previousTargetElement) { previousTargetElement.classList.remove('tour-target-active'); previousTargetElement = null; }
+      window.removeEventListener('resize', handleTourUpdateThrottled);
+      window.removeEventListener('scroll', handleTourUpdateThrottled);
+      if (tourPositionRaf) cancelAnimationFrame(tourPositionRaf);
+      if (markAsSeen) {
+        localStorage.setItem('dapur_kita_tour_seen_v4', 'true');
+        showToast('Panduan selesai! Selamat menikmati masakan tempatan 🍳');
+      }
+      switchMainTab('catalog');
+    }
+
+    // ==========================================
+    // 9. MODALS, TABS, REGION
+    // ==========================================
+    function openModalWithAnimation(id) {
+      triggerHaptic();
+      const m = document.getElementById(id);
+      if (m) { m.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    }
+    function closeModalWithAnimation(id) {
+      const m = document.getElementById(id);
+      if (m) {
+        m.classList.remove('active');
+        if (!document.querySelector('.modal-backdrop.active')) document.body.style.overflow = '';
+      }
+    }
+
+    function openActionChooser() { openModalWithAnimation('actionModal'); }
+    function closeActionChooser() { closeModalWithAnimation('actionModal'); }
+    function openPostModal() { openModalWithAnimation('postModal'); }
+    function closePostModal() { closeModalWithAnimation('postModal'); }
+    function openRegionModal() { openModalWithAnimation('regionModal'); }
+    function closeRegionModal() { closeModalWithAnimation('regionModal'); }
+
+    function updateGreeting() {
+      const el = document.getElementById('greetingSmall');
+      if (!el) return;
+      const h = new Date().getHours();
+      const part = h < 12 ? 'Selamat pagi' : h < 15 ? 'Selamat tengah hari' : h < 19 ? 'Selamat petang' : 'Selamat malam';
+      const name = (localStorage.getItem('dapur_kita_my_name') || localStorage.getItem('dapur_kita_customer_name') || '').trim().split(' ')[0];
+      el.innerText = name ? `${part}, ${name} 👋` : `${part} 👋`;
+    }
+
+    function updateRegionUI() {
+      const isBK = (currentRegion === 'Batu Kurau');
+      const txt = document.getElementById('currentHeaderRegionText');
+      if (txt) txt.innerText = currentRegion;
+
+      document.getElementById('filterBatuKurauGroup')?.classList.toggle('hidden', !isBK);
+      document.getElementById('filterKamuntingGroup')?.classList.toggle('hidden', isBK);
+      document.getElementById('filterTaipingGroup')?.classList.toggle('hidden', isBK);
+
+      ['post', 'reg'].forEach(prefix => {
+        document.getElementById(`${prefix}OptBatuKurau`)?.classList.toggle('hidden', !isBK);
+        document.getElementById(`${prefix}OptKamunting`)?.classList.toggle('hidden', isBK);
+        document.getElementById(`${prefix}OptTaiping`)?.classList.toggle('hidden', isBK);
+        const sel = document.getElementById(prefix === 'post' ? 'postZone' : 'regZone');
+        if (sel) sel.value = isBK ? 'Pekan Batu Kurau' : 'Taman Jana / Bukit Jana';
+      });
+
+      document.getElementById('regionBtnTaiping')?.classList.toggle('active', !isBK);
+      document.getElementById('regionBtnBatuKurau')?.classList.toggle('active', isBK);
+      document.getElementById('regionBadgeTaiping')?.classList.toggle('hidden', isBK);
+      document.getElementById('regionBadgeBatuKurau')?.classList.toggle('hidden', !isBK);
+    }
+
+    function selectRegion(regionName) {
+      triggerHaptic();
+      currentRegion = regionName;
+      localStorage.setItem('dapur_kita_region', regionName);
+      updateRegionUI();
+      resetFilters();
+      renderCommunityPosts();
+      closeRegionModal();
+      showToast(`📍 Kawasan semasa: ${regionName}`);
+    }
+
+    function selectComingSoonRegion(regionName) {
+      triggerHaptic();
+      showToast(`🚧 ${regionName}: akan datang`);
+    }
+
+    function openInfoModal() {
+      updateActiveNavText('help');
+      openModalWithAnimation('infoModal');
+    }
+    function closeInfoModal() {
+      closeModalWithAnimation('infoModal');
+      updateActiveNavText(showBookmarksOnly ? 'bookmark' : (currentMainTab === 'community' ? 'community' : 'catalog'));
+    }
+
+    function openRegisterModal() {
+      editingVendorId = null;
+      document.getElementById('registerModalTitle').innerHTML = 'Daftar <span class="italic">dapur</span>';
+      document.getElementById('registerSubmitBtn').innerText = 'Terbitkan menu ke direktori';
+      document.getElementById('vendorForm').reset();
+      updateRegionUI();
+      resetImageUpload();
+      openModalWithAnimation('registerModal');
+    }
+
+    function closeRegisterModal() {
+      closeModalWithAnimation('registerModal');
+      resetImageUpload();
+      editingVendorId = null;
+    }
+
+    function openEditModal(id) {
+      const item = currentVendors.find(v => v.id === id);
+      if (!item) return;
+      if (!isOwner(id)) { showToast('⛔ Anda bukan pemilik menu ini'); return; }
+      editingVendorId = id;
+      document.getElementById('registerModalTitle').innerHTML = 'Edit <span class="italic">menu</span>';
+      document.getElementById('registerSubmitBtn').innerText = 'Simpan perubahan';
+      document.getElementById('regKitchenName').value = item.kitchenName || '';
+      document.getElementById('regMenuTitle').value = item.menuTitle || '';
+      document.getElementById('regPrice').value = item.price || '';
+      let p = item.phone || '';
+      if (p.startsWith('60')) p = p.substring(2);
+      document.getElementById('regPhone').value = p;
+      document.getElementById('regZone').value = item.zone || '';
+      document.getElementById('regCategory').value = item.category || 'Lauk-Pauk';
+      document.getElementById('regStatus').value = item.status || 'Ready Stock';
+      document.getElementById('regDelivery').value = item.delivery || '';
+      document.getElementById('regDesc').value = item.desc || '';
+      if (item.image) {
+        uploadedImageBase64 = item.image;
+        document.getElementById('imagePreview').src = item.image;
+        document.getElementById('uploadPrompt').classList.add('hidden');
+        document.getElementById('imagePreviewContainer').classList.remove('hidden');
+      } else {
+        resetImageUpload();
+      }
+      openModalWithAnimation('registerModal');
+    }
+
+    async function deleteVendor(id) {
+      if (!isOwner(id)) { showToast('⛔ Anda bukan pemilik menu ini'); return; }
+      if (!confirm('Adakah anda pasti ingin memadam menu ini?')) return;
+      try {
+        await remove(ref(db, `vendors/${id}`));
+        closeDetailModal();
+        triggerHaptic();
+        showToast('🗑️ Menu berjaya dipadam');
+      } catch (err) { showToast('Ralat ketika memadam. Sila cuba lagi.'); }
+    }
+
+    function isOwner(id) {
+      const item = currentVendors.find(v => v.id === id);
+      return !!(item && currentUid && item.ownerUid === currentUid);
+    }
+    function isPostOwner(post) { return !!(post && currentUid && post.ownerUid === currentUid); }
+
+    async function deletePost(postId) {
+      const post = communityPosts.find(p => p.id === postId);
+      if (!post) return;
+      if (!isPostOwner(post)) { showToast('⛔ Anda bukan pemilik hantaran ini'); return; }
+      if (!confirm('Padam hantaran ini?')) return;
+      try {
+        await remove(ref(db, `community_posts/${postId}`));
+        triggerHaptic();
+        showToast('🗑️ Hantaran berjaya dipadam');
+      } catch (err) { showToast('Ralat ketika memadam. Sila cuba lagi.'); }
+    }
+
+    async function deleteComment(postId, commentId) {
+      const post = communityPosts.find(p => p.id === postId);
+      if (!post || !post.comments) return;
+      const comment = post.comments.find(c => c.id === commentId);
+      if (!comment) return;
+      if (comment.ownerUid !== currentUid) { showToast('⛔ Anda bukan pemilik balasan ini'); return; }
+      try {
+        await remove(ref(db, `community_posts/${postId}/comments/${commentId}`));
+        triggerHaptic();
+        showToast('🗑️ Balasan berjaya dipadam');
+      } catch (err) { showToast('Ralat ketika memadam balasan.'); }
+    }
+
+    function updateDetailBookmarkIcon() {
+      const icon = document.getElementById('modalBookmarkIcon');
+      if (!icon) return;
+      const on = bookmarks.includes(window.__currentDetailId);
+      icon.className = on ? 'fa-solid fa-heart text-rose-500' : 'fa-regular fa-heart';
+    }
+
+    function openDetailModal(id) {
+      const item = currentVendors.find(v => v.id === id);
+      if (!item) return;
+      window.__currentDetailId = id;
+      document.getElementById('modalImg').src = item.image || DEFAULT_IMG;
+      document.getElementById('modalTitle').innerText = item.menuTitle || 'Menu';
+      document.getElementById('modalKitchen').innerText = item.kitchenName || '';
+      document.getElementById('modalPrice').innerText = `RM ${Number(item.price || 0).toFixed(2)}`;
+      document.getElementById('modalZone').innerText = (item.neighborhood || item.zone || '-').split('/')[0].trim();
+      document.getElementById('modalZone').title = item.neighborhood || item.zone || '';
+      document.getElementById('modalDelivery').innerText = item.delivery || '-';
+      document.getElementById('modalDelivery').title = item.delivery || '';
+      document.getElementById('modalDesc').innerText = item.desc || '';
+
+      const meta = statusMeta(item.status);
+      const badge = document.getElementById('modalStatusBadge');
+      badge.className = 'flex-shrink-0 inline-flex items-center gap-1.5 bg-paper px-3 py-1.5 rounded-full text-[11px] font-bold whitespace-nowrap';
+      badge.innerHTML = `<span class="w-2 h-2 rounded-full" style="background:${meta.dot}"></span>${meta.label}`;
+      updateDetailBookmarkIcon();
+
+      const ownerActions = document.getElementById('ownerActions');
+      if (isOwner(id)) {
+        ownerActions.classList.remove('hidden');
+        document.getElementById('editVendorBtn').onclick = () => { closeDetailModal(); openEditModal(id); };
+        document.getElementById('deleteVendorBtn').onclick = () => deleteVendor(id);
+      } else {
+        ownerActions.classList.add('hidden');
+      }
+      openModalWithAnimation('detailModal');
+    }
+    function closeDetailModal() { closeModalWithAnimation('detailModal'); }
+
+    // ==========================================
+    // SHARE
+    // ==========================================
+    function getShareableVendorUrl(vendorId) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('menu', vendorId);
+      return url.toString();
+    }
+
+    function shareVendorDirect(vendorId) {
+      triggerHaptic();
+      const item = currentVendors.find(v => v.id === vendorId);
+      if (!item) return;
+      const shareUrl = getShareableVendorUrl(vendorId);
+      const shareTitle = `${item.menuTitle} - ${item.kitchenName}`;
+      const shareText = `Tengok menu "${item.menuTitle}" (RM${Number(item.price || 0).toFixed(2)}) oleh ${item.kitchenName} di Dapur Kita:`;
+      if (navigator.share) {
+        navigator.share({ title: shareTitle, text: shareText, url: shareUrl })
+          .then(() => showToast('🔗 Berjaya dikongsikan!'))
+          .catch((err) => { if (err.name !== 'AbortError') copyShareUrlFallback(shareUrl); });
+      } else {
+        copyShareUrlFallback(shareUrl);
+      }
+    }
+
+    function copyShareUrlFallback(url) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(() => showToast('📋 Pautan menu disalin!')).catch(() => fallbackOldCopy(url));
+      } else fallbackOldCopy(url);
+    }
+
+    function fallbackOldCopy(url) {
+      try {
+        const dummy = document.createElement('input');
+        document.body.appendChild(dummy);
+        dummy.value = url; dummy.select();
+        document.execCommand('copy');
+        document.body.removeChild(dummy);
+        showToast('📋 Pautan menu disalin!');
+      } catch (e) { showToast('Pautan: ' + url); }
+    }
+
+    let directMenuHandled = false;
+    function checkDirectMenuUrl() {
+      if (directMenuHandled) return;
+      const menuId = new URLSearchParams(window.location.search).get('menu');
+      if (menuId && currentVendors.some(v => v.id === menuId)) {
+        directMenuHandled = true;
+        setTimeout(() => openDetailModal(menuId), 300);
+      }
+    }
+
+    // ==========================================
+    // WHATSAPP ORDER
+    // ==========================================
+    function openOrderModal(vendorId) {
+      triggerHaptic();
+      const item = currentVendors.find(v => v.id === vendorId);
+      if (!item) return;
+      currentOrderingVendor = item;
+
+      document.getElementById('orderMenuImg').src = item.image || DEFAULT_IMG;
+      document.getElementById('orderMenuTitle').innerText = item.menuTitle || 'Menu';
+      document.getElementById('orderKitchenName').innerText = item.kitchenName || 'Dapur Rumah';
+      document.getElementById('orderMenuPrice').innerText = `RM ${Number(item.price || 0).toFixed(2)} / unit`;
+      document.getElementById('orderMenuStatus').innerText = statusMeta(item.status).label;
+
+      const savedName = localStorage.getItem('dapur_kita_customer_name') || '';
+      const savedPhone = localStorage.getItem('dapur_kita_customer_phone') || '';
+      if (savedName) document.getElementById('orderCustomerName').value = savedName;
+      if (savedPhone) document.getElementById('orderCustomerPhone').value = savedPhone;
+
+      document.getElementById('orderQty').value = 1;
+      document.getElementById('orderDateSlot').value = '';
+      document.getElementById('orderAddress').value = '';
+      document.getElementById('orderNotes').value = '';
+      document.getElementById('orderDeliveryType').value = 'Self-Pickup';
+      calculateOrderTotal();
+
+      closeDetailModal();
+      openModalWithAnimation('orderModal');
+    }
+
+    function closeOrderModal() { closeModalWithAnimation('orderModal'); }
+
+    function adjustOrderQty(delta) {
+      triggerHaptic();
+      const qtyInput = document.getElementById('orderQty');
+      let val = parseInt(qtyInput.value) || 1;
+      qtyInput.value = Math.max(1, Math.min(100, val + delta));
+      calculateOrderTotal();
+    }
+
+    function calculateOrderTotal() {
+      if (!currentOrderingVendor) return;
+      let qty = parseInt(document.getElementById('orderQty').value) || 1;
+      if (qty < 1) qty = 1;
+      const total = qty * (parseFloat(currentOrderingVendor.price) || 0);
+      document.getElementById('orderTotalText').innerText = `RM ${total.toFixed(2)}`;
+    }
+
+    function handleSendWhatsAppOrder(e) {
+      e.preventDefault();
+      if (!currentOrderingVendor) { showToast('Sila pilih menu semula.'); return; }
+      const item = currentOrderingVendor;
+      const name = document.getElementById('orderCustomerName').value.trim();
+      let phone = document.getElementById('orderCustomerPhone').value.trim();
+      const qty = parseInt(document.getElementById('orderQty').value) || 1;
+      const deliveryType = document.getElementById('orderDeliveryType').value;
+      const dateSlot = document.getElementById('orderDateSlot').value.trim();
+      const address = document.getElementById('orderAddress').value.trim();
+      const notes = document.getElementById('orderNotes').value.trim();
+
+      phone = phone.replace(/[^0-9]/g, '');
+      if (phone.startsWith('0')) phone = '6' + phone;
+      else if (phone && !phone.startsWith('6')) phone = '60' + phone;
+
+      if (name) localStorage.setItem('dapur_kita_customer_name', name);
+      if (phone) localStorage.setItem('dapur_kita_customer_phone', phone.replace(/^60/, ''));
+      updateGreeting();
+
+      const unitPrice = parseFloat(item.price) || 0;
+      const grandTotal = (qty * unitPrice).toFixed(2);
+
+      let message = `*TEMPAHAN BAHARU DAPUR KITA* 🍳\n`;
+      message += `------------------------------------\n`;
+      message += `Salam ${item.kitchenName}, saya ingin membuat tempahan melalui portal *Dapur Kita*:\n\n`;
+      message += `📌 *PILIHAN MENU:* ${item.menuTitle}\n`;
+      message += `🏷️ *Harga Seunit:* RM ${unitPrice.toFixed(2)}\n`;
+      message += `🔢 *Kuantiti:* ${qty} unit/bekas\n`;
+      message += `💰 *Jumlah Anggaran:* RM ${grandTotal}\n`;
+      message += `⚡ *Status Menu:* ${item.status}\n\n`;
+      message += `👤 *MAKLUMAT PELANGGAN:*\n`;
+      message += `• Nama: ${name}\n`;
+      message += `• No. Telefon: +${phone}\n`;
+      message += `• Kaedah: ${deliveryType}\n`;
+      message += `• Slot Tarikh / Masa: ${dateSlot}\n`;
+      if (deliveryType.includes('COD') || address) message += `• Alamat Penghantaran: ${address || 'Akan dimaklumkan'}\n`;
+      if (notes) message += `• Nota / Pilihan Khas: ${notes}\n`;
+      message += `\nAdakah slot ini masih ada untuk disahkan? Terima kasih! 🙏`;
+
+      const vendorPhoneDigits = String(item.phone || '').replace(/[^0-9]/g, '');
+      if (!vendorPhoneDigits) { showToast('Nombor WhatsApp peniaga tidak sah.'); return; }
+
+      closeOrderModal();
+      showToast('Membuka WhatsApp peniaga...');
+      window.open(`https://wa.me/${vendorPhoneDigits}?text=${encodeURIComponent(message)}`, '_blank');
+    }
+
+    function updateActiveNavText(activeId) {
+      [['catalog', 'navCatalogBtn'], ['community', 'navCommunityBtn'], ['bookmark', 'bookmarkNavBtn'], ['help', 'navHelpBtn']]
+        .forEach(([id, elId]) => document.getElementById(elId)?.classList.toggle('active', id === activeId));
+    }
+
+    function switchMainTab(tab) {
+      if (currentMainTab === tab && !showBookmarksOnly) return;
+      triggerHaptic();
+      const wasBookmarks = showBookmarksOnly;
+      currentMainTab = tab;
+      showBookmarksOnly = false;
+      if (wasBookmarks) {
+        const icon = document.getElementById('bookmarkNavIcon');
+        if (icon) icon.className = 'fa-regular fa-heart';
+        renderVendors();
+      }
+      const catalogView = document.getElementById('catalogView');
+      const communityView = document.getElementById('communityView');
+      const showEl = tab === 'community' ? communityView : catalogView;
+      const hideEl = tab === 'community' ? catalogView : communityView;
+
+      if (showEl.classList.contains('hidden')) {
+        hideEl.style.opacity = '0';
+        setTimeout(() => {
+          hideEl.classList.add('hidden');
+          showEl.classList.remove('hidden');
+          showEl.style.opacity = '0';
+          setTimeout(() => showEl.style.opacity = '1', 30);
+        }, 150);
+      }
+
+      document.getElementById('tabBtnCatalog').classList.toggle('active', tab !== 'community');
+      document.getElementById('tabBtnCommunity').classList.toggle('active', tab === 'community');
+      updateActiveNavText(tab === 'community' ? 'community' : 'catalog');
+
+      if (tab === 'community') {
+        unreadCommunityCount = 0;
+        updateUnreadBadges();
+        renderCommunityPosts();
+      }
+    }
+
+    // ==========================================
+    // 10. COMMUNITY
+    // ==========================================
+    const batuKurauZones = [
+      'Pekan Batu Kurau', 'Kampung Perak', 'Pantai Besar', 'Kampung Anak Kurau',
+      'Kampung Repoh / Ulu Repoh', 'Kampung Jelai', 'Kampung Pondok Tanjung',
+      'Kampung Changkat Perah', 'Kampung Air Hitam',
+      'Taman Kurau Harmoni / Kurau Mewah', 'Taman Kurau Indah / Kurau Aman'
+    ];
+
+    function isZoneInCurrentRegion(zoneName) {
+      if (!zoneName) return false;
+      const inBK = batuKurauZones.includes(zoneName);
+      return currentRegion === 'Batu Kurau' ? inBK : !inBK;
+    }
+
+    function setCommunityFilter(cat, element) {
+      triggerHaptic();
+      selectedCommunityCategory = cat;
+      document.querySelectorAll('.post-filter-btn').forEach(btn => btn.classList.toggle('active', btn === element));
+      renderCommunityPosts();
+    }
+
+    function timeAgo(time) {
+      const diff = Math.floor((Date.now() - time) / 1000);
+      if (diff < 60) return 'Sebentar tadi';
+      if (diff < 3600) return `${Math.floor(diff / 60)} minit lepas`;
+      if (diff < 86400) return `${Math.floor(diff / 3600)} jam lepas`;
+      return `${Math.floor(diff / 86400)} hari lepas`;
+    }
+
+    function getInitials(name) {
+      return (name || 'W').split(' ').filter(Boolean).map(n => n[0]).slice(0, 2).join('').toUpperCase() || 'W';
+    }
+
+    function renderCommunityPosts() {
+      const feed = document.getElementById('communityFeed');
+      const emptyState = document.getElementById('communityEmptyState');
+      const badge = document.getElementById('postCountBadge');
+
+      const filtered = communityPosts.filter(p => {
+        if (!isZoneInCurrentRegion(p.authorZone)) return false;
+        return selectedCommunityCategory === 'all' || p.category === selectedCommunityCategory;
+      });
+
+      if (badge) badge.innerText = `${filtered.length} perkongsian`;
+      if (filtered.length === 0) { feed.innerHTML = ''; emptyState.classList.remove('hidden'); return; }
+      emptyState.classList.add('hidden');
+
+      feed.innerHTML = filtered.map((post, idx) => {
+        const initials = getInitials(post.author || 'Jiran');
+        const commentsList = post.comments || [];
+        const owned = isPostOwner(post);
+
+        let contactBtn = '';
+        if (post.phone && String(post.phone).trim() !== '') {
+          const waPhone = String(post.phone).replace(/[^0-9]/g, '');
+          const waText = encodeURIComponent(`Salam ${post.author || ''}, saya baca hantaran anda di Komuniti Dapur Kita ("${post.title || ''}").`);
+          contactBtn = `<a href="https://wa.me/${waPhone}?text=${waText}" target="_blank" rel="noopener noreferrer" class="btn-tactile inline-flex items-center gap-2 pl-3.5 pr-1 h-9 rounded-full bg-ink text-onink font-bold text-[11.5px]"><span>Hubungi</span><span class="w-7 h-7 rounded-full bg-lime text-[#111] flex items-center justify-center"><i class="fa-brands fa-whatsapp"></i></span></a>`;
+        }
+        const ownerDeleteBtn = owned ? `<button onclick="window.deletePost('${post.id}')" class="btn-tactile w-9 h-9 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center" title="Padam hantaran"><i class="fa-solid fa-trash text-[11px]"></i></button>` : '';
+        const ownerBadge = owned ? `<span class="text-[9px] font-bold bg-lime text-[#111] px-1.5 py-0.5 rounded-full">ANDA</span>` : '';
+
+        return `
+          <article class="soft-card animate-grid-item bg-card rounded-[28px] p-5 shadow-card" style="animation-delay:${(idx * 0.04).toFixed(2)}s">
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-11 h-11 rounded-full bg-ink text-onink font-bold flex items-center justify-center text-[12px] flex-shrink-0">${escapeHTML(initials)}</div>
+                <div class="min-w-0">
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-bold text-[14px] truncate">${escapeHTML(post.author || 'Jiran')}</span>${ownerBadge}
+                  </div>
+                  <div class="text-[11px] text-ink-mute truncate"><i class="fa-solid fa-location-dot text-[9px]"></i> ${escapeHTML(post.authorZone || '')} · ${timeAgo(post.timestamp || Date.now())}</div>
+                </div>
+              </div>
+              <span class="text-[10.5px] font-bold px-3 py-1.5 rounded-full bg-paper whitespace-nowrap">${escapeHTML(post.category || '')}</span>
+            </div>
+            <h3 class="font-serif text-[26px] leading-[1.02] mt-4">${escapeHTML(post.title || '')}</h3>
+            <p class="text-[13px] text-ink-soft mt-2 leading-relaxed whitespace-pre-line">${escapeHTML(post.content || '')}</p>
+            <div class="mt-4 flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5">
+                <button onclick="window.togglePostLike('${post.id}')" class="btn-tactile inline-flex items-center gap-1.5 px-3.5 h-9 rounded-full ${post.liked ? 'bg-rose-50 text-rose-600' : 'bg-paper text-ink'} text-[12px] font-bold">
+                  <i class="${post.liked ? 'fa-solid' : 'fa-regular'} fa-heart"></i><span>${post.likes || 0}</span>
+                </button>
+                <button onclick="window.toggleCommentBox('${post.id}')" class="btn-tactile inline-flex items-center gap-1.5 px-3.5 h-9 rounded-full bg-paper text-ink text-[12px] font-bold">
+                  <i class="fa-regular fa-comment"></i><span>${commentsList.length}</span>
+                </button>
+              </div>
+              <div class="flex items-center gap-1.5">${contactBtn}${ownerDeleteBtn}</div>
+            </div>
+            <div id="commentSection_${post.id}" class="hidden mt-4 pt-4 border-t border-paper-2">
+              <div class="space-y-2 mb-3">
+                ${commentsList.map(c => {
+                  const isCommentOwner = c.ownerUid && c.ownerUid === currentUid;
+                  const delBtn = isCommentOwner ? `<button type="button" onclick="window.deleteComment('${post.id}', '${c.id}')" class="text-rose-500 hover:text-rose-700 ml-2" title="Padam balasan"><i class="fa-solid fa-trash text-[9px]"></i></button>` : '';
+                  return `
+                    <div class="bg-paper p-3 rounded-[18px] text-[12.5px]">
+                      <div class="flex items-center justify-between text-[10.5px] text-ink-mute mb-1">
+                        <div><span class="font-bold text-ink">${escapeHTML(c.author || 'Jiran')}</span> · ${escapeHTML(c.zone || '')}</div>
+                        <div class="flex items-center flex-shrink-0">${timeAgo(c.timestamp || Date.now())}${delBtn}</div>
+                      </div>
+                      <p class="text-ink-2 leading-snug">${escapeHTML(c.text || '')}</p>
+                    </div>`;
+                }).join('')}
+              </div>
+              <form onsubmit="window.handleAddComment(event, '${post.id}')" class="flex items-center gap-2 bg-paper rounded-full p-1 pl-4">
+                <input type="text" id="commentInput_${post.id}" required placeholder="Tulis balasan..." class="flex-1 min-w-0 bg-transparent text-[13px] outline-none">
+                <button type="submit" class="btn-tactile w-10 h-10 bg-ink text-onink rounded-full flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-arrow-up text-[12px]"></i></button>
+              </form>
+            </div>
+          </article>`;
+      }).join('');
+    }
+
+    async function handlePostSubmit(e) {
+      e.preventDefault();
+      if (!currentUid) { showToast('⏳ Sedang mengesahkan identiti... sila cuba lagi.'); return; }
+      let p = document.getElementById('postWhatsApp').value.trim();
+      if (p) {
+        p = p.replace(/[^0-9]/g, '');
+        if (p.startsWith('0')) p = '6' + p;
+        else if (!p.startsWith('6')) p = '60' + p;
+      }
+      const author = document.getElementById('postAuthor').value.trim();
+      const newPost = {
+        author,
+        authorZone: document.getElementById('postZone').value,
+        category: document.getElementById('postCategory').value,
+        title: document.getElementById('postTitle').value.trim(),
+        content: document.getElementById('postContent').value.trim(),
+        phone: p,
+        timestamp: Date.now(),
+        likes: 0,
+        liked: false,
+        ownerUid: currentUid
+      };
+      try {
+        await push(ref(db, 'community_posts'), newPost);
+        if (author && !localStorage.getItem('dapur_kita_my_name')) { localStorage.setItem('dapur_kita_my_name', author); updateGreeting(); }
+        document.getElementById('communityForm').reset();
+        updateRegionUI();
+        closePostModal();
+        showToast('✅ Hantaran diterbitkan!');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        showToast(`❌ Gagal hantar: ${err.message?.substring(0, 80)}`);
+      }
+    }
+
+    async function togglePostLike(postId) {
+      const post = communityPosts.find(p => p.id === postId);
+      if (!post) return;
+      const newLiked = !post.liked;
+      const newLikes = newLiked ? (post.likes || 0) + 1 : Math.max(0, (post.likes || 1) - 1);
+      post.liked = newLiked;
+      post.likes = newLikes;
+      triggerHaptic();
+      renderCommunityPosts();
+      try { await update(ref(db, `community_posts/${postId}`), { likes: newLikes }); } catch (err) {}
+    }
+
+    function toggleCommentBox(postId) {
+      const el = document.getElementById(`commentSection_${postId}`);
+      if (!el) return;
+      const wasHidden = el.classList.contains('hidden');
+      el.classList.toggle('hidden');
+      if (wasHidden) setTimeout(() => document.getElementById(`commentInput_${postId}`)?.focus(), 100);
+    }
+
+    async function handleAddComment(e, postId) {
+      e.preventDefault();
+      if (!currentUid) { showToast('⏳ Sedang mengesahkan... sila cuba sebentar lagi.'); return; }
+      const input = document.getElementById(`commentInput_${postId}`);
+      if (!input || !input.value.trim()) return;
+
+      let commenterName = localStorage.getItem('dapur_kita_my_name');
+      if (!commenterName) {
+        const entered = (prompt('Nama anda untuk balasan komuniti:') || '').trim();
+        commenterName = entered || 'Jiran Setempat';
+        if (entered) { localStorage.setItem('dapur_kita_my_name', entered); updateGreeting(); }
+      }
+      const commenterZone = localStorage.getItem('dapur_kita_my_zone') || 'Taiping / Kamunting / Batu Kurau';
+      try {
+        await push(ref(db, `community_posts/${postId}/comments`), {
+          author: commenterName, zone: commenterZone, text: input.value.trim(), timestamp: Date.now(), ownerUid: currentUid
+        });
+        input.value = '';
+        showToast('✅ Balasan dihantar!');
+      } catch (err) { showToast('❌ Gagal menghantar balasan.'); }
+    }
+
+    // ==========================================
+    // 11. CATALOG
+    // ==========================================
+    function setMenuLayout(layout) {
+      menuLayout = layout;
+      localStorage.setItem('dapur_kita_layout', layout);
+      updateLayoutToggleButtons();
+      renderVendors();
+      triggerHaptic();
+    }
+
+    function updateLayoutToggleButtons() {
+      document.getElementById('viewToggleWide')?.classList.toggle('active', menuLayout === 'wide');
+      document.getElementById('viewToggleGrid')?.classList.toggle('active', menuLayout === 'compact');
+      document.getElementById('viewToggleList')?.classList.toggle('active', menuLayout === 'list');
+    }
+
+    function heartIcon(on) { return on ? 'fa-solid fa-heart text-rose-500' : 'fa-regular fa-heart'; }
+
+    function renderFeaturedRail() {
+      const section = document.getElementById('featuredSection');
+      const rail = document.getElementById('featuredRail');
+      if (!section || !rail) return;
+      const noFilters = selectedCategory === 'all' && selectedZone === 'all' && !searchQuery.trim() && !showBookmarksOnly;
+      const items = noFilters ? currentVendors.filter(v => isZoneInCurrentRegion(v.zone) && v.status === 'Ready Stock').slice(0, 8) : [];
+      if (items.length === 0) { section.classList.add('hidden'); rail.innerHTML = ''; return; }
+      section.classList.remove('hidden');
+      rail.innerHTML = items.map((item, i) => {
+        const img = escapeHTML(item.image || DEFAULT_IMG);
+        return `
+          <div class="soft-card animate-grid-item snap-start relative flex-shrink-0 w-[260px] h-[200px] rounded-[26px] overflow-hidden bg-paper-2 cursor-pointer" style="animation-delay:${(i * 0.04).toFixed(2)}s" onclick="window.openDetailModal('${item.id}')">
+            <img src="${img}" alt="" loading="lazy" onerror="this.src='${DEFAULT_IMG}'" class="absolute inset-0 w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent"></div>
+            <div class="absolute top-3 left-3 flex gap-1.5">
+              <span class="bg-white text-[#111] text-[10.5px] font-bold px-2.5 py-1 rounded-full">RM ${(Number(item.price) || 0).toFixed(2)}</span>
+              <span class="glass-chip"><span class="w-1.5 h-1.5 rounded-full bg-leaf-500"></span>Ready</span>
+            </div>
+            <div class="absolute bottom-3.5 left-4 right-4 text-white">
+              <h4 class="font-bold text-[16px] leading-tight line-clamp-2">${escapeHTML(item.menuTitle)}</h4>
+              <p class="text-[11px] text-white/75 mt-0.5 truncate">${escapeHTML(item.kitchenName || '')} · ${escapeHTML((item.zone || '').split('/')[0].trim())}</p>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function renderVendors() {
+      const grid = document.getElementById('vendorGrid');
+      const emptyState = document.getElementById('emptyState');
+      const emptyMsg = document.getElementById('emptyStateMessage');
+      const emptyErr = document.getElementById('emptyStateErrorDetail');
+      const countBadge = document.getElementById('vendorCountBadge');
+      const heading = document.getElementById('gridHeading');
+
+      const filtered = currentVendors.filter(item => {
+        if (!isZoneInCurrentRegion(item.zone)) return false;
+        const matchZone = selectedZone === 'all' || item.zone === selectedZone;
+        let matchCat = true;
+        if (['Ready Stock', 'Pre-Order', 'Seminggu Awal'].includes(selectedCategory)) matchCat = item.status === selectedCategory;
+        else if (selectedCategory !== 'all') matchCat = item.category === selectedCategory;
+        const q = searchQuery.toLowerCase().trim();
+        const matchSearch = q === '' ||
+          (item.menuTitle && String(item.menuTitle).toLowerCase().includes(q)) ||
+          (item.kitchenName && String(item.kitchenName).toLowerCase().includes(q)) ||
+          (item.zone && String(item.zone).toLowerCase().includes(q));
+        const matchBookmark = showBookmarksOnly ? bookmarks.includes(item.id) : true;
+        return matchZone && matchCat && matchSearch && matchBookmark;
+      });
+
+      if (heading) heading.innerText = showBookmarksOnly ? 'Disimpan' : (searchQuery.trim() ? 'Hasil carian' : 'Semua dapur');
+      if (countBadge) countBadge.innerText = `${filtered.length} dapur`;
+      const dot = document.getElementById('zoneActiveDot');
+      if (dot) dot.classList.toggle('hidden', selectedZone === 'all');
+      renderFeaturedRail();
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        const structureIssue = window.__vendorsStructureIssue;
+        const hasError = firebaseStatus.vendors.error && !firebaseStatus.vendors.ok;
+        if (hasError) {
+          emptyMsg.innerText = 'Tidak dapat bersambung ke Firebase.';
+          emptyErr.innerText = `⚠️ ${firebaseStatus.vendors.error.message || 'Ralat rangkaian'}`;
+          emptyErr.classList.remove('hidden');
+        } else if (structureIssue) {
+          emptyMsg.innerText = 'Struktur data Firebase salah.';
+          emptyErr.innerText = `🚨 ${structureIssue}`;
+          emptyErr.classList.remove('hidden');
+        } else if (currentVendors.length === 0) {
+          emptyMsg.innerText = 'Belum ada menu didaftarkan.';
+          emptyErr.innerText = '💡 Tekan butang + untuk daftar menu pertama anda.';
+          emptyErr.classList.remove('hidden');
+        } else if (showBookmarksOnly) {
+          emptyMsg.innerText = 'Belum ada menu disimpan. Tekan ♡ pada mana-mana menu.';
+          emptyErr.classList.add('hidden');
+        } else {
+          emptyMsg.innerText = 'Tiada menu sepadan dengan carian atau tapisan anda.';
+          emptyErr.classList.add('hidden');
+        }
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      emptyErr.classList.add('hidden');
+
+      if (menuLayout === 'compact') grid.className = 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3';
+      else if (menuLayout === 'list') grid.className = 'grid grid-cols-1 md:grid-cols-2 gap-2.5';
+      else grid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4';
+
+      grid.innerHTML = filtered.map((item, index) => {
+        const isBookmarked = bookmarks.includes(item.id);
+        const owned = isOwner(item.id);
+        const price = (Number(item.price) || 0).toFixed(2);
+        const delay = (index * 0.035).toFixed(2);
+        const img = escapeHTML(item.image || DEFAULT_IMG);
+        const meta = statusMeta(item.status);
+        const zoneShort = escapeHTML((item.zone || '').split('/')[0].trim());
+
+        const ownerRow = owned ? `
+          <div class="flex gap-1.5 mt-2">
+            <button onclick="event.stopPropagation(); window.openEditModal('${item.id}')" class="btn-tactile flex-1 h-9 rounded-full bg-card shadow-card text-ink font-bold text-[11px] flex items-center justify-center gap-1.5"><i class="fa-solid fa-pen text-[10px]"></i>Edit</button>
+            <button onclick="event.stopPropagation(); window.deleteVendor('${item.id}')" class="btn-tactile flex-1 h-9 rounded-full bg-rose-50 text-rose-700 font-bold text-[11px] flex items-center justify-center gap-1.5"><i class="fa-solid fa-trash text-[10px]"></i>Padam</button>
+          </div>` : '';
+
+        if (menuLayout === 'list') {
+          return `
+            <div class="animate-grid-item" style="animation-delay:${delay}s">
+              <div class="soft-card bg-card rounded-[26px] shadow-card compact-card cursor-pointer" onclick="window.openDetailModal('${item.id}')">
+                <div class="relative flex-shrink-0">
+                  <img src="${img}" alt="${escapeHTML(item.menuTitle)}" loading="lazy" onerror="this.src='${DEFAULT_IMG}'">
+                </div>
+                <div class="compact-info min-w-0">
+                  <div class="text-[10.5px] font-semibold text-ink-mute flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full" style="background:${meta.dot}"></span>${meta.short} · <span class="truncate">${zoneShort}</span></div>
+                  <h2 class="text-[14px] font-bold leading-snug line-clamp-2 mt-0.5">${escapeHTML(item.menuTitle)}</h2>
+                  <div class="text-[11.5px] text-ink-soft truncate">${escapeHTML(item.kitchenName || '')}</div>
+                  <div class="text-[14px] font-bold mt-1">RM ${price}</div>
+                </div>
+                <div class="flex flex-col items-center gap-1.5 flex-shrink-0 pr-1">
+                  <button onclick="event.stopPropagation(); window.toggleBookmark('${item.id}')" class="btn-tactile w-9 h-9 rounded-full bg-paper flex items-center justify-center" title="Simpan"><i class="${heartIcon(isBookmarked)} text-[13px]"></i></button>
+                  <button onclick="event.stopPropagation(); window.openOrderModal('${item.id}')" class="btn-tactile w-9 h-9 rounded-full bg-ink text-onink flex items-center justify-center" title="Tempah"><i class="fa-brands fa-whatsapp text-[14px]"></i></button>
+                </div>
+              </div>
+              ${ownerRow}
+            </div>`;
+        }
+
+        if (menuLayout === 'compact') {
+          return `
+            <div class="animate-grid-item" style="animation-delay:${delay}s">
+              <div class="soft-card relative aspect-[3/4] rounded-[24px] overflow-hidden bg-paper-2 cursor-pointer" onclick="window.openDetailModal('${item.id}')">
+                <img src="${img}" alt="${escapeHTML(item.menuTitle)}" loading="lazy" onerror="this.src='${DEFAULT_IMG}'" class="absolute inset-0 w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/70"></div>
+                <div class="absolute top-3 left-3 right-11 text-white">
+                  <div class="text-[9.5px] font-bold uppercase tracking-wider truncate">${zoneShort}</div>
+                  <div class="text-[9.5px] font-semibold text-white/80 flex items-center gap-1 mt-0.5"><span class="w-1.5 h-1.5 rounded-full" style="background:${meta.dot}"></span>${meta.short}</div>
+                </div>
+                <button onclick="event.stopPropagation(); window.toggleBookmark('${item.id}')" class="btn-tactile absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-white/90 backdrop-blur text-[#111] flex items-center justify-center" title="Simpan"><i class="${heartIcon(isBookmarked)} text-[12px]"></i></button>
+                <div class="absolute bottom-3 left-3 right-3 text-white">
+                  <h2 class="text-[17px] font-bold leading-[1.1] line-clamp-2">${escapeHTML(item.menuTitle)}</h2>
+                  <div class="flex items-center justify-between mt-2">
+                    <span class="text-[12px] font-bold">RM ${price}</span>
+                    <button onclick="event.stopPropagation(); window.openOrderModal('${item.id}')" class="btn-tactile w-8 h-8 rounded-full bg-white text-[#111] flex items-center justify-center" title="Tempah"><i class="fa-solid fa-arrow-right text-[11px] -rotate-45"></i></button>
+                  </div>
+                </div>
+              </div>
+              ${ownerRow}
+            </div>`;
+        }
+
+        // Wide hero card
+        return `
+          <div class="animate-grid-item" style="animation-delay:${delay}s">
+            <div class="soft-card relative aspect-[4/5] rounded-[32px] overflow-hidden bg-paper-2 shadow-card">
+              <img src="${img}" alt="${escapeHTML(item.menuTitle)}" loading="lazy" onerror="this.src='${DEFAULT_IMG}'" class="absolute inset-0 w-full h-full object-cover cursor-pointer" onclick="window.openDetailModal('${item.id}')">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/20 pointer-events-none"></div>
+              <div class="absolute top-4 left-4"><span class="glass-chip"><span class="w-1.5 h-1.5 rounded-full" style="background:${meta.dot}"></span>${meta.label}</span></div>
+              <div class="absolute top-4 right-4 flex gap-2">
+                <button onclick="event.stopPropagation(); window.shareVendorDirect('${item.id}')" class="btn-tactile icon-circle glass sm" title="Kongsi"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
+                <button onclick="event.stopPropagation(); window.toggleBookmark('${item.id}')" class="btn-tactile icon-circle glass sm" title="Simpan"><i class="${heartIcon(isBookmarked)}"></i></button>
+              </div>
+              <div class="absolute inset-x-0 bottom-0 p-4 pt-0">
+                <div class="px-1.5 text-white cursor-pointer" onclick="window.openDetailModal('${item.id}')">
+                  <div class="text-[12px] font-medium text-white/80 flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-[10px]"></i>${escapeHTML(item.neighborhood || item.zone || '')}</div>
+                  <h2 class="font-serif text-[32px] leading-[0.98] mt-1 line-clamp-2">${escapeHTML(item.menuTitle)}</h2>
+                  <div class="text-[12px] text-white/80 mt-1.5 flex items-center gap-2 flex-wrap">
+                    <span class="font-semibold text-white">${escapeHTML(item.kitchenName || '')}</span>
+                    <span class="opacity-60">·</span>
+                    <span><i class="fa-solid fa-truck-fast text-[10px]"></i> ${escapeHTML(item.delivery || '-')}</span>
+                  </div>
+                </div>
+                <button onclick="window.openOrderModal('${item.id}')" class="btn-tactile glass-bar mt-3.5 w-full h-[58px] rounded-full flex items-center justify-between pl-5 pr-1.5 text-white">
+                  <span class="text-[13px] font-bold">Tempah · RM ${price}</span>
+                  <span class="w-[46px] h-[46px] rounded-full bg-white text-[#111] flex items-center justify-center"><i class="fa-solid fa-chevron-right text-[13px]"></i></span>
+                </button>
+              </div>
+            </div>
+            ${ownerRow}
+          </div>`;
+      }).join('');
+    }
+
+    function toggleZonePanel(force) {
+      triggerHaptic();
+      const panel = document.getElementById('zonePanel');
+      if (!panel) return;
+      const show = typeof force === 'boolean' ? force : panel.classList.contains('hidden');
+      panel.classList.toggle('hidden', !show);
+      if (show) { panel.classList.remove('animate-grid-item'); void panel.offsetWidth; panel.classList.add('animate-grid-item'); }
+    }
+
+    function setZoneFilter(zone, element) {
+      triggerHaptic();
+      selectedZone = zone;
+      document.querySelectorAll('.zone-btn').forEach(btn => btn.classList.toggle('active', btn === element));
+      renderVendors();
+    }
+
+    function setCategoryFilter(cat, element) {
+      triggerHaptic();
+      selectedCategory = cat;
+      document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.toggle('active', btn === element));
+      element?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      renderVendors();
+    }
+
+    function handleSearchDebounced(event) {
+      clearTimeout(searchDebounceTimeout);
+      searchDebounceTimeout = setTimeout(() => {
+        searchQuery = event.target.value;
+        document.getElementById('clearSearchBtn').classList.toggle('hidden', searchQuery.length === 0);
+        renderVendors();
+      }, 120);
+    }
+
+    function clearSearch() {
+      triggerHaptic();
+      const input = document.getElementById('searchInput');
+      if (input) input.value = '';
+      searchQuery = '';
+      document.getElementById('clearSearchBtn').classList.add('hidden');
+      renderVendors();
+    }
+
+    function resetFilters() {
+      triggerHaptic();
+      selectedZone = 'all';
+      selectedCategory = 'all';
+      searchQuery = '';
+      showBookmarksOnly = false;
+      const input = document.getElementById('searchInput');
+      if (input) input.value = '';
+      document.getElementById('clearSearchBtn')?.classList.add('hidden');
+      const bIcon = document.getElementById('bookmarkNavIcon');
+      if (bIcon) bIcon.className = 'fa-regular fa-heart';
+      updateActiveNavText(currentMainTab === 'community' ? 'community' : 'catalog');
+      document.querySelectorAll('.zone-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.cat-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
+      renderVendors();
+    }
+
+    function toggleBookmark(id) {
+      if (!id) return;
+      const idx = bookmarks.indexOf(id);
+      if (idx > -1) { bookmarks.splice(idx, 1); showToast('Dikeluarkan dari simpanan'); }
+      else { bookmarks.push(id); triggerHaptic(); showToast('❤️ Disimpan ke pilihan anda'); }
+      localStorage.setItem('dapur_kita_bookmarks', JSON.stringify(bookmarks));
+      updateDetailBookmarkIcon();
+      renderVendors();
+    }
+
+    function toggleBookmarkView() {
+      triggerHaptic();
+      showBookmarksOnly = !showBookmarksOnly;
+      const icon = document.getElementById('bookmarkNavIcon');
+      if (showBookmarksOnly) {
+        updateActiveNavText('bookmark');
+        if (icon) icon.className = 'fa-solid fa-heart';
+        showToast('Memaparkan menu yang disimpan');
+        document.getElementById('vendorGrid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        updateActiveNavText('catalog');
+        if (icon) icon.className = 'fa-regular fa-heart';
+      }
+      renderVendors();
+    }
+
+    // ==========================================
+    // 12. IMAGE UPLOAD
+    // ==========================================
+    function handleImageUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      if (!file.type.match('image.*')) { showToast('Sila pilih fail gambar sahaja'); return; }
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = new Image();
+        img.onload = function () {
+          const canvas = document.createElement('canvas');
+          const maxDim = 600;
+          let { width, height } = img;
+          if (width > height) { if (width > maxDim) { height = Math.round(height * maxDim / width); width = maxDim; } }
+          else if (height > maxDim) { width = Math.round(width * maxDim / height); height = maxDim; }
+          canvas.width = width; canvas.height = height;
+          canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+          uploadedImageBase64 = canvas.toDataURL('image/jpeg', 0.75);
+          document.getElementById('imagePreview').src = uploadedImageBase64;
+          document.getElementById('uploadPrompt').classList.add('hidden');
+          document.getElementById('imagePreviewContainer').classList.remove('hidden');
+          showToast('Gambar sedia digunakan!');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removeUploadedImage() { resetImageUpload(); showToast('Gambar dipadam'); }
+
+    function resetImageUpload() {
+      uploadedImageBase64 = '';
+      const input = document.getElementById('regImageInput');
+      if (input) input.value = '';
+      document.getElementById('imagePreviewContainer')?.classList.add('hidden');
+      document.getElementById('uploadPrompt')?.classList.remove('hidden');
+      const pi = document.getElementById('imagePreview');
+      if (pi) pi.src = '';
+    }
+
+    async function handleVendorSubmit(e) {
+      e.preventDefault();
+      if (!currentUid) { showToast('⏳ Sedang mengesahkan... sila cuba sebentar lagi.'); return; }
+      let p = document.getElementById('regPhone').value.trim().replace(/[^0-9]/g, '');
+      if (p.startsWith('0')) p = '6' + p;
+      else if (p && !p.startsWith('6')) p = '60' + p;
+
+      const zone = document.getElementById('regZone').value;
+      const newKitchen = {
+        kitchenName: document.getElementById('regKitchenName').value.trim(),
+        menuTitle: document.getElementById('regMenuTitle').value.trim(),
+        category: document.getElementById('regCategory').value,
+        zone,
+        neighborhood: zone,
+        price: parseFloat(document.getElementById('regPrice').value) || 0,
+        status: document.getElementById('regStatus').value,
+        delivery: document.getElementById('regDelivery').value.trim(),
+        phone: p,
+        desc: document.getElementById('regDesc').value.trim() || 'Disediakan bersih dari dapur rumah tempatan.',
+        image: uploadedImageBase64 || DEFAULT_IMG,
+        createdAt: Date.now(),
+        ownerUid: currentUid
+      };
+
+      try {
+        if (editingVendorId) {
+          const { createdAt, ownerUid, ...updates } = newKitchen;
+          await update(ref(db, `vendors/${editingVendorId}`), updates);
+          showToast('✅ Menu berjaya dikemaskini!');
+        } else {
+          await push(ref(db, 'vendors'), newKitchen);
+          showToast('Menu berjaya diterbitkan ke direktori!');
+        }
+        document.getElementById('vendorForm').reset();
+        resetImageUpload();
+        editingVendorId = null;
+        closeRegisterModal();
+        resetFilters();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        showToast('Ralat rangkaian. Sila cuba lagi.');
+      }
+    }
+
+    // ==========================================
+    // 12b. THEME (CERAH / GELAP / AUTO)
+    // ==========================================
+    const darkMql = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+    function getThemePref() {
+      try { return localStorage.getItem('dapur_kita_theme') || 'system'; } catch (e) { return 'system'; }
+    }
+    function applyTheme() {
+      const pref = getThemePref();
+      const dark = pref === 'dark' || (pref === 'system' && !!(darkMql && darkMql.matches));
+      const root = document.documentElement;
+      root.classList.toggle('dark', dark);
+      root.style.colorScheme = dark ? 'dark' : 'light';
+      document.getElementById('metaThemeColor')?.setAttribute('content', dark ? '#0c0c0c' : '#f3f3f1');
+      const icon = document.getElementById('themeToggleIcon');
+      if (icon) icon.className = (dark ? 'fa-regular fa-sun' : 'fa-regular fa-moon') + ' text-[14px]';
+      document.querySelectorAll('[data-theme-opt]').forEach(b => b.classList.toggle('active', b.dataset.themeOpt === pref));
+    }
+    function setTheme(pref) {
+      triggerHaptic();
+      try { localStorage.setItem('dapur_kita_theme', pref); } catch (e) {}
+      applyTheme();
+    }
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+      showToast(isDark ? '☀️ Mod cerah diaktifkan' : '🌙 Mod gelap diaktifkan');
+    }
+    if (darkMql) {
+      const onSys = () => { if (getThemePref() === 'system') applyTheme(); };
+      darkMql.addEventListener ? darkMql.addEventListener('change', onSys) : darkMql.addListener(onSys);
+    }
+
+    // ==========================================
+    // 13. TOAST
+    // ==========================================
+    let toastTimeout = null;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMessage');
+      if (!toast || !toastMsg) return;
+      clearTimeout(toastTimeout);
+      toastMsg.innerText = message;
+      toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
+      }, 3000);
+    }
+
+    // ==========================================
+    // 14. GLOBAL BINDINGS
+    // ==========================================
+    Object.assign(window, {
+      switchMainTab, resetFilters, setCategoryFilter, setZoneFilter, clearSearch, toggleZonePanel,
+      handleSearchDebounced, setMenuLayout, openDetailModal, closeDetailModal,
+      openRegisterModal, closeRegisterModal, openActionChooser, closeActionChooser,
+      openPostModal, closePostModal, openInfoModal, closeInfoModal,
+      openRegionModal, closeRegionModal, selectRegion, selectComingSoonRegion,
+      toggleBookmark, toggleBookmarkView, handleImageUpload, removeUploadedImage,
+      handleVendorSubmit, handlePostSubmit, setCommunityFilter, togglePostLike,
+      toggleCommentBox, handleAddComment, requestNotificationPermissionPrompt,
+      installPWA, dismissInstallBanner, openEditModal, deleteVendor, deletePost,
+      deleteComment, startInteractiveTour, nextTourStep, prevTourStep,
+      dismissInteractiveTour, shareVendorDirect, openOrderModal, closeOrderModal,
+      adjustOrderQty, calculateOrderTotal, handleSendWhatsAppOrder, setTheme, toggleTheme
+    });
+
+    const modalCloseMap = {
+      detailModal: closeDetailModal, orderModal: closeOrderModal, registerModal: closeRegisterModal,
+      infoModal: closeInfoModal, actionModal: closeActionChooser, postModal: closePostModal, regionModal: closeRegionModal
+    };
+    window.addEventListener('click', (event) => {
+      const fn = modalCloseMap[event.target.id];
+      if (fn && event.target.classList.contains('modal-backdrop')) fn();
+    });
+    window.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      const open = document.querySelector('.modal-backdrop.active');
+      if (open && modalCloseMap[open.id]) modalCloseMap[open.id]();
+    });
+
+    // ==========================================
+    // 15. STARTUP
+    // ==========================================
+    setupPWAEnvironment();
+    checkNotificationStatus();
+    try { bookmarks = JSON.parse(localStorage.getItem('dapur_kita_bookmarks') || '[]') || []; } catch (e) { bookmarks = []; }
+    applyTheme();
+    updateGreeting();
+    updateLayoutToggleButtons();
+    updateRegionUI();
+    initRealtimeSync();
+    initSplashScreen();
+  </script>
+</body>
+</html>
