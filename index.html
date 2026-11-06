@@ -6,7 +6,7 @@
   <title>Dapur Kita | Direktori Makanan Home-based Taiping, Kamunting & Batu Kurau</title>
 
   <!-- PWA Meta Tags -->
-  <meta name="theme-color" content="#f3f3f1">
+  <meta name="theme-color" content="#f3f3f1" id="metaThemeColor">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="DapurKita">
@@ -19,6 +19,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+  <!-- Theme init (before paint, no flash) -->
+  <script>
+    (function () {
+      var pref = 'system';
+      try { pref = localStorage.getItem('dapur_kita_theme') || 'system'; } catch (e) {}
+      var dark = pref === 'dark' || (pref === 'system' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.classList.toggle('dark', dark);
+      document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+    })();
+  </script>
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -30,8 +41,11 @@
             serif: ['"Instrument Serif"', 'Georgia', 'serif'],
           },
           colors: {
-            ink: { DEFAULT: '#111111', 2: '#2b2b2b', soft: '#6b6b6b', mute: '#9a9a97' },
-            paper: { DEFAULT: '#f3f3f1', 2: '#ebebe8', card: '#ffffff' },
+            ink: { DEFAULT: 'rgb(var(--c-ink) / <alpha-value>)', 2: 'rgb(var(--c-ink-2) / <alpha-value>)', soft: 'rgb(var(--c-ink-soft) / <alpha-value>)', mute: 'rgb(var(--c-ink-mute) / <alpha-value>)' },
+            onink: 'rgb(var(--c-onink) / <alpha-value>)',
+            night: 'rgb(var(--c-night) / <alpha-value>)',
+            card: 'rgb(var(--c-card) / <alpha-value>)',
+            paper: { DEFAULT: 'rgb(var(--c-paper) / <alpha-value>)', 2: 'rgb(var(--c-paper-2) / <alpha-value>)', card: 'rgb(var(--c-card) / <alpha-value>)' },
             lime: { DEFAULT: '#d6f36a', deep: '#b9dc3c' },
             leaf: { 500: '#22c55e', 600: '#16a34a', 700: '#15803d' }
           },
@@ -45,17 +59,42 @@
   </script>
   <style>
     :root {
-      --bg: #f3f3f1;
-      --card: #ffffff;
-      --ink: #111111;
+      /* RGB channels for Tailwind tokens */
+      --c-ink: 17 17 17; --c-ink-2: 43 43 43; --c-ink-soft: 107 107 107; --c-ink-mute: 154 154 151;
+      --c-onink: 255 255 255; --c-night: 17 17 17;
+      --c-paper: 243 243 241; --c-paper-2: 235 235 232; --c-card: 255 255 255;
+      --bg: rgb(var(--c-paper));
+      --card: rgb(var(--c-card));
+      --ink: rgb(var(--c-ink));
+      --onink: rgb(var(--c-onink));
       --muted: #8d8d8a;
       --line: #e7e7e3;
       --chip: #e9e9e6;
+      --field: #f4f4f2;
+      --handle: #dcdcd8;
+      --glass: rgba(255,255,255,.85);
       --lime: #d6f36a;
       --spring: cubic-bezier(0.16, 1, 0.3, 1);
       --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
       --smooth: cubic-bezier(0.4, 0, 0.2, 1);
     }
+    html.dark {
+      --c-ink: 242 242 239; --c-ink-2: 214 214 210; --c-ink-soft: 160 160 156; --c-ink-mute: 118 118 114;
+      --c-onink: 17 17 17; --c-night: 30 30 30;
+      --c-paper: 12 12 12; --c-paper-2: 38 38 38; --c-card: 26 26 26;
+      --muted: #7c7c78;
+      --line: #2a2a2a;
+      --chip: #262626;
+      --field: #222222;
+      --handle: #3a3a3a;
+      --glass: rgba(24,24,24,.72);
+    }
+    html.dark .shadow-card { box-shadow: 0 1px 0 rgba(255,255,255,.04) inset, 0 8px 24px -12px rgba(0,0,0,.7); }
+    html.dark .bg-rose-50 { background-color: rgba(244,63,94,.14); }
+    html.dark .text-rose-700, html.dark .text-rose-600 { color: #fb7185; }
+    html.dark .border-rose-100 { border-color: rgba(244,63,94,.25); }
+    html.dark ::selection { background: #f2f2ef; color: #111; }
+    body, .bg-card, .bg-paper, .field, .chip, .icon-circle { transition: background-color .3s var(--smooth, ease), color .3s ease; }
     html { -webkit-tap-highlight-color: transparent; }
     body {
       background: var(--bg);
@@ -87,9 +126,10 @@
       box-shadow: 0 1px 2px rgba(17,17,17,.05), 0 4px 14px -6px rgba(17,17,17,.12);
       flex-shrink: 0;
     }
-    .icon-circle.dark { background: var(--ink); color: #fff; }
+    @media (max-width: 380px) { header .icon-circle { width: 38px; height: 38px; } }
+    .icon-circle.dark { background: var(--ink); color: var(--onink); }
     .icon-circle.glass {
-      background: rgba(255,255,255,.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     }
     .icon-circle.sm { width: 34px; height: 34px; font-size: 12px; }
 
@@ -97,13 +137,13 @@
     .chip {
       display: inline-flex; align-items: center; gap: .45rem;
       padding: .62rem 1.05rem; border-radius: 9999px;
-      background: var(--chip); color: #3a3a38;
+      background: var(--chip); color: rgb(var(--c-ink-2));
       font-size: 12.5px; font-weight: 600; white-space: nowrap;
       transition: transform .2s var(--bounce), background-color .2s ease, color .2s ease;
       touch-action: manipulation;
     }
     .chip:active { transform: scale(0.94); }
-    .chip.active { background: var(--ink); color: #fff; }
+    .chip.active { background: var(--ink); color: var(--onink); }
     .chip-sm { padding: .45rem .85rem; font-size: 11.5px; }
     .chip .dot { width: 7px; height: 7px; border-radius: 9999px; }
 
@@ -126,34 +166,36 @@
     .seg-btn {
       flex: 1; display: flex; align-items: center; justify-content: center; gap: .45rem;
       padding: .7rem .75rem; border-radius: 9999px;
-      font-size: 12.5px; font-weight: 700; color: #5f5f5c;
+      font-size: 12.5px; font-weight: 700; color: rgb(var(--c-ink-soft));
       transition: background-color .3s var(--spring), color .2s ease, box-shadow .3s var(--spring);
     }
-    .seg-btn.active { background: var(--ink); color: #fff; box-shadow: 0 6px 16px -8px rgba(17,17,17,.6); }
+    .seg-btn.active { background: var(--ink); color: var(--onink); box-shadow: 0 6px 16px -8px rgba(17,17,17,.6); }
     .seg-mini { background: var(--chip); border-radius: 9999px; padding: 3px; display: flex; }
     .seg-mini button {
-      width: 34px; height: 30px; border-radius: 9999px; color: #6b6b6b; font-size: 12px;
+      width: 34px; height: 30px; border-radius: 9999px; color: rgb(var(--c-ink-soft)); font-size: 12px;
       display: inline-flex; align-items: center; justify-content: center; transition: all .25s var(--spring);
     }
-    .seg-mini button.active { background: #fff; color: var(--ink); box-shadow: 0 2px 8px -3px rgba(17,17,17,.25); }
+    .seg-mini button.active { background: var(--card); color: var(--ink); box-shadow: 0 2px 8px -3px rgba(17,17,17,.25); }
 
     /* ---------- Fields ---------- */
     .field {
       width: 100%; padding: .85rem 1rem; border-radius: 16px;
-      background: #f4f4f2; border: 1.5px solid transparent;
+      background: var(--field); border: 1.5px solid transparent;
       font-size: 13px; font-weight: 500; color: var(--ink); outline: none;
       transition: border-color .2s ease, background-color .2s ease;
     }
     .field::placeholder { color: #a3a3a0; }
-    .field:focus { border-color: var(--ink); background: #fff; }
+    .field:focus { border-color: var(--ink); background: var(--card); }
     select.field { appearance: none; -webkit-appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
+    html.dark select.field { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23f2f2ef' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); }
+    html.dark select.field option, html.dark select.field optgroup { background: #1a1a1a; color: #f2f2ef; }
     .field-label { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 .4rem .25rem; }
-    .prefix-wrap { display: flex; align-items: stretch; background: #f4f4f2; border-radius: 16px; border: 1.5px solid transparent; transition: border-color .2s; }
-    .prefix-wrap:focus-within { border-color: var(--ink); background: #fff; }
+    .prefix-wrap { display: flex; align-items: stretch; background: var(--field); border-radius: 16px; border: 1.5px solid transparent; transition: border-color .2s; }
+    .prefix-wrap:focus-within { border-color: var(--ink); background: var(--card); }
     .prefix-wrap span { display: flex; align-items: center; padding: 0 .4rem 0 1rem; font-weight: 700; font-size: 13px; color: var(--ink); }
-    .prefix-wrap input { flex: 1; background: transparent; border: 0; outline: none; padding: .85rem 1rem .85rem .35rem; font-size: 13px; font-weight: 500; min-width: 0; }
+    .prefix-wrap input { flex: 1; background: transparent; border: 0; outline: none; color: var(--ink); padding: .85rem 1rem .85rem .35rem; font-size: 13px; font-weight: 500; min-width: 0; }
 
     /* ---------- Animations ---------- */
     @keyframes cardIn {
@@ -174,7 +216,7 @@
       transition: transform .42s var(--spring), opacity .25s var(--smooth);
     }
     .modal-backdrop.active .modal-sheet { transform: translateY(0); opacity: 1; }
-    .sheet-handle { width: 40px; height: 5px; border-radius: 9999px; background: #dcdcd8; margin: 10px auto 0; }
+    .sheet-handle { width: 40px; height: 5px; border-radius: 9999px; background: var(--handle); margin: 10px auto 0; }
     .modal-scroll-area {
       overflow-y: auto; -webkit-overflow-scrolling: touch;
       padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
@@ -188,6 +230,7 @@
       display: flex; align-items: center; gap: 4px;
       box-shadow: 0 20px 40px -14px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.06);
     }
+    html.dark .nav-dock { background: #1c1c1c; border: 1px solid rgba(255,255,255,.08); }
     .nav-btn {
       position: relative; height: 46px; min-width: 46px; padding: 0 14px;
       display: flex; align-items: center; justify-content: center;
@@ -201,13 +244,13 @@
       transition: max-width .35s var(--spring), opacity .25s ease, margin-left .35s var(--spring);
       overflow: hidden; display: inline-block;
     }
-    .nav-btn.active { background: #fff; color: var(--ink); padding: 0 18px; }
+    .nav-btn.active { background: #fff; color: #111; padding: 0 18px; }
     .nav-btn.active .nav-text { max-width: 90px; opacity: 1; margin-left: 8px; }
     .nav-btn.active i { animation: tabPop .4s var(--bounce); }
     .nav-btn:active { transform: scale(.93); }
     @keyframes tabPop { 0% { transform: scale(.7); } 60% { transform: scale(1.18); } 100% { transform: scale(1); } }
     .nav-add {
-      width: 46px; height: 46px; border-radius: 9999px; background: var(--lime); color: var(--ink);
+      width: 46px; height: 46px; border-radius: 9999px; background: var(--lime); color: #111;
       display: flex; align-items: center; justify-content: center; font-size: 17px;
       box-shadow: 0 6px 18px -6px rgba(214,243,106,.6);
     }
@@ -246,23 +289,23 @@
     #pointTourOverlay.active #tourFloatingCard { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
     .tour-content-fade { animation: tourText .28s var(--spring) forwards; }
     @keyframes tourText { 0% { opacity: 0; transform: translateY(6px); } 100% { opacity: 1; transform: translateY(0); } }
-    #tourCardArrow { position: absolute; width: 14px; height: 14px; background: #fff; transform: rotate(45deg); transition: left .3s var(--spring); z-index: 1; }
+    #tourCardArrow { position: absolute; width: 14px; height: 14px; background: var(--card); transform: rotate(45deg); transition: left .3s var(--spring); z-index: 1; }
     #tourCardArrow.arrow-top { top: -6px; }
     #tourCardArrow.arrow-bottom { bottom: -6px; }
 
     /* ---------- Region option ---------- */
-    .region-opt { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .8rem; border-radius: 22px; background: #f4f4f2; border: 1.5px solid transparent; text-align: left; }
-    .region-opt .r-icon { width: 44px; height: 44px; border-radius: 16px; background: #e6e6e2; color: #555; display: flex; align-items: center; justify-content: center; }
-    .region-opt.active { background: #fff; border-color: var(--ink); }
-    .region-opt.active .r-icon { background: var(--ink); color: #fff; }
+    .region-opt { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .8rem; border-radius: 22px; background: var(--field); border: 1.5px solid transparent; text-align: left; }
+    .region-opt .r-icon { width: 44px; height: 44px; border-radius: 16px; background: var(--chip); color: rgb(var(--c-ink-soft)); display: flex; align-items: center; justify-content: center; }
+    .region-opt.active { background: var(--card); border-color: var(--ink); }
+    .region-opt.active .r-icon { background: var(--ink); color: var(--onink); }
   </style>
 </head>
-<body class="text-ink font-sans antialiased selection:bg-ink selection:text-white min-h-screen">
+<body class="text-ink font-sans antialiased selection:bg-ink selection:text-onink min-h-screen">
 
   <!-- ================= SPLASH ================= -->
   <div id="splashScreen" class="fixed inset-0 z-[100] bg-paper flex flex-col items-center justify-center p-6 select-none">
     <div class="flex flex-col items-center max-w-xs w-full text-center">
-      <div class="splash-mark w-20 h-20 rounded-[28px] bg-ink flex items-center justify-center text-white shadow-float mb-6">
+      <div class="splash-mark w-20 h-20 rounded-[28px] bg-ink flex items-center justify-center text-onink shadow-float mb-6">
         <i class="fa-solid fa-utensils text-3xl"></i>
       </div>
       <h1 class="font-serif text-5xl text-ink leading-none">Dapur <span class="italic">Kita</span></h1>
@@ -279,7 +322,7 @@
 
   <!-- ================= FIREBASE STATUS BANNER ================= -->
   <div id="firebaseStatusBanner" class="hidden px-4 pt-3">
-    <div class="max-w-4xl mx-auto flex items-start gap-3 text-xs bg-white rounded-3xl p-3.5 shadow-card border border-rose-100">
+    <div class="max-w-4xl mx-auto flex items-start gap-3 text-xs bg-card rounded-3xl p-3.5 shadow-card border border-rose-100">
       <div class="icon-circle sm !bg-rose-50 !text-rose-600 !shadow-none"><i class="fa-solid fa-triangle-exclamation"></i></div>
       <div class="flex-1 min-w-0">
         <p id="firebaseStatusText" class="font-bold text-ink">Sambungan Firebase bermasalah.</p>
@@ -291,16 +334,16 @@
 
   <!-- ================= PWA INSTALL BANNER ================= -->
   <div id="pwaInstallBanner" class="hidden px-4 pt-3">
-    <div class="max-w-4xl mx-auto flex items-center justify-between gap-3 bg-ink text-white rounded-[26px] pl-3 pr-2 py-2 shadow-float">
+    <div class="max-w-4xl mx-auto flex items-center justify-between gap-3 bg-night text-white rounded-[26px] pl-3 pr-2 py-2 shadow-float">
       <div class="flex items-center gap-3 min-w-0">
-        <div class="w-10 h-10 rounded-2xl bg-lime text-ink flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-utensils"></i></div>
+        <div class="w-10 h-10 rounded-2xl bg-lime text-[#111] flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-utensils"></i></div>
         <div class="min-w-0">
           <p class="font-bold text-[13px] truncate">Pasang Dapur Kita</p>
           <p class="text-[11px] text-white/60 truncate">Akses pantas dari skrin utama</p>
         </div>
       </div>
       <div class="flex items-center gap-1 flex-shrink-0">
-        <button onclick="installPWA()" class="btn-tactile bg-white text-ink font-bold px-4 py-2 rounded-full text-xs">Pasang</button>
+        <button onclick="installPWA()" class="btn-tactile bg-white text-[#111] font-bold px-4 py-2 rounded-full text-xs">Pasang</button>
         <button onclick="dismissInstallBanner()" class="btn-tactile w-8 h-8 rounded-full text-white/60 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
       </div>
     </div>
@@ -310,7 +353,7 @@
   <header class="max-w-4xl mx-auto px-5 pt-4 safe-pt">
     <div class="flex items-center justify-between gap-3">
       <button onclick="switchMainTab('catalog'); resetFilters();" class="flex items-center gap-2 min-w-0 btn-tactile">
-        <div class="w-9 h-9 rounded-[14px] bg-ink text-white flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-utensils text-sm"></i></div>
+        <div class="w-9 h-9 rounded-[14px] bg-ink text-onink flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-utensils text-sm"></i></div>
         <span class="font-serif text-[22px] leading-none truncate">Dapur <span class="italic">Kita</span></span>
       </button>
 
@@ -323,9 +366,12 @@
         </button>
         <button onclick="requestNotificationPermissionPrompt()" id="topNotifyBtn" class="btn-tactile icon-circle relative" title="Aktifkan Notifikasi Komuniti">
           <i class="fa-regular fa-bell text-[14px]" id="topBellIcon"></i>
-          <span id="unreadTopBadge" class="hidden absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-ink text-[9px] font-bold text-white rounded-full flex items-center justify-center pulse-badge ring-2 ring-paper">0</span>
+          <span id="unreadTopBadge" class="hidden absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-ink text-[9px] font-bold text-onink rounded-full flex items-center justify-center pulse-badge ring-2 ring-paper">0</span>
         </button>
-        <button onclick="openRegisterModal()" class="btn-tactile hidden sm:inline-flex items-center gap-2 bg-ink text-white text-xs font-bold pl-4 pr-5 h-[42px] rounded-full">
+        <button id="themeToggleBtn" onclick="toggleTheme()" class="btn-tactile icon-circle" title="Tukar mod gelap / cerah">
+          <i id="themeToggleIcon" class="fa-regular fa-moon text-[14px]"></i>
+        </button>
+        <button onclick="openRegisterModal()" class="btn-tactile hidden sm:inline-flex items-center gap-2 bg-ink text-onink text-xs font-bold pl-4 pr-5 h-[42px] rounded-full">
           <i class="fa-solid fa-plus"></i><span>Daftar Dapur</span>
         </button>
       </div>
@@ -335,8 +381,8 @@
     <div class="mt-6">
       <p id="greetingSmall" class="text-[13px] font-semibold text-ink-soft">Selamat datang 👋</p>
       <h2 class="font-serif text-[44px] sm:text-[54px] leading-[0.95] mt-1.5">Lapar? <span class="italic text-ink-soft">Kita ada.</span></h2>
-      <button onclick="openRegionModal()" id="headerRegionBtn" class="btn-tactile mt-3.5 inline-flex items-center gap-2 bg-white pl-2 pr-3.5 py-1.5 rounded-full shadow-card text-[12px] font-bold">
-        <span class="w-6 h-6 rounded-full bg-ink text-white flex items-center justify-center"><i class="fa-solid fa-location-dot text-[10px]"></i></span>
+      <button onclick="openRegionModal()" id="headerRegionBtn" class="btn-tactile mt-3.5 inline-flex items-center gap-2 bg-card pl-2 pr-3.5 py-1.5 rounded-full shadow-card text-[12px] font-bold">
+        <span class="w-6 h-6 rounded-full bg-ink text-onink flex items-center justify-center"><i class="fa-solid fa-location-dot text-[10px]"></i></span>
         <span id="currentHeaderRegionText" class="truncate max-w-[180px] sm:max-w-none">Taiping & Kamunting</span>
         <i class="fa-solid fa-chevron-down text-[9px] text-ink-mute"></i>
       </button>
@@ -351,7 +397,7 @@
       </button>
       <button id="tabBtnCommunity" onclick="switchMainTab('community')" class="seg-btn btn-tactile relative">
         <i class="fa-regular fa-comments"></i><span>Komuniti</span>
-        <span id="communityTabBadge" class="hidden bg-lime text-ink text-[10px] px-1.5 rounded-full font-bold ml-0.5">0</span>
+        <span id="communityTabBadge" class="hidden bg-lime text-[#111] text-[10px] px-1.5 rounded-full font-bold ml-0.5">0</span>
       </button>
     </div>
   </section>
@@ -363,17 +409,17 @@
       <div class="flex items-center gap-2">
         <div class="relative flex-1">
           <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-ink text-sm"></i>
-          <input type="text" id="searchInput" oninput="handleSearchDebounced(event)" placeholder="Cari menu, kuih atau dapur..." class="w-full pl-12 pr-10 h-[54px] rounded-full bg-white shadow-card outline-none text-[13px] font-medium placeholder:text-ink-mute focus:ring-2 focus:ring-ink transition">
+          <input type="text" id="searchInput" oninput="handleSearchDebounced(event)" placeholder="Cari menu, kuih atau dapur..." class="w-full pl-12 pr-10 h-[54px] rounded-full bg-card shadow-card outline-none text-[13px] font-medium placeholder:text-ink-mute focus:ring-2 focus:ring-ink transition">
           <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-4 top-1/2 -translate-y-1/2 text-ink-mute hover:text-ink p-1"><i class="fa-solid fa-circle-xmark"></i></button>
         </div>
-        <button id="zoneToggleBtn" onclick="toggleZonePanel()" class="btn-tactile w-[54px] h-[54px] rounded-full bg-ink text-white flex items-center justify-center relative flex-shrink-0" title="Tapis Zon Kawasan">
+        <button id="zoneToggleBtn" onclick="toggleZonePanel()" class="btn-tactile w-[54px] h-[54px] rounded-full bg-ink text-onink flex items-center justify-center relative flex-shrink-0" title="Tapis Zon Kawasan">
           <i class="fa-solid fa-sliders"></i>
           <span id="zoneActiveDot" class="hidden absolute top-3 right-3 w-2 h-2 rounded-full bg-lime"></span>
         </button>
       </div>
 
       <!-- Zone panel -->
-      <div id="zonePanel" class="hidden mt-3 bg-white rounded-[28px] p-4 shadow-card">
+      <div id="zonePanel" class="hidden mt-3 bg-card rounded-[28px] p-4 shadow-card">
         <div class="flex items-center justify-between mb-3">
           <span class="text-[11px] font-bold uppercase tracking-[0.08em] text-ink-mute">Zon Kawasan & Kampung</span>
           <button onclick="setZoneFilter('all', null)" class="text-[12px] font-bold text-ink underline underline-offset-2">Tunjuk semua</button>
@@ -468,12 +514,12 @@
 
       <div id="vendorGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
 
-      <div id="emptyState" class="hidden text-center py-14 px-6 bg-white rounded-[32px] shadow-card animate-grid-item">
+      <div id="emptyState" class="hidden text-center py-14 px-6 bg-card rounded-[32px] shadow-card animate-grid-item">
         <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-paper flex items-center justify-center text-2xl"><i class="fa-solid fa-bowl-food"></i></div>
         <h3 class="font-serif text-[28px] leading-none">Tiada menu <span class="italic">dijumpai</span></h3>
         <p id="emptyStateMessage" class="text-[13px] text-ink-soft max-w-xs mx-auto mt-2">Cuba pilih zon lain atau cari 'nasi', 'brownies', atau 'sambal'.</p>
         <p id="emptyStateErrorDetail" class="hidden text-[11px] text-rose-700 bg-rose-50 rounded-2xl px-3 py-2 mt-3 max-w-xs mx-auto"></p>
-        <button onclick="resetFilters()" class="btn-tactile mt-5 px-6 h-12 bg-ink text-white rounded-full text-[13px] font-bold">Tunjuk semua menu</button>
+        <button onclick="resetFilters()" class="btn-tactile mt-5 px-6 h-12 bg-ink text-onink rounded-full text-[13px] font-bold">Tunjuk semua menu</button>
       </div>
     </section>
   </div>
@@ -481,7 +527,7 @@
   <!-- ================= COMMUNITY VIEW ================= -->
   <div id="communityView" class="hidden transition-opacity duration-300">
     <section class="max-w-4xl mx-auto px-5 pt-4" id="tourCommunitySection">
-      <div id="notificationBanner" class="bg-white rounded-[28px] p-3 pl-4 mb-3 shadow-card flex items-center justify-between gap-3">
+      <div id="notificationBanner" class="bg-card rounded-[28px] p-3 pl-4 mb-3 shadow-card flex items-center justify-between gap-3">
         <div class="flex items-center gap-3 min-w-0">
           <div class="icon-circle !bg-paper !shadow-none"><i class="fa-regular fa-bell"></i></div>
           <div class="min-w-0">
@@ -489,17 +535,17 @@
             <div class="text-[11px] text-ink-soft leading-snug">Alert bila jiran buka open order atau balas anda.</div>
           </div>
         </div>
-        <button onclick="requestNotificationPermissionPrompt()" id="enableNotifyBtn" class="btn-tactile bg-ink text-white px-4 h-10 rounded-full font-bold text-xs flex-shrink-0">Aktifkan</button>
+        <button onclick="requestNotificationPermissionPrompt()" id="enableNotifyBtn" class="btn-tactile bg-ink text-onink px-4 h-10 rounded-full font-bold text-xs flex-shrink-0">Aktifkan</button>
       </div>
 
-      <div class="relative overflow-hidden bg-ink text-white rounded-[32px] p-6 mb-5">
+      <div class="relative overflow-hidden bg-night text-white rounded-[32px] p-6 mb-5">
         <div class="absolute -right-10 -top-10 w-44 h-44 rounded-full bg-lime/20 blur-2xl pointer-events-none"></div>
         <span class="glass-chip !bg-white/10">Papan warga · Taiping, Kamunting & Batu Kurau</span>
         <h2 class="font-serif text-[40px] leading-[0.95] mt-4">Tanya port <span class="italic text-lime">makan.</span></h2>
         <p class="text-[13px] text-white/65 mt-2 max-w-md leading-relaxed">Open order kuih hari ini, review jujur, cari runner, atau minta cadangan menu sekitar taman & kampung anda.</p>
-        <button onclick="openPostModal()" class="btn-tactile mt-5 inline-flex items-center gap-3 bg-white text-ink font-bold text-[13px] pl-5 pr-1.5 h-12 rounded-full">
+        <button onclick="openPostModal()" class="btn-tactile mt-5 inline-flex items-center gap-3 bg-white text-[#111] font-bold text-[13px] pl-5 pr-1.5 h-12 rounded-full">
           <span>Tulis hantaran</span>
-          <span class="w-9 h-9 rounded-full bg-ink text-white flex items-center justify-center"><i class="fa-solid fa-pen text-[11px]"></i></span>
+          <span class="w-9 h-9 rounded-full bg-[#111] text-white flex items-center justify-center"><i class="fa-solid fa-pen text-[11px]"></i></span>
         </button>
       </div>
 
@@ -519,11 +565,11 @@
 
       <div id="communityFeed" class="space-y-3"></div>
 
-      <div id="communityEmptyState" class="hidden text-center py-14 px-6 bg-white rounded-[32px] shadow-card animate-grid-item">
+      <div id="communityEmptyState" class="hidden text-center py-14 px-6 bg-card rounded-[32px] shadow-card animate-grid-item">
         <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-paper flex items-center justify-center text-2xl"><i class="fa-regular fa-comment-dots"></i></div>
         <h3 class="font-serif text-[28px] leading-none">Belum ada <span class="italic">topik</span></h3>
         <p class="text-[13px] text-ink-soft max-w-xs mx-auto mt-2">Jadilah yang pertama berkongsi atau bertanya tentang makanan di sekitar anda!</p>
-        <button onclick="openPostModal()" class="btn-tactile mt-5 px-6 h-12 bg-ink text-white rounded-full text-[13px] font-bold">Mula topik baharu</button>
+        <button onclick="openPostModal()" class="btn-tactile mt-5 px-6 h-12 bg-ink text-onink rounded-full text-[13px] font-bold">Mula topik baharu</button>
       </div>
     </section>
   </div>
@@ -550,7 +596,7 @@
 
   <!-- ================= REGION MODAL ================= -->
   <div id="regionModal" class="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
-    <div class="modal-sheet bg-white w-full sm:max-w-sm rounded-t-[32px] sm:rounded-[32px] shadow-2xl">
+    <div class="modal-sheet bg-card w-full sm:max-w-sm rounded-t-[32px] sm:rounded-[32px] shadow-2xl">
       <div class="sheet-handle sm:hidden"></div>
       <div class="p-5 modal-scroll-area">
         <div class="flex items-start justify-between mb-5">
@@ -569,7 +615,7 @@
                 <div class="text-[11px] text-ink-soft">Katalog & komuniti aktif</div>
               </div>
             </div>
-            <span id="regionBadgeTaiping" class="w-6 h-6 rounded-full bg-ink text-white flex items-center justify-center text-[10px]"><i class="fa-solid fa-check"></i></span>
+            <span id="regionBadgeTaiping" class="w-6 h-6 rounded-full bg-ink text-onink flex items-center justify-center text-[10px]"><i class="fa-solid fa-check"></i></span>
           </button>
           <button id="regionBtnBatuKurau" onclick="selectRegion('Batu Kurau')" class="region-opt btn-tactile">
             <div class="flex items-center gap-3">
@@ -579,7 +625,7 @@
                 <div class="text-[11px] text-ink-soft">Lembah durian & dapur kampung</div>
               </div>
             </div>
-            <span id="regionBadgeBatuKurau" class="hidden w-6 h-6 rounded-full bg-ink text-white flex items-center justify-center text-[10px]"><i class="fa-solid fa-check"></i></span>
+            <span id="regionBadgeBatuKurau" class="hidden w-6 h-6 rounded-full bg-ink text-onink flex items-center justify-center text-[10px]"><i class="fa-solid fa-check"></i></span>
           </button>
           <button onclick="selectComingSoonRegion('Selama')" class="region-opt btn-tactile opacity-70">
             <div class="flex items-center gap-3">
@@ -589,7 +635,7 @@
                 <div class="text-[11px] text-ink-soft">Daerah Selama & sekitar</div>
               </div>
             </div>
-            <span class="text-[10px] font-bold bg-lime text-ink px-2.5 py-1 rounded-full">Akan datang</span>
+            <span class="text-[10px] font-bold bg-lime text-[#111] px-2.5 py-1 rounded-full">Akan datang</span>
           </button>
         </div>
         <p class="text-[11px] text-ink-mute mt-4 text-center">Liputan zon lain akan ditambah berperingkat.</p>
@@ -602,13 +648,13 @@
     <div id="tourSpotlightBox"><div class="tour-ping-ring"></div></div>
     <div id="tourFloatingCard">
       <div id="tourCardArrow"></div>
-      <div class="bg-white text-ink rounded-[28px] p-5 shadow-2xl relative">
+      <div class="bg-card text-ink rounded-[28px] p-5 shadow-2xl relative">
         <div class="flex items-center justify-between mb-3">
           <span id="pointTourBadge" class="text-[10px] font-bold uppercase tracking-wider bg-paper px-3 py-1 rounded-full">Point 1 / 6</span>
           <button onclick="dismissInteractiveTour(true)" class="btn-tactile text-ink-mute hover:text-ink text-xs font-bold px-2 py-0.5">Langkau <i class="fa-solid fa-xmark ml-0.5"></i></button>
         </div>
         <div class="flex items-start gap-3.5 mb-4" id="pointTourContentWrap">
-          <div id="pointTourIconWrap" class="w-11 h-11 rounded-full bg-ink text-white flex items-center justify-center flex-shrink-0">
+          <div id="pointTourIconWrap" class="w-11 h-11 rounded-full bg-ink text-onink flex items-center justify-center flex-shrink-0">
             <i class="fa-solid fa-location-dot" id="pointTourIcon"></i>
           </div>
           <div class="min-w-0">
@@ -617,7 +663,7 @@
           </div>
         </div>
         <div id="pointTourActionArea" class="hidden mb-4">
-          <button onclick="installPWA()" class="btn-tactile w-full h-11 rounded-full bg-lime text-ink font-bold text-xs flex items-center justify-center gap-2">
+          <button onclick="installPWA()" class="btn-tactile w-full h-11 rounded-full bg-lime text-[#111] font-bold text-xs flex items-center justify-center gap-2">
             <i class="fa-solid fa-download"></i><span>Pasang Dapur Kita Sekarang</span>
           </button>
         </div>
@@ -625,7 +671,7 @@
           <div class="flex items-center gap-1.5" id="pointTourDots"></div>
           <div class="flex items-center gap-2">
             <button id="pointTourPrevBtn" onclick="prevTourStep()" class="btn-tactile hidden px-4 h-10 rounded-full bg-paper text-ink text-xs font-bold">Kembali</button>
-            <button id="pointTourNextBtn" onclick="nextTourStep()" class="btn-tactile px-5 h-10 rounded-full bg-ink text-white font-bold text-xs">Seterusnya <i class="fa-solid fa-arrow-right ml-1"></i></button>
+            <button id="pointTourNextBtn" onclick="nextTourStep()" class="btn-tactile px-5 h-10 rounded-full bg-ink text-onink font-bold text-xs">Seterusnya <i class="fa-solid fa-arrow-right ml-1"></i></button>
           </div>
         </div>
       </div>
@@ -634,7 +680,7 @@
 
   <!-- ================= ACTION CHOOSER ================= -->
   <div id="actionModal" class="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
-    <div class="modal-sheet bg-white w-full sm:max-w-sm rounded-t-[32px] sm:rounded-[32px] shadow-2xl">
+    <div class="modal-sheet bg-card w-full sm:max-w-sm rounded-t-[32px] sm:rounded-[32px] shadow-2xl">
       <div class="sheet-handle sm:hidden"></div>
       <div class="p-5 modal-scroll-area">
         <div class="flex items-start justify-between mb-5">
@@ -642,8 +688,8 @@
           <button onclick="closeActionChooser()" class="btn-tactile icon-circle sm !bg-paper !shadow-none"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="space-y-2.5">
-          <button onclick="closeActionChooser(); openRegisterModal()" class="btn-tactile w-full p-4 rounded-[26px] bg-ink text-white text-left flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-lime text-ink flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-store"></i></div>
+          <button onclick="closeActionChooser(); openRegisterModal()" class="btn-tactile w-full p-4 rounded-[26px] bg-night text-white text-left flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-lime text-[#111] flex items-center justify-center text-lg flex-shrink-0"><i class="fa-solid fa-store"></i></div>
             <div class="flex-1 min-w-0">
               <div class="text-[14px] font-bold">Iklan menu dapur rumah</div>
               <div class="text-[11px] text-white/60">Terima pesanan terus ke WhatsApp, percuma</div>
@@ -651,7 +697,7 @@
             <i class="fa-solid fa-arrow-right text-white/50"></i>
           </button>
           <button onclick="closeActionChooser(); openPostModal()" class="btn-tactile w-full p-4 rounded-[26px] bg-paper text-ink text-left flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-lg flex-shrink-0"><i class="fa-regular fa-comments"></i></div>
+            <div class="w-12 h-12 rounded-full bg-card flex items-center justify-center text-lg flex-shrink-0"><i class="fa-regular fa-comments"></i></div>
             <div class="flex-1 min-w-0">
               <div class="text-[14px] font-bold">Buka diskusi warga</div>
               <div class="text-[11px] text-ink-soft">Cari makanan, open order, runner, review</div>
@@ -665,7 +711,7 @@
 
   <!-- ================= POST MODAL ================= -->
   <div id="postModal" class="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
-    <div class="modal-sheet bg-white w-full sm:max-w-md rounded-t-[32px] sm:rounded-[32px] shadow-2xl max-h-[92vh] flex flex-col">
+    <div class="modal-sheet bg-card w-full sm:max-w-md rounded-t-[32px] sm:rounded-[32px] shadow-2xl max-h-[92vh] flex flex-col">
       <div class="sheet-handle sm:hidden"></div>
       <div class="px-5 pt-4 pb-3 flex items-start justify-between flex-shrink-0">
         <div>
@@ -740,14 +786,14 @@
           <label class="field-label">No. WhatsApp (pilihan)</label>
           <div class="prefix-wrap"><span>+60</span><input type="tel" id="postWhatsApp" placeholder="123456789"></div>
         </div>
-        <button type="submit" class="btn-tactile w-full h-14 bg-ink text-white font-bold rounded-full text-[14px]">Hantar & maklumkan komuniti</button>
+        <button type="submit" class="btn-tactile w-full h-14 bg-ink text-onink font-bold rounded-full text-[14px]">Hantar & maklumkan komuniti</button>
       </form>
     </div>
   </div>
 
   <!-- ================= DETAIL MODAL ================= -->
   <div id="detailModal" class="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
-    <div class="modal-sheet bg-white w-full sm:max-w-md rounded-t-[32px] sm:rounded-[32px] overflow-hidden shadow-2xl max-h-[94vh] flex flex-col">
+    <div class="modal-sheet bg-card w-full sm:max-w-md rounded-t-[32px] sm:rounded-[32px] overflow-hidden shadow-2xl max-h-[94vh] flex flex-col">
       <div class="relative h-72 w-full bg-paper-2 flex-shrink-0">
         <img id="modalImg" src="" alt="Menu" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80'">
         <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/30 to-transparent pointer-events-none"></div>
@@ -757,13 +803,13 @@
           <button id="modalBookmarkBtn" onclick="toggleBookmark(window.__currentDetailId)" class="btn-tactile icon-circle glass" title="Simpan"><i id="modalBookmarkIcon" class="fa-regular fa-heart"></i></button>
         </div>
       </div>
-      <div class="relative -mt-8 bg-white rounded-t-[30px] px-5 pt-5 modal-scroll-area">
+      <div class="relative -mt-8 bg-card rounded-t-[30px] px-5 pt-5 modal-scroll-area">
         <div class="w-10 h-1 rounded-full bg-paper-2 mx-auto -mt-1 mb-4"></div>
         <div class="flex items-start justify-between gap-3">
           <div class="min-w-0">
             <h3 id="modalTitle" class="font-serif text-[34px] leading-[0.98]"></h3>
             <p class="text-[13px] font-semibold text-ink-soft mt-2 flex items-center gap-2">
-              <span class="w-5 h-5 rounded-full bg-ink text-white inline-flex items-center justify-center text-[9px]"><i class="fa-solid fa-utensils"></i></span>
+              <span class="w-5 h-5 rounded-full bg-ink text-onink inline-flex items-center justify-center text-[9px]"><i class="fa-solid fa-utensils"></i></span>
               <span id="modalKitchen"></span>
             </p>
           </div>
@@ -788,13 +834,13 @@
         <p id="modalDesc" class="text-[13px] text-ink-soft leading-relaxed mt-5"></p>
 
         <div class="mt-4 flex items-center gap-3 bg-paper rounded-[20px] p-3">
-          <div class="w-9 h-9 rounded-full bg-white flex items-center justify-center flex-shrink-0"><i class="fa-brands fa-whatsapp text-leaf-600 text-lg"></i></div>
+          <div class="w-9 h-9 rounded-full bg-card flex items-center justify-center flex-shrink-0"><i class="fa-brands fa-whatsapp text-leaf-600 text-lg"></i></div>
           <p class="text-[11.5px] text-ink-soft leading-snug">Pesanan terus ke WhatsApp pemilik dapur, <b class="text-ink">tanpa komisen</b> orang tengah.</p>
         </div>
 
-        <button id="modalOrderBtn" onclick="openOrderModal(window.__currentDetailId)" class="btn-tactile mt-5 w-full h-14 rounded-full bg-ink text-white font-bold text-[14px] flex items-center justify-between pl-6 pr-1.5">
+        <button id="modalOrderBtn" onclick="openOrderModal(window.__currentDetailId)" class="btn-tactile mt-5 w-full h-14 rounded-full bg-ink text-onink font-bold text-[14px] flex items-center justify-between pl-6 pr-1.5">
           <span>Tempah melalui WhatsApp</span>
-          <span class="w-11 h-11 rounded-full bg-lime text-ink flex items-center justify-center"><i class="fa-brands fa-whatsapp text-lg"></i></span>
+          <span class="w-11 h-11 rounded-full bg-lime text-[#111] flex items-center justify-center"><i class="fa-brands fa-whatsapp text-lg"></i></span>
         </button>
 
         <div id="ownerActions" class="hidden mt-2 grid grid-cols-2 gap-2">
@@ -807,7 +853,7 @@
 
   <!-- ================= ORDER MODAL ================= -->
   <div id="orderModal" class="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
-    <div class="modal-sheet bg-white w-full sm:max-w-md rounded-t-[32px] sm:rounded-[32px] shadow-2xl max-h-[94vh] flex flex-col">
+    <div class="modal-sheet bg-card w-full sm:max-w-md rounded-t-[32px] sm:rounded-[32px] shadow-2xl max-h-[94vh] flex flex-col">
       <div class="sheet-handle sm:hidden"></div>
       <div class="px-5 pt-4 pb-3 flex items-start justify-between flex-shrink-0">
         <div>
@@ -824,7 +870,7 @@
             <h4 class="font-bold text-[14px] leading-snug truncate" id="orderMenuTitle"></h4>
             <div class="flex items-center justify-between mt-1 gap-2">
               <span class="text-[13px] font-bold" id="orderMenuPrice"></span>
-              <span class="text-[10px] font-bold bg-white px-2 py-0.5 rounded-full truncate" id="orderMenuStatus"></span>
+              <span class="text-[10px] font-bold bg-card px-2 py-0.5 rounded-full truncate" id="orderMenuStatus"></span>
             </div>
           </div>
         </div>
@@ -841,9 +887,9 @@
           <div>
             <label class="field-label">Kuantiti *</label>
             <div class="flex items-center bg-paper rounded-full p-1">
-              <button type="button" onclick="adjustOrderQty(-1)" class="btn-tactile w-9 h-9 rounded-full bg-white font-bold shadow-sm">−</button>
+              <button type="button" onclick="adjustOrderQty(-1)" class="btn-tactile w-9 h-9 rounded-full bg-card font-bold shadow-sm">−</button>
               <input type="number" id="orderQty" min="1" max="100" value="1" onchange="calculateOrderTotal()" class="w-full text-center font-bold text-[14px] bg-transparent outline-none">
-              <button type="button" onclick="adjustOrderQty(1)" class="btn-tactile w-9 h-9 rounded-full bg-ink text-white font-bold">+</button>
+              <button type="button" onclick="adjustOrderQty(1)" class="btn-tactile w-9 h-9 rounded-full bg-ink text-onink font-bold">+</button>
             </div>
           </div>
           <div>
@@ -875,9 +921,9 @@
           <span class="font-serif text-[32px] leading-none" id="orderTotalText">RM 0.00</span>
         </div>
 
-        <button type="submit" class="btn-tactile w-full h-14 rounded-full bg-ink text-white font-bold text-[14px] flex items-center justify-between pl-6 pr-1.5">
+        <button type="submit" class="btn-tactile w-full h-14 rounded-full bg-ink text-onink font-bold text-[14px] flex items-center justify-between pl-6 pr-1.5">
           <span>Hantar ke WhatsApp penjual</span>
-          <span class="w-11 h-11 rounded-full bg-lime text-ink flex items-center justify-center"><i class="fa-brands fa-whatsapp text-lg"></i></span>
+          <span class="w-11 h-11 rounded-full bg-lime text-[#111] flex items-center justify-center"><i class="fa-brands fa-whatsapp text-lg"></i></span>
         </button>
       </form>
     </div>
@@ -885,7 +931,7 @@
 
   <!-- ================= REGISTER MODAL ================= -->
   <div id="registerModal" class="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
-    <div class="modal-sheet bg-white w-full sm:max-w-md rounded-t-[32px] sm:rounded-[32px] shadow-2xl max-h-[94vh] flex flex-col">
+    <div class="modal-sheet bg-card w-full sm:max-w-md rounded-t-[32px] sm:rounded-[32px] shadow-2xl max-h-[94vh] flex flex-col">
       <div class="sheet-handle sm:hidden"></div>
       <div class="px-5 pt-4 pb-3 flex items-start justify-between flex-shrink-0">
         <div>
@@ -900,7 +946,7 @@
           <input type="file" id="regImageInput" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
           <div id="imageDropzone" onclick="document.getElementById('regImageInput').click()" class="relative bg-paper hover:bg-paper-2 rounded-[26px] cursor-pointer transition flex flex-col items-center justify-center min-h-[160px] overflow-hidden">
             <div id="uploadPrompt" class="flex flex-col items-center gap-2 py-4 text-center">
-              <div class="w-12 h-12 rounded-full bg-ink text-white flex items-center justify-center"><i class="fa-solid fa-camera"></i></div>
+              <div class="w-12 h-12 rounded-full bg-ink text-onink flex items-center justify-center"><i class="fa-solid fa-camera"></i></div>
               <div class="font-bold text-[13px]">Pilih gambar dari galeri</div>
               <p class="text-[11px] text-ink-mute">JPG, PNG atau WebP · dimampatkan automatik</p>
             </div>
@@ -996,14 +1042,14 @@
           <label class="field-label">Keterangan ringkas</label>
           <textarea id="regDesc" rows="2" placeholder="Bahan segar, resepi turun-temurun, dimasak setiap pagi." class="field"></textarea>
         </div>
-        <button type="submit" id="registerSubmitBtn" class="btn-tactile w-full h-14 bg-ink text-white font-bold rounded-full text-[14px]">Terbitkan Menu Ke Direktori</button>
+        <button type="submit" id="registerSubmitBtn" class="btn-tactile w-full h-14 bg-ink text-onink font-bold rounded-full text-[14px]">Terbitkan Menu Ke Direktori</button>
       </form>
     </div>
   </div>
 
   <!-- ================= INFO MODAL ================= -->
   <div id="infoModal" class="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
-    <div class="modal-sheet bg-white w-full sm:max-w-sm rounded-t-[32px] sm:rounded-[32px] shadow-2xl max-h-[92vh] flex flex-col">
+    <div class="modal-sheet bg-card w-full sm:max-w-sm rounded-t-[32px] sm:rounded-[32px] shadow-2xl max-h-[92vh] flex flex-col">
       <div class="sheet-handle sm:hidden"></div>
       <div class="p-5 modal-scroll-area">
         <div class="flex items-start justify-between mb-4">
@@ -1015,21 +1061,30 @@
         </div>
         <p class="text-[13px] text-ink-soft leading-relaxed">Inisiatif komuniti bebas (PWA) yang menghubungkan pembeli dan dapur rumah sekitar Taiping, Kamunting & Batu Kurau secara terus.</p>
 
-        <div class="bg-ink text-white rounded-[26px] p-4 mt-4">
+        <div class="bg-night text-white rounded-[26px] p-4 mt-4">
           <div class="flex items-center gap-3">
-            <div class="w-11 h-11 rounded-full bg-lime text-ink flex items-center justify-center"><i class="fa-solid fa-mobile-screen"></i></div>
+            <div class="w-11 h-11 rounded-full bg-lime text-[#111] flex items-center justify-center"><i class="fa-solid fa-mobile-screen"></i></div>
             <div>
               <p class="font-bold text-[14px]">Pasang aplikasi</p>
               <p class="text-[11px] text-white/60">Tanpa Play Store atau App Store</p>
             </div>
           </div>
-          <button onclick="closeInfoModal(); installPWA();" class="btn-tactile mt-4 w-full h-11 rounded-full bg-white text-ink font-bold text-xs flex items-center justify-center gap-2"><i class="fa-solid fa-download"></i> Pasang sekarang</button>
+          <button onclick="closeInfoModal(); installPWA();" class="btn-tactile mt-4 w-full h-11 rounded-full bg-white text-[#111] font-bold text-xs flex items-center justify-center gap-2"><i class="fa-solid fa-download"></i> Pasang sekarang</button>
         </div>
 
         <div class="mt-3 space-y-2">
           <div class="flex items-center gap-3 bg-paper rounded-[20px] p-3"><i class="fa-solid fa-bolt w-5 text-center"></i><span class="text-[12px] font-medium">Pasang ke skrin utama dalam 2 saat</span></div>
           <div class="flex items-center gap-3 bg-paper rounded-[20px] p-3"><i class="fa-regular fa-bell w-5 text-center"></i><span class="text-[12px] font-medium">Notifikasi bila ada open order baru</span></div>
           <div class="flex items-center gap-3 bg-paper rounded-[20px] p-3"><i class="fa-brands fa-whatsapp w-5 text-center"></i><span class="text-[12px] font-medium">Pesanan 100% terus, tiada komisen</span></div>
+        </div>
+
+        <div class="mt-4">
+          <p class="field-label">Tema paparan</p>
+          <div class="seg-track" id="themeSegment">
+            <button type="button" data-theme-opt="light" onclick="setTheme('light')" class="seg-btn btn-tactile !py-2.5"><i class="fa-regular fa-sun"></i><span>Cerah</span></button>
+            <button type="button" data-theme-opt="dark" onclick="setTheme('dark')" class="seg-btn btn-tactile !py-2.5"><i class="fa-regular fa-moon"></i><span>Gelap</span></button>
+            <button type="button" data-theme-opt="system" onclick="setTheme('system')" class="seg-btn btn-tactile !py-2.5"><i class="fa-solid fa-circle-half-stroke"></i><span>Auto</span></button>
+          </div>
         </div>
 
         <button onclick="closeInfoModal(); startInteractiveTour(0);" class="btn-tactile mt-4 w-full h-12 rounded-full bg-paper text-ink font-bold text-xs flex items-center justify-center gap-2">
@@ -1041,8 +1096,8 @@
   </div>
 
   <!-- ================= TOAST ================= -->
-  <div id="toast" class="fixed left-1/2 -translate-x-1/2 z-[140] bg-ink text-white text-[12.5px] font-semibold pl-3 pr-5 py-2.5 rounded-full shadow-float transition-all duration-300 opacity-0 pointer-events-none -translate-y-4 flex items-center gap-2.5 max-w-[calc(100vw-2rem)]" style="top: calc(14px + env(safe-area-inset-top));">
-    <span class="w-6 h-6 rounded-full bg-lime text-ink flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-check text-[10px]" id="toastIcon"></i></span>
+  <div id="toast" class="fixed left-1/2 -translate-x-1/2 z-[140] bg-ink text-onink text-[12.5px] font-semibold pl-3 pr-5 py-2.5 rounded-full shadow-float transition-all duration-300 opacity-0 pointer-events-none -translate-y-4 flex items-center gap-2.5 max-w-[calc(100vw-2rem)]" style="top: calc(14px + env(safe-area-inset-top));">
+    <span class="w-6 h-6 rounded-full bg-lime text-[#111] flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-check text-[10px]" id="toastIcon"></i></span>
     <span id="toastMessage" class="truncate">Tindakan berjaya</span>
   </div>
 
@@ -2033,16 +2088,16 @@
         if (post.phone && String(post.phone).trim() !== '') {
           const waPhone = String(post.phone).replace(/[^0-9]/g, '');
           const waText = encodeURIComponent(`Salam ${post.author || ''}, saya baca hantaran anda di Komuniti Dapur Kita ("${post.title || ''}").`);
-          contactBtn = `<a href="https://wa.me/${waPhone}?text=${waText}" target="_blank" rel="noopener noreferrer" class="btn-tactile inline-flex items-center gap-2 pl-3.5 pr-1 h-9 rounded-full bg-ink text-white font-bold text-[11.5px]"><span>Hubungi</span><span class="w-7 h-7 rounded-full bg-lime text-ink flex items-center justify-center"><i class="fa-brands fa-whatsapp"></i></span></a>`;
+          contactBtn = `<a href="https://wa.me/${waPhone}?text=${waText}" target="_blank" rel="noopener noreferrer" class="btn-tactile inline-flex items-center gap-2 pl-3.5 pr-1 h-9 rounded-full bg-ink text-onink font-bold text-[11.5px]"><span>Hubungi</span><span class="w-7 h-7 rounded-full bg-lime text-[#111] flex items-center justify-center"><i class="fa-brands fa-whatsapp"></i></span></a>`;
         }
         const ownerDeleteBtn = owned ? `<button onclick="window.deletePost('${post.id}')" class="btn-tactile w-9 h-9 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center" title="Padam hantaran"><i class="fa-solid fa-trash text-[11px]"></i></button>` : '';
-        const ownerBadge = owned ? `<span class="text-[9px] font-bold bg-lime text-ink px-1.5 py-0.5 rounded-full">ANDA</span>` : '';
+        const ownerBadge = owned ? `<span class="text-[9px] font-bold bg-lime text-[#111] px-1.5 py-0.5 rounded-full">ANDA</span>` : '';
 
         return `
-          <article class="soft-card animate-grid-item bg-white rounded-[28px] p-5 shadow-card" style="animation-delay:${(idx * 0.04).toFixed(2)}s">
+          <article class="soft-card animate-grid-item bg-card rounded-[28px] p-5 shadow-card" style="animation-delay:${(idx * 0.04).toFixed(2)}s">
             <div class="flex items-start justify-between gap-3">
               <div class="flex items-center gap-3 min-w-0">
-                <div class="w-11 h-11 rounded-full bg-ink text-white font-bold flex items-center justify-center text-[12px] flex-shrink-0">${escapeHTML(initials)}</div>
+                <div class="w-11 h-11 rounded-full bg-ink text-onink font-bold flex items-center justify-center text-[12px] flex-shrink-0">${escapeHTML(initials)}</div>
                 <div class="min-w-0">
                   <div class="flex items-center gap-1.5">
                     <span class="font-bold text-[14px] truncate">${escapeHTML(post.author || 'Jiran')}</span>${ownerBadge}
@@ -2082,7 +2137,7 @@
               </div>
               <form onsubmit="window.handleAddComment(event, '${post.id}')" class="flex items-center gap-2 bg-paper rounded-full p-1 pl-4">
                 <input type="text" id="commentInput_${post.id}" required placeholder="Tulis balasan..." class="flex-1 min-w-0 bg-transparent text-[13px] outline-none">
-                <button type="submit" class="btn-tactile w-10 h-10 bg-ink text-white rounded-full flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-arrow-up text-[12px]"></i></button>
+                <button type="submit" class="btn-tactile w-10 h-10 bg-ink text-onink rounded-full flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-arrow-up text-[12px]"></i></button>
               </form>
             </div>
           </article>`;
@@ -2200,7 +2255,7 @@
             <img src="${img}" alt="" loading="lazy" onerror="this.src='${DEFAULT_IMG}'" class="absolute inset-0 w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent"></div>
             <div class="absolute top-3 left-3 flex gap-1.5">
-              <span class="bg-white text-ink text-[10.5px] font-bold px-2.5 py-1 rounded-full">RM ${(Number(item.price) || 0).toFixed(2)}</span>
+              <span class="bg-white text-[#111] text-[10.5px] font-bold px-2.5 py-1 rounded-full">RM ${(Number(item.price) || 0).toFixed(2)}</span>
               <span class="glass-chip"><span class="w-1.5 h-1.5 rounded-full bg-leaf-500"></span>Ready</span>
             </div>
             <div class="absolute bottom-3.5 left-4 right-4 text-white">
@@ -2285,14 +2340,14 @@
 
         const ownerRow = owned ? `
           <div class="flex gap-1.5 mt-2">
-            <button onclick="event.stopPropagation(); window.openEditModal('${item.id}')" class="btn-tactile flex-1 h-9 rounded-full bg-white shadow-card text-ink font-bold text-[11px] flex items-center justify-center gap-1.5"><i class="fa-solid fa-pen text-[10px]"></i>Edit</button>
+            <button onclick="event.stopPropagation(); window.openEditModal('${item.id}')" class="btn-tactile flex-1 h-9 rounded-full bg-card shadow-card text-ink font-bold text-[11px] flex items-center justify-center gap-1.5"><i class="fa-solid fa-pen text-[10px]"></i>Edit</button>
             <button onclick="event.stopPropagation(); window.deleteVendor('${item.id}')" class="btn-tactile flex-1 h-9 rounded-full bg-rose-50 text-rose-700 font-bold text-[11px] flex items-center justify-center gap-1.5"><i class="fa-solid fa-trash text-[10px]"></i>Padam</button>
           </div>` : '';
 
         if (menuLayout === 'list') {
           return `
             <div class="animate-grid-item" style="animation-delay:${delay}s">
-              <div class="soft-card bg-white rounded-[26px] shadow-card compact-card cursor-pointer" onclick="window.openDetailModal('${item.id}')">
+              <div class="soft-card bg-card rounded-[26px] shadow-card compact-card cursor-pointer" onclick="window.openDetailModal('${item.id}')">
                 <div class="relative flex-shrink-0">
                   <img src="${img}" alt="${escapeHTML(item.menuTitle)}" loading="lazy" onerror="this.src='${DEFAULT_IMG}'">
                 </div>
@@ -2304,7 +2359,7 @@
                 </div>
                 <div class="flex flex-col items-center gap-1.5 flex-shrink-0 pr-1">
                   <button onclick="event.stopPropagation(); window.toggleBookmark('${item.id}')" class="btn-tactile w-9 h-9 rounded-full bg-paper flex items-center justify-center" title="Simpan"><i class="${heartIcon(isBookmarked)} text-[13px]"></i></button>
-                  <button onclick="event.stopPropagation(); window.openOrderModal('${item.id}')" class="btn-tactile w-9 h-9 rounded-full bg-ink text-white flex items-center justify-center" title="Tempah"><i class="fa-brands fa-whatsapp text-[14px]"></i></button>
+                  <button onclick="event.stopPropagation(); window.openOrderModal('${item.id}')" class="btn-tactile w-9 h-9 rounded-full bg-ink text-onink flex items-center justify-center" title="Tempah"><i class="fa-brands fa-whatsapp text-[14px]"></i></button>
                 </div>
               </div>
               ${ownerRow}
@@ -2321,12 +2376,12 @@
                   <div class="text-[9.5px] font-bold uppercase tracking-wider truncate">${zoneShort}</div>
                   <div class="text-[9.5px] font-semibold text-white/80 flex items-center gap-1 mt-0.5"><span class="w-1.5 h-1.5 rounded-full" style="background:${meta.dot}"></span>${meta.short}</div>
                 </div>
-                <button onclick="event.stopPropagation(); window.toggleBookmark('${item.id}')" class="btn-tactile absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-white/90 backdrop-blur flex items-center justify-center" title="Simpan"><i class="${heartIcon(isBookmarked)} text-[12px]"></i></button>
+                <button onclick="event.stopPropagation(); window.toggleBookmark('${item.id}')" class="btn-tactile absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-white/90 backdrop-blur text-[#111] flex items-center justify-center" title="Simpan"><i class="${heartIcon(isBookmarked)} text-[12px]"></i></button>
                 <div class="absolute bottom-3 left-3 right-3 text-white">
                   <h2 class="text-[17px] font-bold leading-[1.1] line-clamp-2">${escapeHTML(item.menuTitle)}</h2>
                   <div class="flex items-center justify-between mt-2">
                     <span class="text-[12px] font-bold">RM ${price}</span>
-                    <button onclick="event.stopPropagation(); window.openOrderModal('${item.id}')" class="btn-tactile w-8 h-8 rounded-full bg-white text-ink flex items-center justify-center" title="Tempah"><i class="fa-solid fa-arrow-right text-[11px] -rotate-45"></i></button>
+                    <button onclick="event.stopPropagation(); window.openOrderModal('${item.id}')" class="btn-tactile w-8 h-8 rounded-full bg-white text-[#111] flex items-center justify-center" title="Tempah"><i class="fa-solid fa-arrow-right text-[11px] -rotate-45"></i></button>
                   </div>
                 </div>
               </div>
@@ -2357,7 +2412,7 @@
                 </div>
                 <button onclick="window.openOrderModal('${item.id}')" class="btn-tactile glass-bar mt-3.5 w-full h-[58px] rounded-full flex items-center justify-between pl-5 pr-1.5 text-white">
                   <span class="text-[13px] font-bold">Tempah · RM ${price}</span>
-                  <span class="w-[46px] h-[46px] rounded-full bg-white text-ink flex items-center justify-center"><i class="fa-solid fa-chevron-right text-[13px]"></i></span>
+                  <span class="w-[46px] h-[46px] rounded-full bg-white text-[#111] flex items-center justify-center"><i class="fa-solid fa-chevron-right text-[13px]"></i></span>
                 </button>
               </div>
             </div>
@@ -2537,6 +2592,39 @@
     }
 
     // ==========================================
+    // 12b. THEME (CERAH / GELAP / AUTO)
+    // ==========================================
+    const darkMql = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+    function getThemePref() {
+      try { return localStorage.getItem('dapur_kita_theme') || 'system'; } catch (e) { return 'system'; }
+    }
+    function applyTheme() {
+      const pref = getThemePref();
+      const dark = pref === 'dark' || (pref === 'system' && !!(darkMql && darkMql.matches));
+      const root = document.documentElement;
+      root.classList.toggle('dark', dark);
+      root.style.colorScheme = dark ? 'dark' : 'light';
+      document.getElementById('metaThemeColor')?.setAttribute('content', dark ? '#0c0c0c' : '#f3f3f1');
+      const icon = document.getElementById('themeToggleIcon');
+      if (icon) icon.className = (dark ? 'fa-regular fa-sun' : 'fa-regular fa-moon') + ' text-[14px]';
+      document.querySelectorAll('[data-theme-opt]').forEach(b => b.classList.toggle('active', b.dataset.themeOpt === pref));
+    }
+    function setTheme(pref) {
+      triggerHaptic();
+      try { localStorage.setItem('dapur_kita_theme', pref); } catch (e) {}
+      applyTheme();
+    }
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+      showToast(isDark ? '☀️ Mod cerah diaktifkan' : '🌙 Mod gelap diaktifkan');
+    }
+    if (darkMql) {
+      const onSys = () => { if (getThemePref() === 'system') applyTheme(); };
+      darkMql.addEventListener ? darkMql.addEventListener('change', onSys) : darkMql.addListener(onSys);
+    }
+
+    // ==========================================
     // 13. TOAST
     // ==========================================
     let toastTimeout = null;
@@ -2569,7 +2657,7 @@
       installPWA, dismissInstallBanner, openEditModal, deleteVendor, deletePost,
       deleteComment, startInteractiveTour, nextTourStep, prevTourStep,
       dismissInteractiveTour, shareVendorDirect, openOrderModal, closeOrderModal,
-      adjustOrderQty, calculateOrderTotal, handleSendWhatsAppOrder
+      adjustOrderQty, calculateOrderTotal, handleSendWhatsAppOrder, setTheme, toggleTheme
     });
 
     const modalCloseMap = {
@@ -2592,6 +2680,7 @@
     setupPWAEnvironment();
     checkNotificationStatus();
     try { bookmarks = JSON.parse(localStorage.getItem('dapur_kita_bookmarks') || '[]') || []; } catch (e) { bookmarks = []; }
+    applyTheme();
     updateGreeting();
     updateLayoutToggleButtons();
     updateRegionUI();
